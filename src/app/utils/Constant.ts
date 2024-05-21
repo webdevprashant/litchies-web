@@ -1,0 +1,1 @@
+export const BACKEND_URL="http://api.litchies.com:5000";
