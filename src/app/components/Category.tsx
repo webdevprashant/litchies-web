@@ -33,6 +33,10 @@ const Category = () => {
     fetchCategories();
   }, []);
 
+  const scrollLeft = () => {
+    setScrollPosition(prevPosition => Math.max(prevPosition - 200, 0));
+  };
+
   const scrollRight = () => {
     setScrollPosition(prevPosition => {
       const newPosition = prevPosition + 200;
@@ -49,6 +53,7 @@ const Category = () => {
       </p>
       <button
         className=' absolute z-10 left-0 top-40 transform -translate-y-1/2 bg-gray-300 p-2 rounded-full shadow-md'
+        onClick={scrollLeft}
       >
           <img src='/images/nav-arrow-left.svg' alt="Left Arrow" />
       </button>
