@@ -1,6 +1,6 @@
 "use client"
 // components/Category.js
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import { useClient } from 'next/data-client';
 import { BACKEND_URL } from '../utils/Constant';
 
@@ -20,7 +20,7 @@ const Category = () => {
   const [scrollPosition, setScrollPosition] = useState(0);
 
   const [maxScrollPosition, setMaxScrollPosition] = useState(0);
-  const ITEM_WIDTH = 128;
+  const ITEM_WIDTH = 128;    // Category container width
   const VISIBLE_WIDTH = 800; // Adjust this based on your layout
 
   useEffect(() => {
@@ -33,36 +33,6 @@ const Category = () => {
     fetchCategories();
   }, []);
 
-  useEffect(() => {
-    const updateScrollButtons = () => {
-      if (scrollRef.current) {
-        const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-        setCanScrollLeft(scrollLeft > 0);
-        setCanScrollRight(scrollLeft + clientWidth < scrollWidth);
-      }
-    };
-
-    updateScrollButtons();
-    if (scrollRef.current) {
-      scrollRef.current.addEventListener('scroll', updateScrollButtons);
-    }
-
-    return () => {
-      if (scrollRef.current) {
-        scrollRef.current.removeEventListener('scroll', updateScrollButtons);
-      }
-    };
-  }, [categories]);
-
-  const scrollLeft = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: -200, behavior: 'smooth' });
-    }
-  };
-
-  // const scrollRight = () => {
-  //   setScrollPosition(prevPosition => Math.max((prevPosition + 200), 0));
-  // };
   const scrollRight = () => {
     setScrollPosition(prevPosition => {
       const newPosition = prevPosition + 200;
@@ -79,8 +49,6 @@ const Category = () => {
       </p>
       <button
         className=' absolute z-10 left-0 top-40 transform -translate-y-1/2 bg-gray-300 p-2 rounded-full shadow-md'
-        onClick={scrollLeft}
-          disabled={!canScrollLeft}
       >
           <img src='/images/nav-arrow-left.svg' alt="Left Arrow" />
       </button>
@@ -103,12 +71,10 @@ const Category = () => {
       <button
         className='absolute z-10 right-0 top-40 transform -translate-y-1/2 bg-gray-300 p-2 rounded-full shadow-md'
         onClick={scrollRight}
-          disabled={!canScrollRight}
       >
           <img src='/images/nav-arrow-right.svg' alt="Right Arrow" />
       </button>
       </div>
-    </div>
   );
 };
 
