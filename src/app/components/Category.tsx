@@ -1,6 +1,7 @@
-'use client'; // This directive tells Next.js to treat this component as a client component
-
-import React, { useEffect, useState } from 'react';
+"use client"
+// components/Category.js
+import React, { useRef, useEffect, useState } from 'react';
+// import { useClient } from 'next/data-client';
 import { BACKEND_URL } from '../utils/Constant';
 
 const getCategories = async () => {
@@ -16,7 +17,10 @@ const getCategories = async () => {
 
 const Category = () => {
   const [categories, setCategories] = useState([]);
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const scrollRef = useRef(null);
+  // const { data } = useClient();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -24,32 +28,59 @@ const Category = () => {
       setCategories(allCategories.data);
     };
     fetchCategories();
-  }, []); // Empty dependency array to run the effect only once on mount
+  }, []);
+
+  useEffect(() => {
+    const updateScrollButtons = () => {
+      if (scrollRef.current) {
+        const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+        setCanScrollLeft(scrollLeft > 0);
+        setCanScrollRight(scrollLeft + clientWidth < scrollWidth);
+      }
+    };
+
+    updateScrollButtons();
+    if (scrollRef.current) {
+      scrollRef.current.addEventListener('scroll', updateScrollButtons);
+    }
+
+    return () => {
+      if (scrollRef.current) {
+        scrollRef.current.removeEventListener('scroll', updateScrollButtons);
+      }
+    };
+  }, [categories]);
 
   const scrollLeft = () => {
-    setScrollPosition(prevPosition => Math.max(prevPosition - 200, 0));
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -200, behavior: 'smooth' });
+    }
   };
 
   const scrollRight = () => {
-    setScrollPosition(prevPosition => Math.max(prevPosition + 200, 0));
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 200, behavior: 'smooth' });
+    }
   };
 
   return (
-    <div className='relative m-4 p-4'>
+    <div className='flex justify-center'>
+      <div className='relative mx-[24px] p-4 w-[80%]'>
       <p className='text-right p-2'>
         <span className='font-serif'>
-          Browse all Categories <img className='inline w-4' src='images/arrow-right.svg' alt="Arrow" />
+            Browse all Categories <img className='inline w-4' src='/images/arrow-right.svg' alt="Arrow" />
         </span>
       </p>
       <button
-        className='absolute z-10 left-0 top-1/2 transform -translate-y-1/2 bg-gray-300 p-2 rounded-full shadow-md'
+          className={`absolute z-10 left-0 top-1/2 transform -translate-y-1/2 bg-gray-300 p-2 rounded-full shadow-md ${!canScrollLeft && 'opacity-50 cursor-not-allowed'}`}
         onClick={scrollLeft}
+          disabled={!canScrollLeft}
       >
-        <img src='images/nav-arrow-left.svg' alt="Left Arrow" />
+          <img src='/images/nav-arrow-left.svg' alt="Left Arrow" />
       </button>
       <div
-        className='overflow-x-auto flex scroll-smooth'
-        style={{ transform: `translateX(-${scrollPosition}px)` }}
+          className='overflow-x-hidden flex scroll-smooth'
+          ref={scrollRef}
       >
         {categories.map((category) => (
           <div key={category._id} className='category m-2 p-1 text-center bg-gray-100 rounded-lg hover:bg-gray-200 flex-shrink-0'>
@@ -63,11 +94,13 @@ const Category = () => {
         ))}
       </div>
       <button
-        className='absolute z-10 right-0 top-1/2 transform -translate-y-1/2 bg-gray-300 p-2 rounded-full shadow-md'
+          className={`absolute z-10 right-0 top-1/2 transform -translate-y-1/2 bg-gray-300 p-2 rounded-full shadow-md ${!canScrollRight && 'opacity-50 cursor-not-allowed'}`}
         onClick={scrollRight}
+          disabled={!canScrollRight}
       >
-        <img src='images/nav-arrow-right.svg' alt="Right Arrow" />
+          <img src='/images/nav-arrow-right.svg' alt="Right Arrow" />
       </button>
+      </div>
     </div>
   );
 };
