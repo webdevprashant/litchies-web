@@ -58,12 +58,12 @@ const Category = () => {
           <img src='/images/nav-arrow-left.svg' alt="Left Arrow" />
       </button>
       <div
-        className='overflow-hidden flex scroll-smooth'
+        className='overflow-x-scroll no-scroll flex'
       >
         {categories.map((category : any) => (
           <div  
         style={{ transform: `translateX(-${scrollPosition}px)` }}
-          key={category._id} className='category m-2 p-1 min-w-[120px] text-center bg-gray-100 rounded-lg hover:bg-gray-200 flex-shrink-0'>
+          key={category._id} className='category m-2 p-1 min-w-[120px] text-center bg-gray-100 rounded-lg hover:bg-gray-200 flex-shrink-0 shadow-md'>
             <div className='flex justify-center category-image w-32'>
               <img className='rounded-2xl w-[100px]  min-h-[100px] bg-cover' src={category.image} alt={category.name} />
             </div>
@@ -79,7 +79,7 @@ const Category = () => {
       >
           <img src='/images/nav-arrow-right.svg' alt="Right Arrow" />
       </button>
-      </div>
+    </div>
   );
 };
 
