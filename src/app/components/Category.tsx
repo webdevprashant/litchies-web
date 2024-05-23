@@ -1,7 +1,5 @@
 "use client"
-// components/Category.js
 import React, { useEffect, useState } from 'react';
-// import { useClient } from 'next/data-client';
 import { BACKEND_URL } from '../utils/Constant';
 
 const getCategories = async () => {
@@ -46,13 +44,8 @@ const Category = () => {
 
   return (
     <div className='relative mx-12 p-8'>
-      <p className='text-right p-2'>
-        <span className='font-serif'>
-            Browse all Categories <img className='inline w-4' src='/images/arrow-right.svg' alt="Arrow" />
-        </span>
-      </p>
       <button
-        className=' absolute z-10 left-0 top-40 transform -translate-y-1/2 bg-gray-300 p-2 rounded-full shadow-md'
+        className=' absolute z-10 left-0 top-28 transform -translate-y-1/2 bg-gray-300 p-2 rounded-full shadow-md'
         onClick={scrollLeft}
       >
           <img src='/images/nav-arrow-left.svg' alt="Left Arrow" />
@@ -63,18 +56,18 @@ const Category = () => {
         {categories.map((category : any) => (
           <div  
         style={{ transform: `translateX(-${scrollPosition}px)` }}
-          key={category._id} className='category m-2 p-1 min-w-[120px] text-center bg-gray-100 rounded-lg hover:bg-gray-200 flex-shrink-0 shadow-md'>
+          key={category._id} className='category m-2 p-1 min-w-[120px] text-center rounded-lg hover:bg-gray-200 flex-shrink-0 shadow-md'>
             <div className='flex justify-center category-image w-32'>
               <img className='rounded-2xl w-[100px]  min-h-[100px] bg-cover' src={category.image} alt={category.name} />
             </div>
-            <div className='category-name m-1 p-1 font-serif'>
-              <p>{category.name}</p>
+            <div className='w-28 category-name m-1 p-1 font-serif'>
+              <p className='truncate'>{category.name}</p>
             </div>
           </div>
         ))}
       </div>
       <button
-        className='absolute z-10 right-0 top-40 transform -translate-y-1/2 bg-gray-300 p-2 rounded-full shadow-md'
+        className='absolute z-10 right-0 top-28 transform -translate-y-1/2 bg-gray-300 p-2 rounded-full shadow-md'
         onClick={scrollRight}
       >
           <img src='/images/nav-arrow-right.svg' alt="Right Arrow" />
