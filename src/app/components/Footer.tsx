@@ -7,7 +7,7 @@ import { FaHeart } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";
 
 const Footer = () => {
-  const [selectedIcon, setSelectedIcon] = useState(null);
+  const [selectedIcon, setSelectedIcon] = useState(3);
 
   const icons = [
     { id: 1, component: <MdOutlineVideoLibrary size={30} /> },
@@ -33,7 +33,6 @@ const Footer = () => {
                 </div>
               ))
             }
-            {/* <MdOutlineVideoLibrary className={ isSelected ? `text-red-500` : `text-gray-600 ` } size={30} onClick={handleIconClick} /> */}
     </div>
   )
 }
