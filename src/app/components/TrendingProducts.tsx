@@ -1,4 +1,5 @@
-import React from 'react'
+"use client";
+import React, { useEffect, useState } from 'react'
 import { BACKEND_URL } from '../utils/Constant';
 
 const getTrendingProducts = async () => {
@@ -12,8 +13,15 @@ const getTrendingProducts = async () => {
   return data;
 }
 
-const TrendingProducts = async () => {
-    const allTrendingProducts = await getTrendingProducts();
+const TrendingProducts = () => {
+    const [trendingProducts, setTrendingProducts] = useState([]);
+    useEffect(() => {
+      const fetchTrendingProducts = async () => {
+        const allTrendingProducts = await getTrendingProducts();
+        setTrendingProducts(allTrendingProducts.data);
+      }
+      fetchTrendingProducts();
+    }, []);
     return (
         <div>
             <div className='flex justify-between'>
@@ -23,7 +31,7 @@ const TrendingProducts = async () => {
           <div
             className='overflow-x-scroll no-scroll flex'
           >
-            {allTrendingProducts.data.map((trendingProduct : any) => (
+            {trendingProducts.map((trendingProduct : any) => (
               <div key={trendingProduct._id} className='m-2 p-1 min-w-[120px] text-center rounded-lg hover:bg-gray-200 flex-shrink-0 shadow-md'>
                 <div className='flex justify-center w-32'>
                   <img className='rounded-2xl w-[100px] h-[100px] bg-cover' src={trendingProduct.thumbnailURL} alt={trendingProduct.name} />

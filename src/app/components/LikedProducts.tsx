@@ -1,4 +1,5 @@
-import React from 'react'
+"use client"
+import React, { useEffect, useState } from 'react'
 import { BACKEND_URL } from '../utils/Constant';
 
 const getLikedProducts = async () => {
@@ -12,8 +13,15 @@ const getLikedProducts = async () => {
   return data;
 }
 
-const LikedProducts = async () => {
-    const allLikedProducts = await getLikedProducts();
+const LikedProducts = () => {
+    const [likedProducts, setLikedProducts] = useState([]);
+    useEffect(() => {
+      const fetchLikedProducts = async () => {
+        const allLikedProducts = await getLikedProducts();
+        setLikedProducts(allLikedProducts.data);
+      }
+      fetchLikedProducts();
+    }, []);
     return (
         <div className='my-8'>
             <div className='flex justify-between'>
@@ -23,7 +31,7 @@ const LikedProducts = async () => {
           <div
             className='overflow-x-scroll no-scroll flex'
           >
-            {allLikedProducts.data.map((likedProduct : any) => (
+            {likedProducts.map((likedProduct : any) => (
               <div key={likedProduct._id} className='m-2 p-1 min-w-[120px] text-center rounded-lg hover:bg-gray-200 flex-shrink-0 shadow-md'>
                 <div className='flex justify-center w-32'>
                   <img className='rounded-2xl w-[100px] h-[100px] bg-cover' src={likedProduct.thumbnailURL} alt={likedProduct.name} />

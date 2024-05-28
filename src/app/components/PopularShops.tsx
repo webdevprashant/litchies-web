@@ -1,4 +1,5 @@
-import React from 'react'
+"use client";
+import React, { useEffect, useState } from 'react'
 import { BACKEND_URL } from '../utils/Constant';
 
 const getPopularShops = async () => {
@@ -12,8 +13,15 @@ const getPopularShops = async () => {
   return data;
 }
 
-const PopularShops = async () => {
-  const allPopularShops = await getPopularShops();
+const PopularShops = () => {
+  const [popularShops, setPopularShops] = useState([]);
+  useEffect(() => {
+    const fetchPopularShops = async () => {
+      const allPopularShops = await getPopularShops();
+      setPopularShops(allPopularShops.data);
+    }
+    fetchPopularShops();
+  }, []);
   return (
     <div  className='my-8'>
       <div className='flex justify-between'>
@@ -24,7 +32,7 @@ const PopularShops = async () => {
       <div
         className='overflow-x-scroll no-scroll flex'
       >
-        {allPopularShops.data.map((shop : any) => (
+        {popularShops.map((shop : any) => (
           <div  
           key={shop._id} className='m-2 p-1 min-w-[120px] text-center  rounded-lg hover:bg-gray-200 flex-shrink-0 shadow-md'>
             <div className='flex justify-center category-image w-32'>

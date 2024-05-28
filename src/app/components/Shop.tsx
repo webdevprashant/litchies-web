@@ -1,4 +1,5 @@
-import React from 'react'
+"use client"
+import React, { useEffect, useState } from 'react'
 import { BACKEND_URL } from '../utils/Constant';
 
 const getShops = async () => {
@@ -12,8 +13,15 @@ const getShops = async () => {
   return data;
 }
 
-const Shop = async () => {
-  const allShops = await getShops();
+const Shop = () => {
+  const [shops, setShops] = useState([]);
+  useEffect(() => {
+    const fetchShops = async () => {
+      const allShops = await getShops();
+      setShops(allShops.data);
+    };
+    fetchShops();
+  }, []);
   return (
     <div>
       <div className='flex justify-between'>
@@ -24,7 +32,7 @@ const Shop = async () => {
       <div
         className='overflow-x-scroll no-scroll flex'
       >
-        {allShops.data.map((shop : any) => (
+        {shops.map((shop : any) => (
           <div  
           key={shop._id} className='m-2 p-1 min-w-[120px] text-center  rounded-lg hover:bg-gray-200 flex-shrink-0 shadow-md'>
             <div className='flex justify-center category-image w-32'>
