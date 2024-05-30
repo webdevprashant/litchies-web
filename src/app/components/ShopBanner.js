@@ -36,7 +36,7 @@ const ShopBanner = () => {
         className="slider-track flex transition-transform duration-500"
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
-        {banners.map((banner : any) => (
+        {banners.map((banner) => (
           <img
             key={banner._id}
             className="w-full flex-shrink-0"

@@ -27,7 +27,7 @@ const Category = () => {
       <div
         className='overflow-x-scroll no-scroll flex'
       >
-        {categories.map((category : any) => (
+        {categories.map((category) => (
           <div  
           key={category._id} className='category m-2 p-1 min-w-[120px] text-center rounded-lg hover:bg-gray-200 flex-shrink-0 shadow-md'>
             <div className='flex justify-center category-image w-32'>

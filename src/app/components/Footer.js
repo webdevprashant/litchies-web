@@ -17,7 +17,7 @@ const Footer = () => {
     { id: 5, component: <FaRegUser size={30} /> },
   ];
 
-  const handleIconClick = (id : any) => {
+  const handleIconClick = (id) => {
     setSelectedIcon(id);
   };
 

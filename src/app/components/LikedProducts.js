@@ -31,7 +31,7 @@ const LikedProducts = () => {
           <div
             className='overflow-x-scroll no-scroll flex'
           >
-            {likedProducts.map((likedProduct : any) => (
+            {likedProducts.map((likedProduct) => (
               <div key={likedProduct._id} className='m-2 p-1 min-w-[120px] text-center rounded-lg hover:bg-gray-200 flex-shrink-0 shadow-md'>
                 <div className='flex justify-center w-32'>
                   <img className='rounded-2xl w-[100px] h-[100px] bg-cover' src={likedProduct.thumbnailURL} alt={likedProduct.name} />

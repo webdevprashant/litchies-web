@@ -31,7 +31,7 @@ const TrendingProducts = () => {
           <div
             className='overflow-x-scroll no-scroll flex'
           >
-            {trendingProducts.map((trendingProduct : any) => (
+            {trendingProducts.map((trendingProduct) => (
               <div key={trendingProduct._id} className='m-2 p-1 min-w-[120px] text-center rounded-lg hover:bg-gray-200 flex-shrink-0 shadow-md'>
                 <div className='flex justify-center w-32'>
                   <img className='rounded-2xl w-[100px] h-[100px] bg-cover' src={trendingProduct.thumbnailURL} alt={trendingProduct.name} />

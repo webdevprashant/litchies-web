@@ -1,38 +1,38 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from 'react'
 import { BACKEND_URL } from '../utils/Constant';
 
-const getShops = async () => {
-  const shopsResponse = await fetch(BACKEND_URL + "/shops", {
+const getPopularShops = async () => {
+  const popluarShopsResponse = await fetch(BACKEND_URL + "/shops/popular", {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     }
   });
-  const data = await shopsResponse.json();
+  const data = await popluarShopsResponse.json();
   return data;
 }
 
-const Shop = () => {
-  const [shops, setShops] = useState([]);
+const PopularShops = () => {
+  const [popularShops, setPopularShops] = useState([]);
   useEffect(() => {
-    const fetchShops = async () => {
-      const allShops = await getShops();
-      setShops(allShops.data);
-    };
-    fetchShops();
+    const fetchPopularShops = async () => {
+      const allPopularShops = await getPopularShops();
+      setPopularShops(allPopularShops.data);
+    }
+    fetchPopularShops();
   }, []);
   return (
-    <div>
+    <div  className='my-8'>
       <div className='flex justify-between'>
-     <h3 className='font-bold inline font-serif'>Recently Added Stores</h3>
+     <h3 className='font-bold inline font-serif'>Popular Stores</h3>
      <h4 className='font-extrabold text-red-900 inline font-serif'>View All</h4>
     </div>
 
       <div
         className='overflow-x-scroll no-scroll flex'
       >
-        {shops.map((shop : any) => (
+        {popularShops.map((shop) => (
           <div  
           key={shop._id} className='m-2 p-1 min-w-[120px] text-center  rounded-lg hover:bg-gray-200 flex-shrink-0 shadow-md'>
             <div className='flex justify-center category-image w-32'>
@@ -53,4 +53,4 @@ const Shop = () => {
   )
 }
 
-export default Shop;
+export default PopularShops;
