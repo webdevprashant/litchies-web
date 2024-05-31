@@ -22,7 +22,7 @@ const Footer = () => {
   };
 
   return (
-    <div className='flex justify-between m-2 p-2 sticky bottom-0 bg-white'>
+    <div className='w-full fixed bottom-0 flex justify-between p-4 bg-white'>
             {
               icons.map(icon => (
                 <div

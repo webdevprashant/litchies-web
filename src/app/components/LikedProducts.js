@@ -1,5 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation';
 import { BACKEND_URL } from '../utils/Constant';
 
 const getLikedProducts = async () => {
@@ -14,6 +15,7 @@ const getLikedProducts = async () => {
 }
 
 const LikedProducts = () => {
+    const router = useRouter();
     const [likedProducts, setLikedProducts] = useState([]);
     useEffect(() => {
       const fetchLikedProducts = async () => {
@@ -26,7 +28,7 @@ const LikedProducts = () => {
         <div className='my-8'>
             <div className='flex justify-between'>
             <h3 className='font-bold inline font-serif'>Most Liked Products</h3>
-            <h4 className='font-extrabold text-red-900 inline font-serif'>View All</h4>
+            <h4 className='font-extrabold text-red-900 inline font-serif hover:cursor-pointer hover:text-red-200' onClick={() => router.push("/products/liked")}>View All</h4>
             </div>
           <div
             className='overflow-x-scroll no-scroll flex'

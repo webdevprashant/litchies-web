@@ -28,7 +28,7 @@ const Shop = () => {
     <div>
       <div className='flex justify-between'>
      <h3 className='font-bold inline font-serif'>Recently Added Stores</h3>
-     <h4 className='font-extrabold text-red-900 inline font-serif hover:cursor-pointer hover:text-red-200' onClick={() => router.push("/stores")}>View All</h4>
+     <h4 className='font-extrabold text-red-900 inline font-serif hover:cursor-pointer hover:text-red-200' onClick={() => router.push("/shops/recent")}>View All</h4>
     </div>
 
       <div
