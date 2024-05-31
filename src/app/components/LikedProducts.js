@@ -1,25 +1,14 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
-import { BACKEND_URL } from '../utils/Constant';
-
-const getLikedProducts = async () => {
-  const likedProductsResponse = await fetch(BACKEND_URL + "/product/liked", {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  });
-  const data = await likedProductsResponse.json();
-  return data;
-}
+import { fetchData } from '../api/get';
 
 const LikedProducts = () => {
     const router = useRouter();
     const [likedProducts, setLikedProducts] = useState([]);
     useEffect(() => {
       const fetchLikedProducts = async () => {
-        const allLikedProducts = await getLikedProducts();
+        const allLikedProducts = await fetchData("/product/liked");
         setLikedProducts(allLikedProducts.data);
       }
       fetchLikedProducts();

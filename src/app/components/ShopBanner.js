@@ -1,30 +1,21 @@
 "use client"; // Add this directive at the top
 import React, { useState, useEffect } from 'react';
-import { BACKEND_URL } from '../utils/Constant';
+import { fetchData } from '../api/get';
 
 const ShopBanner = () => {
   const [banners, setBanners] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  const getShopBanners = async () => {
-    const allShopBanners = await fetch(BACKEND_URL + "/shopBanner" , {
-        method: 'GET',
-        headers: {
-            'Content-Type' : 'application/json',
-        }
-    });
-    const data = await allShopBanners.json();
-    setBanners(data.data);
-    return data;
-  }
   
-
   useEffect(() => {
-    getShopBanners();
+    const fetchBanners = async () => {
+    const apiData = await fetchData("/shopBanner");
+    setBanners(apiData.data);
+    }
+    fetchBanners();
     const interval = setInterval(() => {
       setCurrentSlide((prevSlide) =>
         prevSlide === banners.length - 1 ? 0 : prevSlide + 1
-      );
+    );
     }, 3000); // Change slide every 3 seconds
 
     return () => clearInterval(interval); // Cleanup interval on component unmount

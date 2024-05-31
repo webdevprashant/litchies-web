@@ -1,39 +1,23 @@
+"use client";
 import React from 'react'
-import { BACKEND_URL } from '../utils/Constant';
+import { useEffect, useState } from 'react';
+import { fetchData } from "../api/get";
 
-const getShops = async () => {
-  const shopsResponse = await fetch(BACKEND_URL + "/shops", {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  });
-  const data = await shopsResponse.json();
-  return data;
-}
+export default function Stores() {
+  const [shops, setShops] = useState([]);
+    const fetchShops = async () => {
+        const allShops = await fetchData("/shops");
+        setShops(allShops.data);
+    };
 
-export default async function Stores() {
-  // const [shops, setShops] = useState([]);
-  //   const fetchShops = async () => {
-  //     try {
-  //       const allShops = await getShops();
-  //       setShops(allShops.data);
-  //     } catch (error) {
-  //       console.error('Failed to fetch shops', error);
-  //     }
-  //   };
-
-  //   useEffect(() => {
-  //     fetchShops();
-  //   console.log("kalu stores", shops);
-  //   }, []);
-  // setShops(allShops.data);
-  const allShops = await getShops();
+    useEffect(() => {
+      fetchShops();
+    }, []);
   
   return (
       <div className='flex flex-wrap justify-center'>
         {
-        allShops.data.map((shop) => (
+        shops.map((shop) => (
           <div className="w-1/4 p-8 m-4 bg-pink-300 rounded-lg relative" key={shop._id}
           style={{ backgroundImage: `url(${shop.shopBgThumbnail})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
           >

@@ -1,23 +1,12 @@
 "use client";
 import React, { useEffect, useState } from 'react'
-import { BACKEND_URL } from '../utils/Constant';
-
-const getTrendingProducts = async () => {
-  const trendingProductsResponse = await fetch(BACKEND_URL + "/product/trending", {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  });
-  const data = await trendingProductsResponse.json();
-  return data;
-}
+import { fetchData } from '../api/get';
 
 const TrendingProducts = () => {
     const [trendingProducts, setTrendingProducts] = useState([]);
     useEffect(() => {
       const fetchTrendingProducts = async () => {
-        const allTrendingProducts = await getTrendingProducts();
+        const allTrendingProducts = await fetchData("/product/trending");
         setTrendingProducts(allTrendingProducts.data);
       }
       fetchTrendingProducts();

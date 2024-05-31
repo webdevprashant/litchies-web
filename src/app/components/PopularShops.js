@@ -1,24 +1,14 @@
 "use client";
 import React, { useEffect, useState } from 'react'
-import { BACKEND_URL } from '../utils/Constant';
 import { useRouter } from 'next/navigation';
-const getPopularShops = async () => {
-  const popluarShopsResponse = await fetch(BACKEND_URL + "/shops/popular", {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  });
-  const data = await popluarShopsResponse.json();
-  return data;
-}
+import { fetchData } from '../api/get';
 
 const PopularShops = () => {
   const [popularShops, setPopularShops] = useState([]);
   const router = useRouter();
   useEffect(() => {
     const fetchPopularShops = async () => {
-      const allPopularShops = await getPopularShops();
+      const allPopularShops = await fetchData("/shops/popular");
       setPopularShops(allPopularShops.data);
     }
     fetchPopularShops();

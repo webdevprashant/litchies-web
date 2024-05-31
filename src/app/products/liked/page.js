@@ -1,21 +1,51 @@
-import React from "react";
-import { BACKEND_URL } from "../../utils/Constant";
+"use client";
+import { fetchData } from "../../api/get";
+import { useState, useEffect } from "react";
 
-const getLikedProducts = async () => {
-  const likedProductsResponse = await fetch(BACKEND_URL + "/product/liked", {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  });
-  const data = await likedProductsResponse.json();
-  return data;
-}
-
-const Liked = () => {
+export default function Liked() {
+  const [likedProduct, setLikedProduct] = useState([]);
+  useEffect(() => {
+    const fetchLikedProducts = async () => {
+      const allLikedProduct = await fetchData("/product/liked")
+      setLikedProduct(allLikedProduct.data);
+    };
+    fetchLikedProducts();
+  }, []);
   return (
-    <div>Liked Products</div>
+    <div>
+      LW
+    </div>
+    // <div className="">
+    //     {/* Row 1 */}
+    //     <div>
+    //           {/* Product Img */}
+    //           <div>
+    //               <img src={"/"} alt="Shop Background Image" />
+    //           </div>
+
+    //           {/* Shop name, description */}
+    //           <div>
+
+    //           </div>
+
+    //           {/* shop ratings */}
+    //           <div>
+
+    //           </div>
+
+
+    //     </div>
+
+    //     {/* Row 2 */}
+    //     <div>
+
+    //     </div>
+
+    //     {/* Row 3 */}
+    //     <div>
+
+    //     </div>
+
+    // </div>
   )
 }
-
-export default Liked;

@@ -1,25 +1,14 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
-import { BACKEND_URL } from '../utils/Constant';
-
-const getShops = async () => {
-  const shopsResponse = await fetch(BACKEND_URL + "/shops", {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  });
-  const data = await shopsResponse.json();
-  return data;
-}
+import { fetchData } from '../api/get';
 
 const Shop = () => {
   const router = useRouter();
   const [shops, setShops] = useState([]);
   useEffect(() => {
     const fetchShops = async () => {
-      const allShops = await getShops();
+      const allShops = await fetchData("/shops");
       setShops(allShops.data);
     };
     fetchShops();

@@ -1,23 +1,12 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import { BACKEND_URL } from '../utils/Constant';
-
-const getCategories = async () => {
-  const categoriesResponse = await fetch(BACKEND_URL + "/productCategory", {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  });
-  const data = await categoriesResponse.json();
-  return data;
-}
+import { fetchData } from '../api/get';
 
 const Category = () => {
   const [categories, setCategories] = useState([]);
   useEffect(() => {
     const fetchCategories = async () => {
-      const allCategories = await getCategories();
+      const allCategories = await fetchData("/productCategory");
       setCategories(allCategories.data);
     };
     fetchCategories();
