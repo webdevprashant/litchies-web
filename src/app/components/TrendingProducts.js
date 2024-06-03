@@ -1,9 +1,11 @@
 "use client";
 import React, { useEffect, useState } from 'react'
 import { fetchData } from '../api/get';
+import { useRouter } from 'next/navigation';
 
 const TrendingProducts = () => {
     const [trendingProducts, setTrendingProducts] = useState([]);
+    const router = useRouter();
     useEffect(() => {
       const fetchTrendingProducts = async () => {
         const allTrendingProducts = await fetchData("/product/trending");
@@ -15,7 +17,7 @@ const TrendingProducts = () => {
         <div>
             <div className='flex justify-between'>
             <h3 className='font-bold inline font-serif'>Trending Products</h3>
-            <h4 className='font-extrabold text-red-900 inline font-serif'>View All</h4>
+            <h4 className='font-extrabold text-red-900 inline font-serif hover:cursor-pointer hover:text-red-200' onClick={() => router.push("/products/trending")}>View All</h4>
             </div>
           <div
             className='overflow-x-scroll no-scroll flex'

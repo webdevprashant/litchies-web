@@ -10,7 +10,7 @@ const Liked = () => {
   const [likedProducts, setLikedProducts] = useState([]);
   useEffect(() => {
     const fetchLikedProducts = async () => {
-      const allLikedProduct = await fetchData("/product/liked")
+      const allLikedProduct = await fetchData("/product/trending")
       setLikedProducts(allLikedProduct.data);
     };
     fetchLikedProducts();
