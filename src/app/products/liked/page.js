@@ -5,9 +5,11 @@ import { BiLike } from "react-icons/bi";
 import { CiHeart } from "react-icons/ci";
 import { FaWhatsapp } from "react-icons/fa";
 import { RiShareForward2Fill } from "react-icons/ri";
+import { useRouter } from "next/navigation";
 
 const Liked = () => {
   const [likedProducts, setLikedProducts] = useState([]);
+  const router = useRouter();
   useEffect(() => {
     const fetchLikedProducts = async () => {
       const allLikedProduct = await fetchData("/product/liked")
@@ -19,8 +21,8 @@ const Liked = () => {
     <div className="flex flex-wrap justify-center m-2 p-6 font-serif">
       {likedProducts.map((likedProduct) => (
         <div
-          className="w-[400px] min-h-fit border marginLeft-2 m-2 p-2 rounded-lg shadow-md hover:shadow-lg "
-          key={likedProduct._id}
+          className="w-[400px] min-h-fit border marginLeft-2 m-2 p-2 rounded-lg shadow-md hover:shadow-xl cursor-pointer"
+          key={likedProduct._id} onClick={() => router.push(`/products/liked/${likedProduct._id}`)}
         >
           {/* Row 1 */}
           <div className="flex m-4 justify-between items-center">
