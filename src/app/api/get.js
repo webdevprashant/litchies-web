@@ -1,3 +1,4 @@
+import Loader from "../components/loading";
 import { BACKEND_URL } from "../utils/Constant";
 
 export const fetchData = async (route) => {
@@ -8,6 +9,9 @@ export const fetchData = async (route) => {
     }
   });
   const data = await response.json();
+  if (!data.status) {
+   return <Loader />
+  }
   return data;
 }
 
