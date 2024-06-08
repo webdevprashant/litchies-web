@@ -1,9 +1,11 @@
 "use client"; // Add this directive at the top
 import React, { useState, useEffect } from 'react';
-import { fetchData } from '../api/get';
+import { fetchData } from '../../api/get';
+import { useRouter } from 'next/navigation';
 
 const ShopBanner = () => {
   const [banners, setBanners] = useState([]);
+  const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
   
   useEffect(() => {
@@ -16,7 +18,7 @@ const ShopBanner = () => {
       setCurrentSlide((prevSlide) =>
         prevSlide === banners.length - 1 ? 0 : prevSlide + 1
     );
-    }, 3000); // Change slide every 3 seconds
+    }, 5000); // Change slide every 5 seconds
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, [banners.length]);
@@ -28,9 +30,9 @@ const ShopBanner = () => {
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
         {banners.map((banner) => (
-          <img
+          <img onClick={() => router.push(`/shops/${banner.shopId}`)}
             key={banner._id}
-            className="w-full flex-shrink-0"
+            className="w-10/12 flex-shrink-0 hover:cursor-pointer"
             src={banner.thumbnail}
             alt="Banner"
           />

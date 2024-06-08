@@ -1,9 +1,9 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import Products from "../../../components/Products";
-import Reels from "../../../components/Reels";
-import Offers from "../../../components/Offers";
-import { fetchDataId } from "../../../api/get";
+import Products from "../../components/shopTabbar/Products";
+import Reels from "../../components/shopTabbar/Reels";
+import Offers from "../../components/shopTabbar/Offers";
+import { fetchDataId } from "../../api/get";
 import { GrLocation } from "react-icons/gr";
 import { LuGrid } from "react-icons/lu";
 import { RxVideo } from "react-icons/rx";

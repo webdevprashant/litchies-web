@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 
-import { fetchData } from "../../api/get";
+import { fetchData } from "../api/get";
 import { useRouter } from 'next/navigation';
 
 const RecentShops = () => {

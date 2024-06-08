@@ -1,4 +1,4 @@
-import Loader from "../components/loading";
+import Loader from "../components/home/loading";
 import { BACKEND_URL } from "../utils/Constant";
 
 export const fetchData = async (route) => {

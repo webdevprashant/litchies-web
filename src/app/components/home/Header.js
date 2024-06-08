@@ -13,12 +13,12 @@ const Header = () => {
       <div className="right m-1 py-1 flex ">
         <div className="search relative px-2">
           <input
-            className="block p-2 pl-10 w-11/12 sm: w-10/12 md: w-7/12 md: pl-8 outline-none text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+            className="mx-4 block p-2 pl-10 md: pl-8 outline-none text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
             type="text"
             placeholder="Search"
           />
           <img
-            className="w-6 absolute top-2 left-4"
+            className="w-6 absolute top-2 left-8"
             src="/images/search.svg"
             alt="Search Box"
           />

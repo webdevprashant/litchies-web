@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from 'react'
-import { fetchDataId } from "../api/get";
+import { fetchDataId } from "../../api/get";
 
 const Products = (props) => {
   const [products, setProducts] = useState([]);
@@ -10,7 +10,7 @@ const Products = (props) => {
       setProducts(allProducts.data);
     };
     fetchShopProducts();
-  }, []);;
+  }, []);
   return (
     <div className='grid grid-cols-3 gap-4 justify-between items-center'>
         {
