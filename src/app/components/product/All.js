@@ -20,11 +20,12 @@ const AllProducts = ({route}) => {
   }, []);
   console.log("Products : " , products);
   return (
-    <div className="flex flex-wrap justify-center m-2 p-6 font-serif">
-      { products.map((product) => (
+    <div className="grid grid-cols-4 justify-center m-2 p-2 font-serif">
+      {products.map((product) => (
         <div
-          className="w-[400px] min-h-fit border marginLeft-2 m-2 p-2 rounded-lg shadow-md hover:shadow-xl cursor-pointer"
-          key={product._id} onClick={() => router.push(`/product/${product._id}`)}
+          className=" col-span-1 min-h-fit border marginLeft-2 m-3 p-2 rounded-lg shadow-md hover:shadow-xl cursor-pointer"
+          key={product._id}
+          onClick={() => router.push(`/product/${product._id}`)}
         >
           {/* Row 1 */}
           <div className="flex m-4 justify-between items-center">
@@ -59,12 +60,12 @@ const AllProducts = ({route}) => {
           <div className="flex justify-between m-4">
             <div className="">
               <img
-                className="rounded-2xl bg-contain h-[250px] w-[250px] bg-cover"
+                className="rounded-2xl bg-contain h-[300px] w-[350px] bg-cover"
                 src={product.thumbnailURL}
               />
             </div>
 
-            <div className="flex flex-col justify-around">
+            <div className="flex flex-col justify-around px-4">
               <BiLike size={30} />
               <CiHeart size={30} />
               <FaWhatsapp size={30} />
@@ -78,7 +79,7 @@ const AllProducts = ({route}) => {
             <p>Rs. {product?.price}</p>
           </div>
         </div>
-      )) }
+      ))}
     </div>
   );
 }
