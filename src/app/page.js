@@ -2,13 +2,11 @@ import Category from "./components/home/Category";
 import ShopBanners from "./components/home/ShopBanner";
 import Shops from "./components/home/Shops";
 import Products from "./components/home/Products";
-import Loader from "./components/home/loading";
 
 export default function Home() {
   return (
     <>
     <div className="mx-2 p-8">
-      <Loader />
       <Category />
       <ShopBanners />
       <Shops title="Recently Added Shops" route="/shops/recent" />

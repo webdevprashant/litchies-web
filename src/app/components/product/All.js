@@ -21,7 +21,7 @@ const AllProducts = ({route}) => {
   console.log("Products : " , products);
   return (
     <div className="flex flex-wrap justify-center m-2 p-6 font-serif">
-      { products.length == 0 ? <NodDataFound /> : products.map((product) => (
+      { products.map((product) => (
         <div
           className="w-[400px] min-h-fit border marginLeft-2 m-2 p-2 rounded-lg shadow-md hover:shadow-xl cursor-pointer"
           key={product._id} onClick={() => router.push(`/product/${product._id}`)}

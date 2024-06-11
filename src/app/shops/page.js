@@ -19,7 +19,7 @@ const RecentShops = () => {
         {
         shops.map((shop) => (
           <div className="w-1/4 p-8 m-4 rounded-lg relative" key={shop._id}
-            onClick={() => router.push(`/shops/recent/${shop?._id}`)}
+            onClick={() => router.push(`/shops/${shop?._id}`)}
           style={{ backgroundImage: `url(${shop.shopBgThumbnail})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundColor: 'red' }}
           >
             <div className='shopBgImg absolute top-[-0.5rem] left-[37.33333%]'>
