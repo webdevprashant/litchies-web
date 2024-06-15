@@ -20,7 +20,7 @@ const User = () => {
       setUser(userData.data);
   };
   fetchUser();
-}, []);
+}, [userId]);
   console.log("User : " , user, userId);
   return (
     <>

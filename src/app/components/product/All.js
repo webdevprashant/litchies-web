@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect } from "react";
-import NodDataFound from "../NoDataFound";
 import { fetchData } from "../../api/get";
 import { BiLike } from "react-icons/bi";
 import { CiHeart } from "react-icons/ci";
@@ -18,7 +17,7 @@ const AllProducts = ({route}) => {
       setProducts(allProduct.data);
     };
     fetchProducts();
-  }, []);
+  }, [route]);
   return (
     <div className="grid grid-cols-4 justify-center m-2 p-2 font-serif">
       {products.map((product) => (
@@ -60,6 +59,7 @@ const AllProducts = ({route}) => {
                 className="rounded-2xl bg-cover"
                 src={product.thumbnailURL}
                 style={{ height: '350px' }}
+                alt="Product Square Image"
               />
             </div>
 

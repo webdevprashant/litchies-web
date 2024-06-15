@@ -31,7 +31,7 @@ const ShopBanner = () => {
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
         {banners.map((banner) => (
-          <Image onClick={() => router.push(`/shops/${banner.shopId}`)}
+          <Image key={banner._id} onClick={() => router.push(`/shops/${banner.shopId}`)}
           src={banner.thumbnail}
           alt="Banner"
           width={1200} // Add appropriate width

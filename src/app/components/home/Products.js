@@ -13,7 +13,7 @@ const Products = ({title, route}) => {
         setProducts(allProducts.data);
       }
       fetchProducts();
-    }, []);
+    }, [route]);
     return (
         <div className='m-8'>
             <div className='flex justify-between'>

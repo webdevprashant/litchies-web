@@ -15,7 +15,7 @@ const Product = ({params}) => {
       setProduct(product.data);
     };
     fetchProduct();
-  }, []);
+  }, [params.id]);
     return (
         <div className="flex flex-col">
             <div
@@ -28,6 +28,7 @@ const Product = ({params}) => {
                   <Image width={400} height={300}
                     className="rounded-2xl aspect-square bg-cover"
                     src={product.thumbnailURL}
+                    alt="Product Square Image"
                   />
                 </div>
 

@@ -31,7 +31,7 @@ const RecentShop = ({params}) => {
       setShop(shop.data);
     };
     fetchShop();
-  }, []);
+  }, [params.id]);
   return (
     <div className='flex justify-center font-serif'>
       <div className="w-3/4 p-8 m-4 rounded-lg relative" key={shop._id}

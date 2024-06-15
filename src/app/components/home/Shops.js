@@ -13,7 +13,7 @@ const Shops = ({title, route}) => {
       setShops(allShops.data);
     };
     fetchShops();
-  }, []);
+  }, [route]);
   return (
     <div className='m-8'>
       <div className='flex justify-between'>
