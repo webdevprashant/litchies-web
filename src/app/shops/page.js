@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 import { fetchData } from "../api/get";
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 const RecentShops = () => {
   const router = useRouter();
@@ -18,7 +19,7 @@ const RecentShops = () => {
     <div className="grid grid-cols-3 justify-center">
       {shops.map((shop) => (
         <div
-          className=" p-8 m-4 rounded-lg relative col-span-auto"
+          className=" p-8 m-4 rounded-lg relative col-span-auto cursor-pointer"
           key={shop._id}
           onClick={() => router.push(`/shops/${shop?._id}`)}
           style={{
@@ -29,8 +30,8 @@ const RecentShops = () => {
           }}
         >
           <div className="shopBgImg absolute top-[-0.5rem] left-[37.33333%]">
-            <img
-              className="w-[100px] min-h-[100px] rounded-full"
+            <Image width={100} height={100}
+              className="rounded-full"
               src={shop.shopThumbnail}
               alt=""
             />

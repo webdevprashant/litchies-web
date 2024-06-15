@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { fetchData } from '../../api/get';
+import Image from 'next/image';
 
 const Shops = ({title, route}) => {
   const router = useRouter();
@@ -26,8 +27,8 @@ const Shops = ({title, route}) => {
         {shops.map((shop) => (
           <div  
           key={shop._id} onClick={() => router.push(`/shops/${shop._id}`)}  className='m-2 p-1 min-w-[120px] text-center  rounded-lg hover:bg-gray-200 hover:cursor-pointer flex-shrink-0 shadow-md'>
-            <div className='flex justify-center category-image w-32'>
-              <img className='rounded-2xl w-[100px]  min-h-[100px] bg-cover' src={shop.shopThumbnail} alt={shop.name} />
+            <div className='flex justify-center w-[100px] min-h-[100px]'>
+              <Image width={100} height={100} className='rounded-2xl bg-cover' src={shop.shopThumbnail} alt={shop.name} />
             </div>
             <div className='w-28 m-1 p-1 font-serif'>
               <p className='text-sm font-semibold'>{shop.ratings} ⭐</p>

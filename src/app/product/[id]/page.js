@@ -5,6 +5,7 @@ import { BiLike } from "react-icons/bi";
 import { CiHeart } from "react-icons/ci";
 import { FaWhatsapp } from "react-icons/fa";
 import { RiShareForward2Fill } from "react-icons/ri";
+import Image from "next/image";
 
 const Product = ({params}) => {
   const [product, setProduct] = useState([]);
@@ -24,8 +25,8 @@ const Product = ({params}) => {
               {/* Row 1 (Product square image, iccons*/}
               <div className="flex flex-col m-4 w-2/5">
                 <div className="">
-                  <img
-                    className="rounded-2xl w-[400px] aspect-square bg-cover"
+                  <Image width={400} height={300}
+                    className="rounded-2xl aspect-square bg-cover"
                     src={product.thumbnailURL}
                   />
                 </div>
@@ -74,8 +75,8 @@ const Product = ({params}) => {
                               <p >{product?.shopId?.ratings} ⭐</p>
                             </div>
                           <div className="flex justify-center bg-cover">
-                            <img
-                              className="rounded-full w-[80px] h-[80px] bg-contain"
+                            <Image width={80} height={80}
+                              className="rounded-full bg-contain"
                               src={product?.shopId?.shopBgThumbnail}
                               alt="Shop Background Image"
                             />

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchData } from '../../api/get';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 const ShopBanner = () => {
   const [banners, setBanners] = useState([]);
@@ -18,7 +19,7 @@ const ShopBanner = () => {
       setCurrentSlide((prevSlide) =>
         prevSlide === banners.length - 1 ? 0 : prevSlide + 1
     );
-    }, 5000); // Change slide every 5 seconds
+    }, 3000); // Change slide every 3 seconds
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, [banners.length]);
@@ -30,12 +31,13 @@ const ShopBanner = () => {
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
         {banners.map((banner) => (
-          <img onClick={() => router.push(`/shops/${banner.shopId}`)}
-            key={banner._id}
-            className="w-10/12 flex-shrink-0 hover:cursor-pointer"
-            src={banner.thumbnail}
-            alt="Banner"
-          />
+          <Image onClick={() => router.push(`/shops/${banner.shopId}`)}
+          src={banner.thumbnail}
+          alt="Banner"
+          width={1200} // Add appropriate width
+          height={800} // Add appropriate height
+          style={{ cursor: 'pointer' }}
+        />
         ))}
       </div>
     </div>

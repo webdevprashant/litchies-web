@@ -1,14 +1,11 @@
+import Image from 'next/image';
 import React from 'react'
 
 const Header = () => {
   return (
     <div className="m-2 h-14 header flex justify-between shadow-xl ">
       <div className="left">
-        <img
-          className="mx-2 w-30 h-12 sm: w-10/12 sm: h-5/6 md: w-8/12 md: h-5/6"
-          src="/images/litchieslogo.png"
-          alt="litchies-logo"
-        />
+        <Image width={150} height={150} className='rounded-2xl bg-cover' src="/images/litchieslogo.png" alt="Logo" />
       </div>
       <div className="right m-1 py-1 flex ">
         <div className="search relative px-2">
@@ -17,18 +14,10 @@ const Header = () => {
             type="text"
             placeholder="Search"
           />
-          <img
-            className="w-6 absolute top-2 left-8"
-            src="/images/search.svg"
-            alt="Search Box"
-          />
+          <Image width={20} height={20} className='absolute top-2 left-8 rounded-2xl bg-cover' src="/images/search.svg" alt="Search" />
         </div>
         <div className="cart">
-          <img
-            className="w-8 h-8 sm: w-10 md: w-12"
-            src="/images/shopping-cart.svg"
-            alt="Shopping Cart"
-          />
+          <Image width={40} height={30} className='rounded-2xl bg-cover' src="/images/shopping-cart.svg" alt="Shopping Cart" />
         </div>
       </div>
     </div>

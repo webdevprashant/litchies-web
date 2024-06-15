@@ -8,6 +8,7 @@ import { GrLocation } from "react-icons/gr";
 import { LuGrid } from "react-icons/lu";
 import { RxVideo } from "react-icons/rx";
 import { BiSolidOffer } from "react-icons/bi";
+import Image from 'next/image';
 
 const RecentShop = ({params}) => {
   const [shop, setShop] = useState([]);
@@ -40,7 +41,7 @@ const RecentShop = ({params}) => {
             >
             </div>
             <div className='absolute top-[-0.5rem] left-[42.33333%]'>
-              <img className='w-[150px] min-h-[150px] rounded-full' src={shop.shopThumbnail} alt="" />
+              <Image width={150} height={150} className='rounded-full' src={shop.shopThumbnail} alt="" />
             </div>
       
             <div className='min-h-[200px] bg-white p-2 rounded-lg'>

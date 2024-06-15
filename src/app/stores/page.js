@@ -2,6 +2,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
 import { fetchData } from "../api/get";
+import Image from 'next/image';
 
 export default function Stores() {
   const [shops, setShops] = useState([]);
@@ -22,7 +23,7 @@ export default function Stores() {
           style={{ backgroundImage: `url(${shop.shopBgThumbnail})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
           >
             <div className='shopBgImg absolute top-[-0.5rem] left-[37.33333%]'>
-              <img className='w-[100px] min-h-[100px] rounded-full' src={shop.shopThumbnail} alt="" />
+               <Image width={100} height={100} className=' rounded-full' src={shop.shopThumbnail} alt="" />
             </div>
       
             <div className='pt-16 min-h-[200px] bg-white p-2 rounded-lg'>

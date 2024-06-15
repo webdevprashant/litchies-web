@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from 'react'
 import { fetchDataId } from "../../api/get";
+import Image from 'next/image';
 
 const Products = (props) => {
   const [products, setProducts] = useState([]);
@@ -17,8 +18,8 @@ const Products = (props) => {
           products.map((product) => (
             <div key={product?._id} className="col-span-3 sm:col-span-1 flex items-center justify-center rounded-lg">
                   <div className="">
-                    <img
-                      className="rounded-2xl h-[250px] w-[250px] bg-cover"
+                    <Image width={250} height={250}
+                      className="rounded-2xl bg-cover"
                       src={product?.thumbnailURL}
                     />
                   </div>

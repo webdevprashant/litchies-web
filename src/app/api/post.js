@@ -1,4 +1,3 @@
-import Loader from "../components/home/loading";
 import { BACKEND_URL } from "../utils/Constant";
 
 export const formDataHandle = async (route, bodyData) => {
@@ -7,12 +6,9 @@ export const formDataHandle = async (route, bodyData) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ mobile : bodyData })
+    body: JSON.stringify(bodyData)
   });
   
   const data = await response.json();
-  if (!data.status) {
-   return <Loader />
-  }
   return data;
 }

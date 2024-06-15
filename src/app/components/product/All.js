@@ -7,6 +7,7 @@ import { CiHeart } from "react-icons/ci";
 import { FaWhatsapp } from "react-icons/fa";
 import { RiShareForward2Fill } from "react-icons/ri";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const AllProducts = ({route}) => {
   const [products, setProducts] = useState([]);
@@ -18,7 +19,6 @@ const AllProducts = ({route}) => {
     };
     fetchProducts();
   }, []);
-  console.log("Products : " , products);
   return (
     <div className="grid grid-cols-4 justify-center m-2 p-2 font-serif">
       {products.map((product) => (
@@ -31,11 +31,8 @@ const AllProducts = ({route}) => {
           <div className="flex m-4 justify-between items-center">
             {/* Shop Bg Img */}
             <div className="flex justify-center bg-cover">
-              <img
-                className="rounded-full w-[50px] h-[50px] bg-contain"
-                src={product.shopId.shopBgThumbnail}
-                alt="Shop Background Image"
-              />
+              <Image width={50} height={50} className="rounded-full bg-contain"
+                src={product.shopId.shopBgThumbnail} alt="Shop Background Image" />
             </div>
 
             {/* Shop name, description */}
@@ -59,9 +56,10 @@ const AllProducts = ({route}) => {
           {/* Row 2 (Product square image, iccons*/}
           <div className="flex justify-between m-4">
             <div className="">
-              <img
-                className="rounded-2xl bg-contain h-[300px] w-[350px] bg-cover"
+              <Image width={350} height={0}
+                className="rounded-2xl bg-cover"
                 src={product.thumbnailURL}
+                style={{ height: '350px' }}
               />
             </div>
 
