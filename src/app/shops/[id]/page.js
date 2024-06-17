@@ -35,14 +35,14 @@ const RecentShop = ({params}) => {
   return (
     <div className='flex justify-center font-serif'>
       <div className="lg:w-3/4 lg:p-8 lg:m-4 sm:w-full rounded-lg relative" key={shop._id} >
-            <div className="min-h-[100px] rounded-lg"
+            <div className="min-h-[200px] rounded-lg"
             style={{ backgroundImage: `url(${shop.shopBgThumbnail})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundColor: 'red' }}
             >
+            
+            <div className='absolute top-[4rem] border-4 rounded-full left-[34.33333%] md:left-[45.33333%] lg:left-[42.33333%]'>
+              <Image width={120} height={100} className='rounded-full lg:w-40 sm:w-30' src={shop.shopThumbnail} alt="" />
             </div>
-            <div className='absolute top-[-0.5rem] lg:left-[45.33333%] sm:left-[23.33333%]'>
-              <Image width={120} height={100} className='rounded-full sm:w-20' src={shop.shopThumbnail} alt="" />
             </div>
-      
             <div className='min-h-[200px] bg-white p-2 rounded-lg'>
                 <div className='text-center'>
                 <p className='text-red-400 text-xl font-semibold'>{shop.name}</p>
