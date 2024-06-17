@@ -16,7 +16,7 @@ const RecentShops = () => {
     fetchShops();
   }, []);
   return (
-    <div className="grid grid-cols-3 justify-center">
+    <div className="grid lg:grid-cols-3 sm:grid-cols-1 justify-center">
       {shops.map((shop) => (
         <div
           className=" p-8 m-4 rounded-lg relative col-span-auto cursor-pointer"

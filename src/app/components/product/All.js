@@ -19,10 +19,10 @@ const AllProducts = ({route}) => {
     fetchProducts();
   }, [route]);
   return (
-    <div className="grid lg:grid-cols-3 md: grid-cols-1 justify-center m-2 p-2 font-serif">
+    <div className="grid lg:grid-cols-3 sm:grid-cols-1 justify-center lg:m-2 lg:p-2 font-serif">
       {products.map((product) => (
         <div
-          className="col-span-1 sm: grid-cols-1 min-h-fit border marginLeft-2 m-3 p-2 rounded-lg shadow-md hover:shadow-xl cursor-pointer"
+          className="col-span-1 min-h-fit border marginLeft-2 m-3 p-2 rounded-lg shadow-md hover:shadow-xl cursor-pointer"
           key={product._id}
           onClick={() => router.push(`/product/${product._id}`)}
         >
@@ -55,7 +55,7 @@ const AllProducts = ({route}) => {
           {/* Row 2 (Product square image, iccons*/}
           <div className="flex justify-between m-4">
             <div className="">
-              <Image width={350} height={0}
+              <Image width={500} height={0}
                 className="rounded-2xl bg-cover"
                 src={product.thumbnailURL}
                 style={{ height: '350px' }}
