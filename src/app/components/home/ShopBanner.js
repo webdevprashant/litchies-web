@@ -1,30 +1,24 @@
 "use client"; // Add this directive at the top
 import React, { useState, useEffect } from 'react';
-import { BACKEND_URL } from '../utils/Constant';
+import { fetchData } from '../../api/get';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 const ShopBanner = () => {
   const [banners, setBanners] = useState([]);
+  const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  const getShopBanners = async () => {
-    const allShopBanners = await fetch(BACKEND_URL + "/shopBanner" , {
-        method: 'GET',
-        headers: {
-            'Content-Type' : 'application/json',
-        }
-    });
-    const data = await allShopBanners.json();
-    setBanners(data.data);
-    return data;
-  }
   
-
   useEffect(() => {
-    getShopBanners();
+    const fetchBanners = async () => {
+    const apiData = await fetchData("/shopBanner");
+    setBanners(apiData.data);
+    }
+    fetchBanners();
     const interval = setInterval(() => {
       setCurrentSlide((prevSlide) =>
         prevSlide === banners.length - 1 ? 0 : prevSlide + 1
-      );
+    );
     }, 3000); // Change slide every 3 seconds
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
@@ -37,12 +31,13 @@ const ShopBanner = () => {
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
         {banners.map((banner) => (
-          <img
-            key={banner._id}
-            className="w-full flex-shrink-0"
-            src={banner.thumbnail}
-            alt="Banner"
-          />
+          <Image key={banner._id} onClick={() => router.push(`/shops/${banner.shopId}`)}
+          src={banner.thumbnail}
+          alt="Banner"
+          width={1200} // Add appropriate width
+          height={800} // Add appropriate height
+          style={{ cursor: 'pointer' }}
+        />
         ))}
       </div>
     </div>

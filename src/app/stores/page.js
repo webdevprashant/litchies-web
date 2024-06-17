@@ -1,44 +1,29 @@
+"use client";
 import React from 'react'
-import { BACKEND_URL } from '../utils/Constant';
+import { useEffect, useState } from 'react';
+import { fetchData } from "../api/get";
+import Image from 'next/image';
 
-const getShops = async () => {
-  const shopsResponse = await fetch(BACKEND_URL + "/shops", {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  });
-  const data = await shopsResponse.json();
-  return data;
-}
+export default function Stores() {
+  const [shops, setShops] = useState([]);
+    const fetchShops = async () => {
+        const allShops = await fetchData("/shops");
+        setShops(allShops.data);
+    };
 
-export default async function Stores() {
-  // const [shops, setShops] = useState([]);
-  //   const fetchShops = async () => {
-  //     try {
-  //       const allShops = await getShops();
-  //       setShops(allShops.data);
-  //     } catch (error) {
-  //       console.error('Failed to fetch shops', error);
-  //     }
-  //   };
-
-  //   useEffect(() => {
-  //     fetchShops();
-  //   console.log("kalu stores", shops);
-  //   }, []);
-  // setShops(allShops.data);
-  const allShops = await getShops();
+    useEffect(() => {
+      fetchShops();
+    }, []);
   
   return (
       <div className='flex flex-wrap justify-center'>
         {
-        allShops.data.map((shop) => (
+        shops.map((shop) => (
           <div className="w-1/4 p-8 m-4 bg-pink-300 rounded-lg relative" key={shop._id}
           style={{ backgroundImage: `url(${shop.shopBgThumbnail})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
           >
             <div className='shopBgImg absolute top-[-0.5rem] left-[37.33333%]'>
-              <img className='w-[100px] min-h-[100px] rounded-full' src={shop.shopThumbnail} alt="" />
+               <Image width={100} height={100} className=' rounded-full' src={shop.shopThumbnail} alt="" />
             </div>
       
             <div className='pt-16 min-h-[200px] bg-white p-2 rounded-lg'>
