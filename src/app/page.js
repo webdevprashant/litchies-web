@@ -6,7 +6,7 @@ import Products from "./components/home/Products";
 export default function Home() {
   return (
     <>
-    <div className="mx-2 p-8">
+    <div className="lg:p-4">
       <Category />
       <ShopBanners />
       <Shops title="Recently Added Shops" route="/shops/recent" />

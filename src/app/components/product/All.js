@@ -19,10 +19,10 @@ const AllProducts = ({route}) => {
     fetchProducts();
   }, [route]);
   return (
-    <div className="grid grid-cols-4 justify-center m-2 p-2 font-serif">
+    <div className="grid lg:grid-cols-3 md: grid-cols-1 justify-center m-2 p-2 font-serif">
       {products.map((product) => (
         <div
-          className=" col-span-1 min-h-fit border marginLeft-2 m-3 p-2 rounded-lg shadow-md hover:shadow-xl cursor-pointer"
+          className="col-span-1 sm: grid-cols-1 min-h-fit border marginLeft-2 m-3 p-2 rounded-lg shadow-md hover:shadow-xl cursor-pointer"
           key={product._id}
           onClick={() => router.push(`/product/${product._id}`)}
         >

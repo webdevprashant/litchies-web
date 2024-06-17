@@ -3,14 +3,14 @@ import React from 'react'
 
 const Header = () => {
   return (
-    <div className="m-2 h-14 header flex justify-between shadow-xl ">
-      <div className="left">
+    <div className="m-2 h-14 header grid grid-flow-col-dense shadow-xl ">
+      <div className="flex w-1/2 left">
         <Image width={150} height={150} className='rounded-2xl bg-cover' src="/images/litchieslogo.png" alt="Logo" />
       </div>
-      <div className="right m-1 py-1 flex ">
+      <div className="right m-1 py-1 flex justify-between">
         <div className="search relative px-2">
           <input
-            className="mx-4 block p-2 pl-10 md: pl-8 outline-none text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
+            className="mx-4 block p-2 pl-10 outline-none text-gray-900 bg-gray-50 rounded-lg border border-gray-300"
             type="text"
             placeholder="Search"
           />

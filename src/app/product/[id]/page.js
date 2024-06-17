@@ -17,16 +17,16 @@ const Product = ({params}) => {
     fetchProduct();
   }, [params.id]);
     return (
-        <div className="flex flex-col">
+        <div className="">
             <div
-              className="flex w-11/12 min-h-fit m-auto py-8 rounded-lg font-serif"
+              className="flex w-11/12 lg:flex-row sm: flex-col min-h-fit m-auto py-8 rounded-lg font-serif"
               key={product._id}
             >
               {/* Row 1 (Product square image, iccons*/}
-              <div className="flex flex-col m-4 w-2/5">
+              <div className="flex flex-col lg:w-2/5 sm: w-full">
                 <div className="">
                   <Image width={400} height={300}
-                    className="rounded-2xl aspect-square bg-cover"
+                    className="rounded-2xl sm:w-full aspect-square bg-cover"
                     src={product.thumbnailURL}
                     alt="Product Square Image"
                   />
@@ -41,9 +41,9 @@ const Product = ({params}) => {
               </div>
 
               {/* Row 2 */}
-              <div className="w-full m-4">
+              <div className="w-full sm:m-4">
                 <div>
-                    <div className="flex justify-between">
+                    <div className="flex lg:flex-row justify-between sm: flex-col">
                         <p className="font-bold text-2xl text-red-700">{product?.name}</p>
                         <p>Rs. {product?.price}</p>
                     </div>
@@ -62,9 +62,9 @@ const Product = ({params}) => {
                 </div>
 
 
-                  <div className="flex">
-                    <button type="button" className="w-3/12 cursor-pointer bg-red-600 text-white m-2 py-2 px-12 rounded-lg">Book Now</button>
-                    <button type="button" className="w-3/12 cursor-pointer bg-black text-white m-2 py-2 px-12 rounded-lg">Add to Cart</button>
+                  <div className="flex sm: text-sm">
+                    <button type="button" className="lg:w-3/12 sm:w-full cursor-pointer bg-red-600 text-white m-2 py-2 px-12 rounded-lg">Book Now</button>
+                    <button type="button" className="lg:w-3/12 sm:w-full cursor-pointer bg-black text-white m-2 py-2 px-12 rounded-lg">Add to Cart</button>
                   </div>
                   
                     <hr className="border border-dotted border-red-900 my-2" />
@@ -95,9 +95,7 @@ const Product = ({params}) => {
               </div>
 
 
-            </div>
-
-            
+            </div>            
         </div>
   );
 }

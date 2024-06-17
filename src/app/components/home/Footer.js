@@ -5,18 +5,17 @@ import { IoIosNotifications } from "react-icons/io";
 import { IoMdHome } from "react-icons/io";
 import { FaHeart } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 
 const Footer = () => {
   const [selectedIcon, setSelectedIcon] = useState(3);
-  const router = useRouter();
   const icons = [
     { id: 1, component: <MdOutlineVideoLibrary size={30} /> },
     { id: 2, component: <IoIosNotifications size={30} /> },
-    { id: 3, component: <IoMdHome size={30} /> },
+    { id: 3, component: <Link href="/"><IoMdHome size={30} /></Link> },
     { id: 4, component: <FaHeart size={30} /> },
-    { id: 5, component: <FaRegUser size={30} onClick={() => router.push("/profile") } /> },
+    { id: 5, component: <Link href="/profile"><FaRegUser size={30} /></Link> },
   ];
 
   const handleIconClick = (id) => {
