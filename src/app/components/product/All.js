@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { fetchData } from "../../api/get";
+import { fetchData, fetchDataQuery } from "../../api/get";
 import { BiLike } from "react-icons/bi";
 import { CiHeart } from "react-icons/ci";
 import { FaWhatsapp } from "react-icons/fa";
@@ -8,16 +8,22 @@ import { RiShareForward2Fill } from "react-icons/ri";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-const AllProducts = ({route}) => {
+const AllProducts = ({route, query}) => {
   const [products, setProducts] = useState([]);
   const router = useRouter();
+  console.log("Query" , query);
   useEffect(() => {
     const fetchProducts = async () => {
-      const allProduct = await fetchData(route);
+      let allProduct;
+      if (query) {
+        allProduct = await fetchDataQuery(route);
+      }  else {
+        allProduct = await fetchData(route);
+      }
       setProducts(allProduct.data);
     };
     fetchProducts();
-  }, [route]);
+  }, []);
   return (
     <div className="grid lg:grid-cols-3 sm:grid-cols-1 justify-center lg:m-2 lg:p-2 font-serif">
       {products.map((product) => (

@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 
 const Verify = () => {
   const [userInputOTP, setUserInputOTP] = useState('');
-  const [userMobile, setUserMobile ] = useState();
   const router = useRouter();
   const otp = useSelector((store) => store.storeOTP.otp);
   const mobile = useSelector((store) => store.storeOTP.mobile);
@@ -16,9 +15,7 @@ const Verify = () => {
   const handleInputChange = (e) => {
     setUserInputOTP(e.target.value);
   }
-  console.log("OTP Verify Data" , otp , mobile, userRegister , userInputOTP);
   const handleSubmit = () => {
-    // setUserMobile(mobile);
     if (otp == userInputOTP) {
       alert("OTP Verification Successfull.");
       if (userRegister) {
