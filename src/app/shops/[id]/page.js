@@ -49,8 +49,8 @@ const RecentShop = ({params}) => {
                 <p>{shop?.desc}</p>
                 </div>
       
-                <div className='flex flex-col'>
-                    <div className='flex justify-between m-4'>
+                <div className='flex flex-col '>
+                    <div className='m-auto w-1/2 flex justify-between text-center py-4'>
                         <div>
                           <h4 className='font-serif text-gray-400'>PRODUCTS</h4>
                           <p>{shop?.totalProducts}</p>
@@ -66,21 +66,21 @@ const RecentShop = ({params}) => {
                         </div>
                     </div>
 
-                    <div className='flex justify-between m-4'>
+                    <div className='w-1/2 m-auto flex justify-between py-4'>
                         <div>
-                          <button type="button" className=" cursor-pointer bg-red-500 text-white m-2 p-2 rounded-lg">Follow</button>
+                          <button type="button" className=" cursor-pointer bg-red-500 text-white p-2 rounded-lg">Follow</button>
                         </div>
                         <div>
-                          <button type="button" className="bg-gray-300 cursor-pointer m-2 p-2  rounded-lg">About Me</button>
+                          <button type="button" className="bg-gray-300 cursor-pointer p-2  rounded-lg">About Me</button>
                         </div>
                         <div>
-                          <GrLocation size={30} />
+                          <GrLocation size={30} className='mr-8' />
                         </div>
                     </div>
 
 
                     <div>                    
-                        <div className="">
+                        <div className="w-1/2 m-auto py-4">
                             <ul className="flex justify-between items-center text-gray-500">
                               
                                 <li className="" onClick={() => setSelectedTabBar(1)}>
@@ -114,7 +114,7 @@ const RecentShop = ({params}) => {
             </div>
 
   
-            <div className='component-container'>
+            <div className='component-container w-2/3 m-auto'>
                 {renderTabBar()}
             </div>
       </div>

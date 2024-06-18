@@ -7,9 +7,9 @@ import { useRouter } from 'next/navigation';
 const Verify = () => {
   const [userInputOTP, setUserInputOTP] = useState('');
   const router = useRouter();
-  const otp = useSelector((store) => store.storeOTP.otp);
-  const mobile = useSelector((store) => store.storeOTP.mobile);
-  const userRegister = useSelector((store) => store.storeOTP.isUserRegistered);
+  const otp = useSelector((store) => store.user.otp);
+  const mobile = useSelector((store) => store.user.mobile);
+  const userRegister = useSelector((store) => store.user.isUserRegistered);
   // const dispatch = useDispatch();
   
   const handleInputChange = (e) => {

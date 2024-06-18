@@ -12,7 +12,7 @@ import Image from 'next/image';
 import { IoIosCall } from "react-icons/io";
 
 const User = () => {
-  const userId = useSelector((store) => store.storeOTP.userId);
+  const userId = useSelector((store) => store.user.userId);
   const [user, setUser] = useState(null);
   useEffect(()=> {
     const fetchUser = async () => {

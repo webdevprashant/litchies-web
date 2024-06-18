@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 
 
 const Footer = () => {
-  const userRegister = useSelector((store) => store.storeOTP.isUserRegistered);
+  const userRegister = useSelector((store) => store.user.isUserRegistered);
   const [selectedIcon, setSelectedIcon] = useState(3);
   const icons = [
     { id: 1, component: <MdOutlineVideoLibrary size={30} /> },

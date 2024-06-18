@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { setUserId } from '../../redux/slice';
 
 const Register = () => {
-  const mobile = useSelector((store) => store.storeOTP.mobile);
+  const mobile = useSelector((store) => store.user.mobile);
   const dispatch = useDispatch();
   const [firstName, setFirstName] = useState(null);
   const router = useRouter();

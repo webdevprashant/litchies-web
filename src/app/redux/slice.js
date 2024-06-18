@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 // Redux store contains multiple slices - Step 2
-const slice = createSlice({
-  name: 'otpslice1',
+const userSlice = createSlice({
+  name: 'userSlice',
   initialState: {
     otp : null,                        // Initially otp is empty
     mobile : null,                     // Initially mobile is empty
     isUserRegistered : false,          // Initially isUserRegistered is empty
-    userId : ""                        // Initially userId is empty
+    userId : "",                       // Initially userId is empty
+    products: []
   },
   reducers: {
     // Action to set the OTP value
@@ -46,9 +47,16 @@ const slice = createSlice({
     removeUserId: (state, action) => {
         state.userId = null;
     },
-
+    // Action to set Query Result
+    setQueryResult: (state , action ) => {
+      state.products.push(action.payload);
+    },
+    // Action to unset Query Result
+    removeQueryResult: (state , action ) => {
+      state.products.length = 0;
+    }
   }
 });
 
-export const { setOTP, removeOTP, setUserMobile, removeMobile, setUserRegistered, removeIsUserRegistered, setUserId, removeUserId } = slice.actions;
-export default slice.reducer;
+export const { setOTP, removeOTP, setUserMobile, removeMobile, setUserRegistered, removeIsUserRegistered, setUserId, removeUserId, setQueryResult, removeQueryResult } = userSlice.actions;
+export default userSlice.reducer;
