@@ -12,7 +12,7 @@ const Header = () => {
   return (
     <div className="grid justify-items-center lg:grid-cols-3 items-center shadow-xl">
       <div className="xsm:my-2">
-        <Image width={150} height={150} className='rounded-2xl bg-cover' src="/images/litchieslogo.png" alt="Logo" />
+        <Link href="/"><Image width={150} height={150} className='rounded-2xl bg-cover' src="/images/litchieslogo.png" alt="Logo" /></Link>
       </div>
           <div className="flex">
             <input
