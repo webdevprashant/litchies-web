@@ -50,7 +50,7 @@ const RecentShop = ({params}) => {
                 </div>
       
                 <div className='flex flex-col '>
-                    <div className='m-auto w-1/2 flex justify-between text-center py-4'>
+                    <div className='lg:w-1/2 sm:w-full lg:m-auto flex justify-between text-center py-4'>
                         <div>
                           <h4 className='font-serif text-gray-400'>PRODUCTS</h4>
                           <p>{shop?.totalProducts}</p>
@@ -66,7 +66,7 @@ const RecentShop = ({params}) => {
                         </div>
                     </div>
 
-                    <div className='w-1/2 m-auto flex justify-between py-4'>
+                    <div className='lg:w-1/2 lg:m-auto sm:w-full flex justify-between py-4'>
                         <div>
                           <button type="button" className=" cursor-pointer bg-red-500 text-white p-2 rounded-lg">Follow</button>
                         </div>
@@ -80,7 +80,7 @@ const RecentShop = ({params}) => {
 
 
                     <div>                    
-                        <div className="w-1/2 m-auto py-4">
+                        <div className="lg:w-1/2 lg:m-auto sm:w-full py-4">
                             <ul className="flex justify-between items-center text-gray-500">
                               
                                 <li className="" onClick={() => setSelectedTabBar(1)}>
