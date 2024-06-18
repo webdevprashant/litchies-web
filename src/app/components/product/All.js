@@ -7,14 +7,13 @@ import { FaWhatsapp } from "react-icons/fa";
 import { RiShareForward2Fill } from "react-icons/ri";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setQueryResult } from "../../redux/slice";
 
 const AllProducts = ({route, query}) => {
   const [products, setProducts] = useState([]);
   const router = useRouter();
   const dispatch = useDispatch();
-  const searchedProducts = useSelector((store) => store.user.products);
   useEffect(() => {
     const fetchProducts = async () => {
       let allProduct;
