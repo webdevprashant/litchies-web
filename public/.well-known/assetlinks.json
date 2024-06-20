@@ -1,0 +1,20 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.litchies",
+      "sha256_cert_fingerprints":
+        ["EB:79:C2:00:73:22:8F:AE:67:05:A7:E5:20:C1:FD:75:5F:30:8E:CF:52:FA:A0:59:A2:EB:4D:52:90:09:2E:58"]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.litchies_business",
+      "sha256_cert_fingerprints":
+        ["F0:21:A5:43:A3:A6:A2:B0:3F:8B:02:16:66:F1:56:23:E1:3A:AF:8D:CA:6D:6A:8A:28:F1:18:48:29:A7:3A:DE"]
+    }
+  }
+]
