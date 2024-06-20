@@ -1,20 +1,51 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-
 import { fetchData } from "../api/get";
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-
+import { PAGE, COUNT } from '../utils/Constant';
+import Loader from '../components/home/loading';
 const RecentShops = () => {
   const router = useRouter();
   const [shops, setShops] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(PAGE);
+  const fetchShops = async () => {
+    setLoading(true);
+    try {
+      const allShops = await fetchData(`/shops/recent` + `?page=${page}&count=${COUNT}`);
+      // Ensure no repeated data by filtering out duplicates (if necessary)
+      const newShops = allShops.data.filter(
+        newShop => !shops.find(existingShop => existingShop._id === newShop._id)
+      );
+      newShops.length > 0 ? setHasMore(true) : setHasMore(false);
+      setShops(prevShops => [...prevShops, ...newShops]);
+    } catch (err) {
+      console.error('Error fetching Shops :', err);
+    } finally{
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchShops = async () => {
-      const allShops = await fetchData("/shops/recent");
-      setShops(allShops.data);
-    };
+    console.log("Hi fetchShops");
     fetchShops();
+  }, [page]);
+
+  const handleScroll = () => {
+    if (hasMore && Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.offsetHeight) {
+        setPage(prevPage => prevPage + 1);
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll' , handleScroll);
+    }
   }, []);
+
   return (
     <div className="grid lg:grid-cols-3 sm:grid-cols-1 justify-center">
       {shops.map((shop) => (
@@ -61,6 +92,7 @@ const RecentShops = () => {
           </div>
         </div>
       ))}
+      <div>{loading && <Loader />}</div>
     </div>
   );
 }
