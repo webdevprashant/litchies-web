@@ -117,7 +117,7 @@ const AllProducts = ({route, query}) => {
         </div>
       ))}
 
-      <div>{loading && <Loader />}</div>
+      <div>{hasMore && loading && <Loader />}</div>
     </div>
   );
 }
