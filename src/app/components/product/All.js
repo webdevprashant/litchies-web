@@ -1,29 +1,67 @@
 "use client";
 import { useState, useEffect } from "react";
-import { fetchData } from "../../api/get";
+import { fetchData, fetchDataQuery } from "../../api/get";
 import { BiLike } from "react-icons/bi";
 import { CiHeart } from "react-icons/ci";
 import { FaWhatsapp } from "react-icons/fa";
 import { RiShareForward2Fill } from "react-icons/ri";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { setQueryResult } from "../../redux/slice";
+import { COUNT, PAGE } from "../../utils/Constant";
+import Loader from "../home/loading";
 
-const AllProducts = ({route}) => {
-  const [products, setProducts] = useState([]);
+const AllProducts = ({route, query}) => {
   const router = useRouter();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(PAGE);
+  const dispatch = useDispatch();
+  const fetchProducts = async () => {
+    setLoading(true);
+    let allProduct;
+    try {
+      if (query) {
+        allProduct = await fetchDataQuery(route);
+        setProducts(allProduct.data);
+        dispatch(setQueryResult(products));
+      }  else {
+        allProduct = await fetchData(route + `?page=${page}&count=${COUNT}`);
+        allProduct.data.length > 0 ? setHasMore(true) : setHasMore(false);
+        setProducts(prevProducts => [...prevProducts, ...allProduct.data]);
+      }
+    } catch (err) {
+      console.error('Error fetching Products :', err);
+    } finally{
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchProducts = async () => {
-      const allProduct = await fetchData(route);
-      setProducts(allProduct.data);
-    };
+    console.log("Hi fetchProducts");
     fetchProducts();
-  }, [route]);
+  }, [page]);
+
+  const handleScroll = () => {
+      if (hasMore && Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.offsetHeight) {
+          setPage(prevPage => prevPage + 1);
+      }
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll' , handleScroll);
+    }
+  }, []);
+
   return (
     <div className="grid lg:grid-cols-3 sm:grid-cols-1 justify-center lg:m-2 lg:p-2 font-serif">
       {products.map((product) => (
         <div
           className="col-span-1 min-h-fit border marginLeft-2 m-3 p-2 rounded-lg shadow-md hover:shadow-xl cursor-pointer"
-          key={product._id}
+          key={product.createdAt}
           onClick={() => router.push(`/product/${product._id}`)}
         >
           {/* Row 1 */}
@@ -78,6 +116,8 @@ const AllProducts = ({route}) => {
           </div>
         </div>
       ))}
+
+      <div>{loading && <Loader />}</div>
     </div>
   );
 }

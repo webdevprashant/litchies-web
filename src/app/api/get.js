@@ -21,3 +21,14 @@ export const fetchDataId = async (route, id) => {
   const data = await response.json();
   return data;
 }
+
+export const fetchDataQuery = async (route) => {
+  const response = await fetch(BACKEND_URL + route, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
+  const data = await response.json();
+  return data;
+}

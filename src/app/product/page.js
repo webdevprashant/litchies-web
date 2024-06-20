@@ -3,7 +3,7 @@ import Products from "../components/product/All";
 
 const Product = () => {
   return (
-    <Products route="/product/liked" />
+    <Products route="/product/" />
   )
 }
 

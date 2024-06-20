@@ -12,7 +12,7 @@ import Image from 'next/image';
 import { IoIosCall } from "react-icons/io";
 
 const User = () => {
-  const userId = useSelector((store) => store.storeOTP.userId);
+  const userId = useSelector((store) => store.user.userId);
   const [user, setUser] = useState(null);
   useEffect(()=> {
     const fetchUser = async () => {
@@ -21,13 +21,12 @@ const User = () => {
   };
   fetchUser();
 }, [userId]);
-  console.log("User : " , user, userId);
   return (
     <>
       <h1 className='text-center text-2xl my-8'>Profile Information</h1>
     <div>
         <div>
-                <div className='w-1/4 m-auto flex flex-row items-center justify-around'>
+                <div className='lg:w-1/4 sm:w-full m-auto flex flex-row items-center justify-evenly'>
                     <div> <Image
                     width={100}
                     height={100}
@@ -44,9 +43,9 @@ const User = () => {
                     </div>
                 </div>
 
-                <hr />
+                <hr className="lg:w-1/4 m-auto border border-gray-300 my-4" />
 
-                <div className='w-1/4 block m-auto rounded-xl shadow-lg my-8 p-4 font-serif text-xl'>
+                <div className='lg:w-1/4 sm:w-full block m-auto rounded-xl shadow-lg my-8 p-4 font-serif text-xl'>
                       <div className='flex items-center mx-10 my-4 cursor-pointer'>
                       <LiaStoreSolid size={30} /> <p className='mx-8'>My Followed Stores</p>
                       </div>

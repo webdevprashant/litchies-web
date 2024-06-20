@@ -63,8 +63,8 @@ const Product = ({params}) => {
 
 
                   <div className="flex sm: text-sm">
-                    <button type="button" className="lg:w-3/12 sm:w-full cursor-pointer bg-red-600 text-white m-2 py-2 px-12 rounded-lg">Book Now</button>
-                    <button type="button" className="lg:w-3/12 sm:w-full cursor-pointer bg-black text-white m-2 py-2 px-12 rounded-lg">Add to Cart</button>
+                    <button type="button" className="lg:w-3/12 sm:w-full cursor-pointer bg-red-600 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Book Now</button>
+                    <button type="button" className="lg:w-3/12 sm:w-full cursor-pointer bg-black text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Add to Cart</button>
                   </div>
                   
                     <hr className="border border-dotted border-red-900 my-2" />
