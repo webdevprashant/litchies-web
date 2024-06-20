@@ -6,6 +6,7 @@ const nextConfig = {
   // trailingSlash: true,
   // assetPrefix: 'https://litchies.atf-labs.com/assets/',
   images: {
+    unoptimized: true,
     remotePatterns: [{
       protocol: 'https',
       hostname: '*.s3.ap-south-1.amazonaws.com',
