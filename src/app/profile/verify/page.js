@@ -1,6 +1,7 @@
 "use client"
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { toast } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 
 const Verify = () => {
@@ -17,7 +18,7 @@ const Verify = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (otp == userInputOTP) {
-      alert("OTP Verification Successfull.");
+      toast.success('OTP Verification Successfull.')
       if (userRegister) {
         console.log("HI", userRegister);
         router.push("/profile/me");
@@ -27,7 +28,7 @@ const Verify = () => {
       }
     // dispatch(removeOTP());
     } else {
-      alert("Invalid OTP.");
+      toast.error('Invalid OTP.');
     }
   }
   return (

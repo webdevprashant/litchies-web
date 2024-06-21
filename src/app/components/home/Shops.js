@@ -27,7 +27,7 @@ const Shops = ({title, route}) => {
         {shops.map((shop) => (
           <div  
           key={shop._id} onClick={() => router.push(`/shops/${shop._id}`)}  className='m-2 p-1 min-w-[120px] text-center  rounded-lg hover:bg-gray-200 hover:cursor-pointer flex-shrink-0 shadow-md'>
-            <div className='flex justify-center w-[100px] min-h-[100px]'>
+            <div className='flex justify-center min-h-[120px]'>
               <Image width={100} height={100} className='rounded-2xl bg-cover' src={shop.shopThumbnail} alt={shop.name} />
             </div>
             <div className='w-28 m-1 p-1 font-serif'>
