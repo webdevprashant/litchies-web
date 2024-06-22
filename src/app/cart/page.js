@@ -34,12 +34,12 @@ const Cart = () => {
   }
 
   return (
-    <div className='w-7/12 m-auto grid grid-cols-1 gap-4 shadow-xl mt-16 p-4'>
+    <div className='w-7/12 m-auto grid grid-cols-1 gap-4 mt-10 p-4'>
       {cartItems.length == 0 ? (
-        <h1>Cart is Empty, Please add some items to the cart.</h1>
+        <h1 className='h-[50vh] flex justify-center items-center'>Cart is Empty, Please add some items to the cart.</h1>
       ) : (
         cartItems.map((product, index) => (
-          <div key={product._id} className='relative'>
+          <div key={product._id} className='relative shadow-xl m-2 p-2'>
             <div className='flex justify-between'>
               <div className="flex items-center">
                 <Image
@@ -55,7 +55,7 @@ const Cart = () => {
                 </div>
               </div>
               <button onClick={() => handleToggle(index)}>
-                {isOpen ? <MdKeyboardArrowUp size={30} /> : <MdKeyboardArrowDown size={30} />}
+                {isOpen && expandedItems === index ? <MdKeyboardArrowUp size={30} /> : <MdKeyboardArrowDown size={30} />}
               </button>
             </div>
             {expandedItems === index && (
