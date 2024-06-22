@@ -68,8 +68,7 @@ const AllProducts = ({route, query}) => {
           <div className="flex m-4 justify-between items-center">
             {/* Shop Bg Img */}
             <div className="flex justify-center bg-cover">
-              <Image width={50} height={50} className="rounded-full bg-contain"
-                src={product.shopId.shopBgThumbnail} alt="Shop Background Image" />
+              <Image src={product.shopId.shopBgThumbnail} width={50} height={50} className="rounded-full bg-contain" alt="Shop Background Image" />
             </div>
 
             {/* Shop name, description */}

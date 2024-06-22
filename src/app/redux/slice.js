@@ -8,7 +8,8 @@ const userSlice = createSlice({
     mobile : null,                     // Initially mobile is empty
     isUserRegistered : false,          // Initially isUserRegistered is empty
     userId : "",                       // Initially userId is empty
-    products: []
+    products: [],
+    cart: []
   },
   reducers: {
     // Action to set the OTP value
@@ -30,6 +31,12 @@ const userSlice = createSlice({
       state.userId = action.payload;
     },
 
+    addCartItem: (state, action) => {       // Add Items to Cart
+      state.cart.push(action.payload);
+    },
+    removeCartItem: (state, action) => {       // remove Items to Cart
+      state.cart.pop();
+    },
     // Action to remove the OTP value
     removeOTP: (state, action) => {
         state.otp = null;
@@ -58,5 +65,5 @@ const userSlice = createSlice({
   }
 });
 
-export const { setOTP, removeOTP, setUserMobile, removeMobile, setUserRegistered, removeIsUserRegistered, setUserId, removeUserId, setQueryResult, removeQueryResult } = userSlice.actions;
+export const { setOTP, removeOTP, setUserMobile, removeMobile, setUserRegistered, removeIsUserRegistered, setUserId, removeUserId, setQueryResult, removeQueryResult, addCartItem, removeCartItem } = userSlice.actions;
 export default userSlice.reducer;
