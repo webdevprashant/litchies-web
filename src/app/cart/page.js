@@ -34,12 +34,12 @@ const Cart = () => {
   }
 
   return (
-    <div className='w-7/12 m-auto grid grid-cols-1 gap-4 mt-10 p-4'>
+    <div className='lg:w-7/12 sm:w-full lg:m-auto grid grid-cols-1 lg:gap-4 mt-10 lg:p-4'>
       {cartItems.length == 0 ? (
         <h1 className='h-[50vh] flex justify-center items-center'>Cart is Empty, Please add some items to the cart.</h1>
       ) : (
         cartItems.map((product, index) => (
-          <div key={product._id} className='relative shadow-xl m-2 p-2'>
+          <div key={product._id} className='shadow-xl m-2 p-2'>
             <div className='flex justify-between'>
               <div className="flex items-center">
                 <Image
@@ -50,7 +50,7 @@ const Cart = () => {
                   alt="Product Square Image"
                 />
                 <div className='mx-4'>
-                  <p className='text-red-400'>{product?.name}</p>
+                  <p className='text-red-400 font-semibold lg:text-xl sm:text-xs'>{product?.name}</p>
                   <p>Total Order Price RS. <span className='text-red-400'>{product.price}</span></p>
                 </div>
               </div>
@@ -71,11 +71,11 @@ const Cart = () => {
                         alt="Product Square Image"
                       />
                       <div className='mx-4'>
-                        <p className='text-red-400'>{product?.name}</p>
+                        <p className='text-red-400 font-semibold lg:text-xl sm:text-xs'>{product?.name}</p>
                         <p><span className='text-red-400'>Rs. {product.price}</span></p>
                         <p className='text-sm text-gray-500 flex items-center gap-2'>
                           Remove Item from list
-                          <RiDeleteBinLine
+                          <RiDeleteBinLine size={20}
                             onClick={() => handleRemoveFromCart(product)}
                             className='text-red-500 cursor-pointer'
                           />

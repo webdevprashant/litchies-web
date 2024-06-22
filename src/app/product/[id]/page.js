@@ -70,7 +70,7 @@ const Product = ({params}) => {
                 </div>
 
 
-                  <div className="flex sm: text-sm">
+                  <div className="flex lg:justify-start xsm:justify-evenly sm:text-sm">
                     <button type="button" className="lg:w-3/12 sm:w-full cursor-pointer bg-red-600 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Book Now</button>
                     <button type="button" onClick={() => handleAddToCart(product)} className="lg:w-3/12 sm:w-full cursor-pointer bg-black text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Add to Cart</button>
                   </div>

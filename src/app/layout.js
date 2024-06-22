@@ -13,7 +13,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-      <script src="https://unpkg.com/flowbite@1.5.1/dist/flowbite.js"></script>
         <ClientProvider>
           <Toaster toastOptions={{
             success: {
