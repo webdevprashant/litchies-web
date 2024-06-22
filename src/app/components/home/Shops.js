@@ -3,14 +3,17 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation';
 import { fetchData } from '../../api/get';
 import Image from 'next/image';
+import Shimmer from '../../utils/shimmer';
 
 const Shops = ({title, route}) => {
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
   const [shops, setShops] = useState([]);
   useEffect(() => {
     const fetchShops = async () => {
       const allShops = await fetchData(route);
       setShops(allShops.data);
+      setLoading(false);
     };
     fetchShops();
   }, [route]);
@@ -24,10 +27,12 @@ const Shops = ({title, route}) => {
       <div
         className='overflow-x-scroll no-scroll flex'
       >
-        {shops.map((shop) => (
+        { loading ? Array(20).fill("").map((data, index) => ( 
+        <Shimmer key={index} w={100} h={120} /> 
+      )) : shops.map((shop) => (
           <div  
           key={shop._id} onClick={() => router.push(`/shops/${shop._id}`)}  className='m-2 p-1 min-w-[120px] text-center  rounded-lg hover:bg-gray-200 hover:cursor-pointer flex-shrink-0 shadow-md'>
-            <div className='flex justify-center w-[100px] min-h-[100px]'>
+            <div className='flex justify-center min-h-[120px]'>
               <Image width={100} height={100} className='rounded-2xl bg-cover' src={shop.shopThumbnail} alt={shop.name} />
             </div>
             <div className='w-28 m-1 p-1 font-serif'>

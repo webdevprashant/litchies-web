@@ -92,7 +92,7 @@ const RecentShops = () => {
           </div>
         </div>
       ))}
-      <div>{loading && <Loader />}</div>
+      <div>{hasMore && loading && <Loader />}</div>
     </div>
   );
 }

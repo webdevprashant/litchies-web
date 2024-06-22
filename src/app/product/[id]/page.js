@@ -6,8 +6,16 @@ import { CiHeart } from "react-icons/ci";
 import { FaWhatsapp } from "react-icons/fa";
 import { RiShareForward2Fill } from "react-icons/ri";
 import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { addCartItem } from "../../redux/slice";
+import toast from "react-hot-toast";
 
 const Product = ({params}) => {
+  const dispatch = useDispatch();
+  const handleAddToCart = (item) => {
+    toast.success('Add to Cart Successfully.')
+    dispatch(addCartItem(item));
+  }
   const [product, setProduct] = useState([]);
   useEffect(() => {
     const fetchProduct = async () => {
@@ -62,9 +70,9 @@ const Product = ({params}) => {
                 </div>
 
 
-                  <div className="flex sm: text-sm">
+                  <div className="flex lg:justify-start xsm:justify-evenly sm:text-sm">
                     <button type="button" className="lg:w-3/12 sm:w-full cursor-pointer bg-red-600 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Book Now</button>
-                    <button type="button" className="lg:w-3/12 sm:w-full cursor-pointer bg-black text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Add to Cart</button>
+                    <button type="button" onClick={() => handleAddToCart(product)} className="lg:w-3/12 sm:w-full cursor-pointer bg-black text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Add to Cart</button>
                   </div>
                   
                     <hr className="border border-dotted border-red-900 my-2" />
@@ -76,9 +84,10 @@ const Product = ({params}) => {
                               <p >{product?.shopId?.ratings} ⭐</p>
                             </div>
                           <div className="flex justify-center bg-cover">
-                            <Image width={80} height={80}
-                              className="rounded-full bg-contain"
+                            <Image 
                               src={product?.shopId?.shopBgThumbnail}
+                              width={80} height={80}
+                              className="rounded-full bg-contain"
                               alt="Shop Background Image"
                             />
                           </div>
