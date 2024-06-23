@@ -7,7 +7,7 @@ const userSlice = createSlice({
     otp : null,                        // Initially otp is empty
     mobile : null,                     // Initially mobile is empty
     isUserRegistered : false,          // Initially isUserRegistered is empty
-    userId : "",                       // Initially userId is empty
+    userId : null,                       // Initially userId is empty
     products: [],
     cart: []
   },

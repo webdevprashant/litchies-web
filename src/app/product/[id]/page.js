@@ -6,15 +6,30 @@ import { CiHeart } from "react-icons/ci";
 import { FaWhatsapp } from "react-icons/fa";
 import { RiShareForward2Fill } from "react-icons/ri";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addCartItem } from "../../redux/slice";
 import toast from "react-hot-toast";
-
+import { useRouter } from "next/navigation";
+import { formDataHandle } from "../../api/post"
 const Product = ({params}) => {
   const dispatch = useDispatch();
-  const handleAddToCart = (item) => {
-    toast.success('Add to Cart Successfully.')
-    dispatch(addCartItem(item));
+  const userStore = useSelector((store) => store.user);
+  const router = useRouter();
+  const handleAddToCart = async (item) => {
+    if (userStore.cart.includes(item)) {
+      toast.custom("Item already added in Cart.");
+      return
+    }
+    if (userStore.userId) {
+      // Add to Cart API
+      const response = await formDataHandle(`/users/type?userId=${userStore.userId}&type=cart`, {});
+      console.log(response);
+      toast.success(response.message);
+      dispatch(addCartItem(item));
+    } else {
+      // Login First before add to cart
+      router.push("/profile/login")
+    } 
   }
   const [product, setProduct] = useState([]);
   useEffect(() => {
@@ -41,10 +56,10 @@ const Product = ({params}) => {
                 </div>
 
                 <div className="flex  justify-around my-4">
-                  <BiLike size={30} />
-                  <CiHeart size={30} />
-                  <FaWhatsapp size={30} />
-                  <RiShareForward2Fill size={30} />
+                <BiLike className="text-gray-500" size={30} />
+                <CiHeart className="text-gray-500" size={30} />
+                <FaWhatsapp className="text-white bg-green-500 rounded-full" size={30} />
+                <RiShareForward2Fill className="text-gray-500" size={30} />
                 </div>
               </div>
 

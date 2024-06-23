@@ -19,13 +19,13 @@ const Profile = () => {
 
       <div className='lg:w-1/2 sm:w-full block m-auto rounded-xl shadow-lg my-8 p-4 font-serif text-xl'>
           <div className='flex items-center mx-10 my-4 cursor-pointer'>
-          <FaShareAltSquare size={30} /> <p className='mx-8'>Share</p>
+          <FaShareAltSquare className='text-red-500' size={30} /> <p className='mx-8'>Share</p>
           </div>
           <div className='flex items-center mx-10 my-4 cursor-pointer'>
-          <IoIosHelpCircle size={30} /> <p className='mx-8'>Help Center</p>
+          <IoIosHelpCircle className='text-red-500' size={30} /> <p className='mx-8'>Help Center</p>
           </div>
           <div className='flex items-center mx-10 my-4 cursor-pointer'>
-          <TbMessage size={30} /> <p className='mx-8'>Feedback</p>
+          <TbMessage  className='text-red-500' size={30} /> <p className='mx-8'>Feedback</p>
           </div>
       </div>
     </div>

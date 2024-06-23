@@ -54,7 +54,7 @@ const Cart = () => {
                   <p>Total Order Price RS. <span className='text-red-400'>{product.price}</span></p>
                 </div>
               </div>
-              <button onClick={() => handleToggle(index)}>
+              <button className='text-gray-500' onClick={() => handleToggle(index)}>
                 {isOpen && expandedItems === index ? <MdKeyboardArrowUp size={30} /> : <MdKeyboardArrowDown size={30} />}
               </button>
             </div>

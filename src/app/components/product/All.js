@@ -5,6 +5,7 @@ import { BiLike } from "react-icons/bi";
 import { CiHeart } from "react-icons/ci";
 import { FaWhatsapp } from "react-icons/fa";
 import { RiShareForward2Fill } from "react-icons/ri";
+import { FaStar } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
@@ -73,7 +74,7 @@ const AllProducts = ({route, query}) => {
 
             {/* Shop name, description */}
             <div className="w-8/12 mx-2">
-              <p>{product?.shopId?.name}</p>
+              <p className="text-red-500">{product?.shopId?.name}</p>
               <p
                 className=" h-10 overflow-hidden"
                 style={{ fontWeight: 50, fontSize: "smaller" }}
@@ -85,7 +86,7 @@ const AllProducts = ({route, query}) => {
             {/* shop ratings */}
             <div className="w-[50px]">
               <p>RATINGS</p>
-              <p>{product?.shopId?.ratings} ⭐</p>
+              <p className="flex items-center text-xl">{product?.shopId?.ratings} <span><FaStar className="text-red-500" size={20} /></span></p>
             </div>
           </div>
 
@@ -101,21 +102,20 @@ const AllProducts = ({route, query}) => {
             </div>
 
             <div className="flex flex-col justify-around px-4">
-              <BiLike size={30} />
-              <CiHeart size={30} />
-              <FaWhatsapp size={30} />
-              <RiShareForward2Fill size={30} />
+              <BiLike className="text-gray-500" size={30} />
+              <CiHeart className="text-gray-500" size={30} />
+              <FaWhatsapp className="text-white bg-green-500 rounded-full" size={30} />
+              <RiShareForward2Fill className="text-gray-500" size={30} />
             </div>
           </div>
 
           {/* Row 3 */}
           <div className="flex justify-between m-4">
-            <h4>{product?.name}</h4>
+            <h4 className="text-red-500">{product?.name}</h4>
             <p>Rs. {product?.price}</p>
           </div>
         </div>
       ))}
-
       <div>{hasMore && loading && <Loader />}</div>
     </div>
   );

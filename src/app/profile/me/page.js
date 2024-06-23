@@ -10,14 +10,20 @@ import { IoIosHelpCircle } from "react-icons/io";
 import { TbMessage } from "react-icons/tb";
 import Image from 'next/image';
 import { IoIosCall } from "react-icons/io";
+import { useRouter } from 'next/navigation';
 
 const User = () => {
   const userId = useSelector((store) => store.user.userId);
+  const router = useRouter();
   const [user, setUser] = useState(null);
   useEffect(()=> {
     const fetchUser = async () => {
-      const userData = await fetchDataId("/users/" , userId);
-      setUser(userData.data);
+      if (userId) {
+        const userData = await fetchDataId("/users/" , userId);
+        setUser(userData.data);
+      } else {
+        router.push("/profile/login");
+      }
   };
   fetchUser();
 }, [userId]);
@@ -45,29 +51,29 @@ const User = () => {
 
                 <hr className="lg:w-1/4 m-auto border border-gray-300 my-4" />
 
-                <div className='lg:w-1/4 sm:w-full block m-auto rounded-xl shadow-lg my-8 p-4 font-serif text-xl'>
+                <div className='lg:w-1/4 sm:w-full block m-auto rounded-xl shadow-lg lg:my-8 sm:my-4 lg:p-4 font-serif text-xl'>
                       <div className='flex items-center mx-10 my-4 cursor-pointer'>
-                      <LiaStoreSolid size={30} /> <p className='mx-8'>My Followed Stores</p>
+                      <LiaStoreSolid className='text-red-500' size={30} /> <p className='mx-8'>My Followed Stores</p>
                       </div>
 
                       <div className='flex items-center mx-10 my-4 cursor-pointer'>
-                      <BiLike size={30} /> <p className='mx-8'>My Liked Products</p>
+                      <BiLike className='text-red-500' size={30} /> <p className='mx-8'>My Liked Products</p>
                       </div>
 
                       <div className='flex items-center mx-10 my-4 cursor-pointer'>
-                      <FaShoppingCart size={30} /> <p className='mx-8'>My Orders</p>
+                      <FaShoppingCart className='text-red-500' size={30} /> <p className='mx-8'>My Orders</p>
                       </div>
 
                       <div className='flex items-center mx-10 my-4 cursor-pointer'>
-                      <FaShareAltSquare size={30} /> <p className='mx-8'>Share</p>
+                      <FaShareAltSquare className='text-red-500' size={30} /> <p className='mx-8'>Share</p>
                       </div>
 
                       <div className='flex items-center mx-10 my-4 cursor-pointer'>
-                      <IoIosHelpCircle size={30} /> <p className='mx-8'>Help Center</p>
+                      <IoIosHelpCircle className='text-red-500' size={30} /> <p className='mx-8'>Help Center</p>
                       </div>
 
                       <div className='flex items-center mx-10 my-4 cursor-pointer'>
-                      <TbMessage size={30} /> <p className='mx-8'>Feedback</p>
+                      <TbMessage className='text-red-500' size={30} /> <p className='mx-8'>Feedback</p>
                       </div>
 
                 </div>
