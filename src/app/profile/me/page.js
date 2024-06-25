@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { fetchDataId } from '../../api/get';
+import { browserCookie } from '../../utils/Constant';
 import { LiaStoreSolid } from "react-icons/lia";
 import { BiLike } from "react-icons/bi";
 import { FaShoppingCart } from "react-icons/fa";
@@ -11,10 +12,26 @@ import { TbMessage } from "react-icons/tb";
 import Image from 'next/image';
 import { IoIosCall } from "react-icons/io";
 import { useRouter } from 'next/navigation';
+import { getCookie } from "../../api/cookie";
+import { ParseJWT } from "../../utils/utils";
 
 const User = () => {
-  const userId = useSelector((store) => store.user.userId);
   const router = useRouter();
+  const userId = useSelector((store) => store.user.userId);
+  // const fetchToken = async () => {
+  //   const hasTokenInCookie = await getCookie(browserCookie);
+  //   console.log("hasTokenInCookie me : " , hasTokenInCookie);
+  //   if (hasTokenInCookie) {
+  //     const parseJWT = ParseJWT(hasTokenInCookie);
+  //     userId = parseJWT._id;
+  //   } else {
+  //     router.push("/profile/login");
+  //   }
+  // }
+  // useEffect(() => {
+  //   fetchToken();
+  // }, []);
+
   const [user, setUser] = useState(null);
   useEffect(()=> {
     const fetchUser = async () => {
@@ -76,6 +93,10 @@ const User = () => {
                       <TbMessage className='text-red-500' size={30} /> <p className='mx-8'>Feedback</p>
                       </div>
 
+                </div>
+
+                <div className='lg:w-1/4 m-auto sm:w-full'>
+                <button type="button" className="w-full cursor-pointer bg-red-600 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Logout</button>
                 </div>
         </div>
     </div>

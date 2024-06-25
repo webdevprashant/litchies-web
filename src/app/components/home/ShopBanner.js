@@ -37,7 +37,7 @@ const ShopBanner = () => {
   >
     {loading ? 
       Array(20).fill("").map((data, index) => ( 
-        <Shimmer key={index} w={1000} h={400} /> 
+        <Shimmer key={index} w={1000} h={300} /> 
       )) : 
       banners.map((banner) => (
         <Image 
@@ -47,7 +47,7 @@ const ShopBanner = () => {
           alt="Banner"
           className='min-w-full'
           width={1400} // Add appropriate width
-          height={800} // Add appropriate height
+          height={300} // Add appropriate height
           style={{ cursor: 'pointer' }}
         />
       ))
