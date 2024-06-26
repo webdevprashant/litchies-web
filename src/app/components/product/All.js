@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { fetchData, fetchDataQuery } from "../../api/get";
+import { Update } from "../../api/put";
 import { BiLike } from "react-icons/bi";
 import { CiHeart } from "react-icons/ci";
 import { FaWhatsapp } from "react-icons/fa";
@@ -9,17 +10,31 @@ import { FaStar } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
 import { setQueryResult } from "../../redux/slice";
-import { COUNT, PAGE } from "../../utils/Constant";
+import { COUNT, PAGE, browserCookie } from "../../utils/Constant";
 import Loader from "../home/loading";
+import { ParseJWT } from "../../utils/utils";
+import toast from "react-hot-toast";
 
 const AllProducts = ({route, query}) => {
+  const token = Cookies.get(browserCookie);
+  const decodeToken = ParseJWT(token);
   const router = useRouter();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(PAGE);
   const dispatch = useDispatch();
+
+  const likeProduct = async (productId) => {
+      const productLike = await Update(`/product/${productId}/liking` , { userId: decodeToken._id });
+      if (productLike.status) {
+        toast.success("Product liked successfully.");
+      } else {
+        toast.error("Something went wrong, Try again later.......");
+      }
+  } 
   const fetchProducts = async () => {
     setLoading(true);
     let allProduct;
@@ -102,7 +117,7 @@ const AllProducts = ({route, query}) => {
             </div>
 
             <div className="flex flex-col justify-around px-4">
-              <BiLike className="text-gray-500" size={30} />
+              <BiLike values="2" className="text-gray-500" size={30} />
               <CiHeart className="text-gray-500" size={30} />
               <FaWhatsapp className="text-white bg-green-500 rounded-full" size={30} />
               <RiShareForward2Fill className="text-gray-500" size={30} />

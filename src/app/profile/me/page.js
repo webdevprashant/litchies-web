@@ -1,8 +1,8 @@
 "use client";
-import React, { useEffect, useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { fetchDataId } from '../../api/get';
-import { browserCookie } from '../../utils/Constant';
+import { userDetails } from '../../utils/Constant';
 import { LiaStoreSolid } from "react-icons/lia";
 import { BiLike } from "react-icons/bi";
 import { FaShoppingCart } from "react-icons/fa";
@@ -12,41 +12,30 @@ import { TbMessage } from "react-icons/tb";
 import Image from 'next/image';
 import { IoIosCall } from "react-icons/io";
 import { useRouter } from 'next/navigation';
-import { getCookie } from "../../api/cookie";
 import { ParseJWT } from "../../utils/utils";
 
 const User = () => {
   const router = useRouter();
-  const userId = useSelector((store) => store.user.userId);
-  // const fetchToken = async () => {
-  //   const hasTokenInCookie = await getCookie(browserCookie);
-  //   console.log("hasTokenInCookie me : " , hasTokenInCookie);
-  //   if (hasTokenInCookie) {
-  //     const parseJWT = ParseJWT(hasTokenInCookie);
-  //     userId = parseJWT._id;
-  //   } else {
-  //     router.push("/profile/login");
-  //   }
-  // }
-  // useEffect(() => {
-  //   fetchToken();
-  // }, []);
-
   const [user, setUser] = useState(null);
-  useEffect(()=> {
-    const fetchUser = async () => {
-      if (userId) {
-        const userData = await fetchDataId("/users/" , userId);
-        setUser(userData.data);
-      } else {
-        router.push("/profile/login");
+  const handleLogOut = () => {
+    if (typeof window !== undefined && window.localStorage) {
+      window.localStorage.removeItem(userDetails);
+      router.push("/profile/login");
+    }
+  }
+    useEffect(() => {
+      if (typeof window !== undefined && window.localStorage) {
+        const user = JSON.parse(window.localStorage.getItem(userDetails));
+        if (user) {
+          setUser(user);
+        } else {
+          router.push("/profile/login");
+        }
       }
-  };
-  fetchUser();
-}, [userId]);
+    }, [])
   return (
     <>
-      <h1 className='text-center text-2xl my-8'>Profile Information</h1>
+      <h1 className='text-center text-2xl my-2'>Profile Information</h1>
     <div>
         <div>
                 <div className='lg:w-1/4 sm:w-full m-auto flex flex-row items-center justify-evenly'>
@@ -96,7 +85,7 @@ const User = () => {
                 </div>
 
                 <div className='lg:w-1/4 m-auto sm:w-full'>
-                <button type="button" className="w-full cursor-pointer bg-red-600 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Logout</button>
+                  <button onClick={() => handleLogOut()} type="button" className="w-full cursor-pointer bg-red-600 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Logout</button>
                 </div>
         </div>
     </div>

@@ -20,8 +20,10 @@ const Verify = () => {
     if (otp == userInputOTP) {
       toast.success('OTP Verification Successfull.')
       if (userRegister) {
+        console.log(" verify userRegister " , userRegister, otp, userInputOTP);
         router.push("/profile/me");
       } else {
+        console.log(" verify not userRegister " , userRegister, otp, userInputOTP);
         router.push("/profile/register");
       }
     // dispatch(removeOTP());

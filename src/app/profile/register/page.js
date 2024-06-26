@@ -3,7 +3,9 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { formDataHandle } from '../../api/post';
 import { useRouter } from 'next/navigation';
+import { userDetails } from '../../utils/Constant'
 import { setUserId } from '../../redux/slice';
+import toast from 'react-hot-toast';
 
 const Register = () => {
   const mobile = useSelector((store) => store.user.mobile);
@@ -20,10 +22,11 @@ const Register = () => {
     const response = await formDataHandle("/auth/register" , { firstName: firstName, notify: check, mobile: mobile });
     if (response.status) {
       dispatch(setUserId(response.data._id));
-      alert("User Registered Successfully.");
+      localStorage.setItem(userDetails, response.data);
+      toast.success("User Registered Successfully.");
       router.push("/profile/me");
     } else {
-      alert("Something got wrong try again later....");
+      toast.error("Something got wrong try again later....");
     }
   }
   return (

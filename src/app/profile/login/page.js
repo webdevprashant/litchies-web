@@ -1,12 +1,11 @@
 "use client"
 import React, { useState } from 'react'
-import { browserCookie } from '../../utils/Constant'
+import { userDetails } from '../../utils/Constant'
 import { formDataHandle } from '../../api/post'
 import { useRouter } from 'next/navigation'
 import { setUserMobile, setOTP, setUserRegistered } from '../../redux/slice';
 import { useDispatch } from 'react-redux';
 import { ParseJWT } from "../../utils/utils";
-import Cookies from "js-cookie";
 import { setUserId } from '../../redux/slice';
 
 const Login = () => {
@@ -27,7 +26,9 @@ const Login = () => {
     dispatch(setUserRegistered(response.data.isRegistered));
     if (response.data.isRegistered) {
       const user = ParseJWT(response.data.token);
-      Cookies.set(browserCookie , response.data.token);             // Set token in Cookie
+      if (typeof window != "undefined") {
+        window.localStorage.setItem(userDetails, JSON.stringify(user));
+      }
       dispatch(setUserId(user._id));
     }
     router.push("/profile/verify")
