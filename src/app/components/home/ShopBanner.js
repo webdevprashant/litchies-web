@@ -4,8 +4,12 @@ import { fetchData } from '../../api/get';
 import { useRouter } from 'next/navigation';
 import Shimmer from '../../utils/shimmer';
 import Image from 'next/image';
+import { useDispatch, useSelector } from 'react-redux';
+import { setHomeBanners } from '../../redux/slice';
 
 const ShopBanner = () => {
+  const dispatch = useDispatch();
+  const banner = useSelector((store) => store.user.homeBanners);
   const [banners, setBanners] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -13,8 +17,13 @@ const ShopBanner = () => {
   
   useEffect(() => {
     const fetchBanners = async () => {
-    const apiData = await fetchData("/shopBanner");
-    setBanners(apiData.data);
+    if (banner.length === 0) {
+      const apiData = await fetchData("/shopBanner");
+      setBanners(apiData.data);
+      dispatch(setHomeBanners(apiData.data));
+    } else {
+      setBanners(banner[0]);
+    }
     setLoading(false);
     }
     fetchBanners();

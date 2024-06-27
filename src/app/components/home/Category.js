@@ -4,14 +4,24 @@ import { fetchData } from '../../api/get';
 import { useRouter } from 'next/navigation';
 import Shimmer from "../../utils/shimmer"
 import Image from 'next/image';
+import { useDispatch, useSelector } from 'react-redux';
+import { setHomeCateogories  } from '../../redux/slice'
 const Category = () => {
+  const dispatch = useDispatch();
+  const category = useSelector((store) => store.user.homeCategories);
+  // console.log("Home Category : " , category[0]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   useEffect(() => {
     const fetchCategories = async () => {
-      const allCategories = await fetchData("/productCategory");
-      setCategories(allCategories.data);
+      if (category.length === 0) {
+        const allCategories = await fetchData("/productCategory");
+        setCategories(allCategories.data);
+        dispatch(setHomeCateogories(allCategories.data))
+      } else {
+        setCategories(category[0]);
+      }
       setLoading(false);
     };
     fetchCategories();

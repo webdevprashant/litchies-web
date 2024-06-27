@@ -9,7 +9,11 @@ const userSlice = createSlice({
     isUserRegistered : false,          // Initially isUserRegistered is empty
     userId : null,                       // Initially userId is empty
     products: [],
-    cart: []
+    cart: [],
+    homeCategories: [],
+    homeBanners: [],
+    homeShops: [],
+    homeProducts: [],
   },
   reducers: {
     // Action to set the OTP value
@@ -61,9 +65,25 @@ const userSlice = createSlice({
     // Action to unset Query Result
     removeQueryResult: (state , action ) => {
       state.products.length = 0;
-    }
+    },
+
+    setHomeCateogories: (state, action) => {
+      state.homeCategories.push(action.payload);
+    },
+    setHomeBanners: (state, action) => {
+      state.homeBanners.push(action.payload);
+    },
+    setHomeShops: (state, action) => {
+      state.homeShops.push(action.payload);
+    },
+    setHomeProducts: (state, action) => {
+      state.homeProducts.push(action.payload);
+    },
   }
 });
 
-export const { setOTP, removeOTP, setUserMobile, removeMobile, setUserRegistered, removeIsUserRegistered, setUserId, removeUserId, setQueryResult, removeQueryResult, addCartItem, removeCartItem } = userSlice.actions;
+export const { setOTP, removeOTP, setUserMobile, removeMobile, setUserRegistered, 
+  removeIsUserRegistered, setUserId, removeUserId, setQueryResult, removeQueryResult, addCartItem, removeCartItem,
+  setHomeCateogories, setHomeBanners, setHomeShops, setHomeProducts,
+} = userSlice.actions;
 export default userSlice.reducer;
