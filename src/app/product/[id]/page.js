@@ -15,6 +15,28 @@ const Product = ({params}) => {
   const dispatch = useDispatch();
   const userStore = useSelector((store) => store.user);
   const router = useRouter();
+
+  let userId;
+  const likeProduct = async (product) => {
+      if (typeof window !== undefined && window.localStorage) {
+        const response = JSON.parse(localStorage.getItem(userDetails));
+        userId = response?._id;
+      }
+      if (userId && product.usersLiking.includes(userId)) {
+
+      }
+      if (userId) {
+        const productLike = await Update(`/product/${product._id}/liking` , { userId: userId });
+        if (productLike.status) {
+          toast.success("Product liked successfully.");
+        } else {
+          toast.error("Something went wrong, Try again later.......");
+        }
+      } else {
+        router.push("/profile/login");
+      }
+  } 
+
   const handleAddToCart = async (item) => {
     if (userStore.cart.includes(item)) {
       toast.custom("Item already added in Cart.");
@@ -23,7 +45,6 @@ const Product = ({params}) => {
     if (userStore.userId) {
       // Add to Cart API
       const response = await formDataHandle(`/users/type?userId=${userStore.userId}&type=cart`, {});
-      console.log(response);
       toast.success(response.message);
       dispatch(addCartItem(item));
     } else {
@@ -55,11 +76,11 @@ const Product = ({params}) => {
                   />
                 </div>
 
-                <div className="flex  justify-around my-4">
-                <BiLike className="text-gray-500" size={30} />
-                <CiHeart className="text-gray-500" size={30} />
-                <FaWhatsapp className="text-white bg-green-500 rounded-full" size={30} />
-                <RiShareForward2Fill className="text-gray-500" size={30} />
+                <div className="flex justify-evenly items-center my-4">
+                <span className="flex items-center"><BiLike onClick={() => likeProduct(product)} className={ product?.usersLiking?.length > 0 ? "text-red-500" : "text-gray-500"} size={20} /> {product?.usersLiking?.length > 0 ? product?.usersLiking?.length : ""  } </span>
+                <CiHeart className="text-gray-500" size={20} />
+                <FaWhatsapp className="text-white bg-green-500 rounded-full" size={20} />
+                <RiShareForward2Fill className="text-gray-500" size={20} />
                 </div>
               </div>
 

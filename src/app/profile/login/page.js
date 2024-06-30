@@ -1,16 +1,11 @@
 "use client"
 import React, { useState } from 'react'
-import { userDetails } from '../../utils/Constant'
+import { userDetails, auth } from '../../utils/Constant'
 import { formDataHandle } from '../../api/post'
 import { useRouter } from 'next/navigation'
-import { setUserMobile, setOTP, setUserRegistered } from '../../redux/slice';
-import { useDispatch } from 'react-redux';
 import { ParseJWT } from "../../utils/utils";
-import { setUserId } from '../../redux/slice';
 
 const Login = () => {
-  // Step 3 - Dispatch and action call Reducer fn (Action)
-  const dispatch = useDispatch();
   const router = useRouter();
   const [inputMobile, setMobile] = useState('');
 
@@ -21,17 +16,16 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const response = await formDataHandle("/auth/sign" , { mobile: inputMobile });
-    dispatch(setOTP(response.data.OTP));
-    dispatch(setUserMobile(inputMobile));
-    dispatch(setUserRegistered(response.data.isRegistered));
-    if (response.data.isRegistered) {
-      const user = ParseJWT(response.data.token);
-      if (typeof window != "undefined") {
-        window.localStorage.setItem(userDetails, JSON.stringify(user));
+      if (typeof window != "undefined" && window.localStorage) {
+        if (response.data.isRegistered) {
+          const user = ParseJWT(response.data.token);
+          window.localStorage.setItem(userDetails, JSON.stringify(user));
+        }
+        // Save auth details in Local
+        const userData = { otp: response.data.OTP, isRegistered: response.data.isRegistered, mobile: inputMobile };
+        window.localStorage.setItem(auth, JSON.stringify(userData));
       }
-      dispatch(setUserId(user._id));
-    }
-    router.push("/profile/verify")
+      router.push("/profile/verify")
   }
 
   return (

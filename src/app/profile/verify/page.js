@@ -2,15 +2,18 @@
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { useDispatch, useSelector } from 'react-redux';
+import { auth } from '../../utils/Constant';
 
 const Verify = () => {
   const [userInputOTP, setUserInputOTP] = useState('');
   const router = useRouter();
-  const otp = useSelector((store) => store.user.otp);
-  const mobile = useSelector((store) => store.user.mobile);
-  const userRegister = useSelector((store) => store.user.isUserRegistered);
-  // const dispatch = useDispatch();
+  let otp, mobile, userRegister;
+    if (typeof window !== undefined && window.localStorage)  {
+      const userData = JSON.parse(window.localStorage.getItem(auth)); 
+      otp = userData.otp;
+      userRegister = userData.isRegistered;
+      mobile = userData.mobile;
+    }
   
   const handleInputChange = (e) => {
     setUserInputOTP(e.target.value);
@@ -20,13 +23,10 @@ const Verify = () => {
     if (otp == userInputOTP) {
       toast.success('OTP Verification Successfull.')
       if (userRegister) {
-        console.log(" verify userRegister " , userRegister, otp, userInputOTP);
         router.push("/profile/me");
       } else {
-        console.log(" verify not userRegister " , userRegister, otp, userInputOTP);
         router.push("/profile/register");
       }
-    // dispatch(removeOTP());
     } else {
       toast.error('Invalid OTP.');
     }

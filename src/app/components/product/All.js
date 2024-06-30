@@ -12,14 +12,16 @@ import Image from "next/image";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import { setQueryResult } from "../../redux/slice";
-import { COUNT, PAGE, browserCookie } from "../../utils/Constant";
+import { COUNT, PAGE, browserCookie, userDetails } from "../../utils/Constant";
 import Loader from "../home/loading";
 import { ParseJWT } from "../../utils/utils";
 import toast from "react-hot-toast";
 
 const AllProducts = ({route, query}) => {
-  const token = Cookies.get(browserCookie);
-  const decodeToken = ParseJWT(token);
+  // const [liked, setLiked] = useState(false);
+  // const [totalLikes, setTotalLikes] = useState(0);
+  // const token = Cookies.get(browserCookie);
+  // const decodeToken = ParseJWT(token);
   const router = useRouter();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -27,14 +29,25 @@ const AllProducts = ({route, query}) => {
   const [page, setPage] = useState(PAGE);
   const dispatch = useDispatch();
 
-  const likeProduct = async (productId) => {
-      const productLike = await Update(`/product/${productId}/liking` , { userId: decodeToken._id });
-      if (productLike.status) {
-        toast.success("Product liked successfully.");
-      } else {
-        toast.error("Something went wrong, Try again later.......");
-      }
-  } 
+  // let userId;
+  // const likeProduct = async (productId) => {
+  //     if (typeof window !== undefined && window.localStorage) {
+  //       const response = JSON.parse(localStorage.getItem(userDetails));
+  //       console.log("Product response" , response);
+  //       userId = response?._id;
+  //     }
+  //     if (userId) {
+  //       // console.log(product?.usersLiking.includes(userId))
+  //       const productLike = await Update(`/product/${productId}/liking` , { userId: userId });
+  //       if (productLike.status) {
+  //         toast.success("Product liked successfully.");
+  //       } else {
+  //         toast.error("Something went wrong, Try again later.......");
+  //       }
+  //     } else {
+  //       router.push("/profile/login");
+  //     }
+  // } 
   const fetchProducts = async () => {
     setLoading(true);
     let allProduct;
@@ -78,10 +91,11 @@ const AllProducts = ({route, query}) => {
         <div
           className="col-span-1 min-h-fit border marginLeft-2 m-3 p-2 rounded-lg shadow-md hover:shadow-xl cursor-pointer"
           key={product.createdAt}
-          onClick={() => router.push(`/product/${product._id}`)}
         >
           {/* Row 1 */}
-          <div className="flex m-4 justify-between items-center">
+          <div className="flex m-4 justify-between items-center"
+          onClick={() => router.push(`/product/${product._id}`)}
+          >
             {/* Shop Bg Img */}
             <div className="flex justify-center bg-cover">
               <Image src={product.shopId.shopBgThumbnail} width={50} height={50} className="rounded-full bg-contain" alt="Shop Background Image" />
@@ -109,6 +123,7 @@ const AllProducts = ({route, query}) => {
           <div className="flex justify-between m-4">
             <div className="">
               <Image width={500} height={0}
+                onClick={() => router.push(`/product/${product._id}`)}
                 className="rounded-2xl bg-cover"
                 src={product.thumbnailURL}
                 style={{ height: '350px' }}
@@ -117,15 +132,17 @@ const AllProducts = ({route, query}) => {
             </div>
 
             <div className="flex flex-col justify-around px-4">
-              <BiLike values="2" className="text-gray-500" size={30} />
-              <CiHeart className="text-gray-500" size={30} />
-              <FaWhatsapp className="text-white bg-green-500 rounded-full" size={30} />
-              <RiShareForward2Fill className="text-gray-500" size={30} />
+              {/* <span className="flex items-center"> {product?.usersLiking?.length > 0 ? product?.usersLiking?.length : "" } <BiLike onClick={() => likeProduct(product._id)} values="2" className={ product?.usersLiking.includes(userId) ? "text-red-500 cursor-pointer"  :  "text-gray-500 cursor-pointer"} size={20} /></span>
+              <CiHeart className="text-gray-500 cursor-pointer" size={20} />
+              <FaWhatsapp className="text-white bg-green-500 rounded-full cursor-pointer" size={20} />
+              <RiShareForward2Fill className="text-gray-500 cursor-pointer" size={20} /> */}
             </div>
           </div>
 
           {/* Row 3 */}
-          <div className="flex justify-between m-4">
+          <div className="flex justify-between m-4" 
+          onClick={() => router.push(`/product/${product._id}`)}
+          >
             <h4 className="text-red-500">{product?.name}</h4>
             <p>Rs. {product?.price}</p>
           </div>

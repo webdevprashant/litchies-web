@@ -1,8 +1,6 @@
 "use client";
-import React, { use, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux';
-import { fetchDataId } from '../../api/get';
-import { userDetails } from '../../utils/Constant';
+import React, { useEffect, useState } from 'react'
+import { userDetails, auth } from '../../utils/Constant';
 import { LiaStoreSolid } from "react-icons/lia";
 import { BiLike } from "react-icons/bi";
 import { FaShoppingCart } from "react-icons/fa";
@@ -12,7 +10,7 @@ import { TbMessage } from "react-icons/tb";
 import Image from 'next/image';
 import { IoIosCall } from "react-icons/io";
 import { useRouter } from 'next/navigation';
-import { ParseJWT } from "../../utils/utils";
+import Link from 'next/link';
 
 const User = () => {
   const router = useRouter();
@@ -20,19 +18,21 @@ const User = () => {
   const handleLogOut = () => {
     if (typeof window !== undefined && window.localStorage) {
       window.localStorage.removeItem(userDetails);
+      window.localStorage.removeItem(auth);
       router.push("/profile/login");
     }
   }
-    useEffect(() => {
-      if (typeof window !== undefined && window.localStorage) {
-        const user = JSON.parse(window.localStorage.getItem(userDetails));
-        if (user) {
-          setUser(user);
-        } else {
-          router.push("/profile/login");
-        }
+  useEffect(() => {
+    if (typeof window !== undefined && window.localStorage) {
+      const user = JSON.parse(window.localStorage.getItem(userDetails));
+      if (user) {
+        setUser(user);
+        window.localStorage.removeItem(auth);
+      } else {
+        router.push("/profile/login");
       }
-    }, [])
+    }
+  }, []);
   return (
     <>
       <h1 className='text-center text-2xl my-2'>Profile Information</h1>
@@ -58,9 +58,11 @@ const User = () => {
                 <hr className="lg:w-1/4 m-auto border border-gray-300 my-4" />
 
                 <div className='lg:w-1/4 sm:w-full block m-auto rounded-xl shadow-lg lg:my-8 sm:my-4 lg:p-4 font-serif text-xl'>
+                    <Link href={`/shops/${user?._id}`} as={`/shops/`}>
                       <div className='flex items-center mx-10 my-4 cursor-pointer'>
-                      <LiaStoreSolid className='text-red-500' size={30} /> <p className='mx-8'>My Followed Stores</p>
+                    <LiaStoreSolid className='text-red-500' size={30} /> <p className='mx-8'>My Followed Stores</p>
                       </div>
+                    </Link>
 
                       <div className='flex items-center mx-10 my-4 cursor-pointer'>
                       <BiLike className='text-red-500' size={30} /> <p className='mx-8'>My Liked Products</p>

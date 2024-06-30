@@ -9,7 +9,6 @@ import { setHomeCateogories  } from '../../redux/slice'
 const Category = () => {
   const dispatch = useDispatch();
   const category = useSelector((store) => store.user.homeCategories);
-  // console.log("Home Category : " , category[0]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();

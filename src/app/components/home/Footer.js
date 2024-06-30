@@ -6,7 +6,6 @@ import { IoMdHome } from "react-icons/io";
 import { FaHeart } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";
 import Link from 'next/link';
-// import Cookies from "js-cookie";
 import { userDetails } from '../../utils/Constant';
 
 const Footer = () => {
@@ -22,7 +21,6 @@ const Footer = () => {
     { id: 4, component: <Link href="/wishlist"><FaHeart size={30} /></Link> },
     { id: 5, component: <Link href={ hasTokenInCookie ? "/profile/me" : "/profile/login" }><FaRegUser size={30} /></Link> },
   ];
-
   const handleIconClick = (id) => {
     setSelectedIcon(id);
   };
