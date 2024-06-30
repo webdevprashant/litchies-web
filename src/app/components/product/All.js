@@ -10,18 +10,14 @@ import { FaStar } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import Cookies from "js-cookie";
 import { setQueryResult } from "../../redux/slice";
-import { COUNT, PAGE, browserCookie, userDetails } from "../../utils/Constant";
+import { COUNT, PAGE, userDetails } from "../../utils/Constant";
 import Loader from "../home/loading";
-import { ParseJWT } from "../../utils/utils";
 import toast from "react-hot-toast";
 
 const AllProducts = ({route, query}) => {
   // const [liked, setLiked] = useState(false);
   // const [totalLikes, setTotalLikes] = useState(0);
-  // const token = Cookies.get(browserCookie);
-  // const decodeToken = ParseJWT(token);
   const router = useRouter();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);

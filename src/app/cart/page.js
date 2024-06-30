@@ -1,22 +1,19 @@
 "use client"
 import Image from 'next/image';
 import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RiDeleteBinLine } from "react-icons/ri";
 import { MdKeyboardArrowUp, MdKeyboardArrowDown } from "react-icons/md";
-import { removeCartItem } from '../redux/slice';
 import toast from 'react-hot-toast';
 
 const Cart = () => {
   const cartItems = useSelector((store) => store.user.cart);
-  const dispatch = useDispatch();
   const [expandedItems, setExpandedItems] = useState(cartItems.map(() => false));
   const [quantity, setQuantity] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleRemoveFromCart = (item) => {
     toast.success('Remove from Cart Successfully.')
-    dispatch(removeCartItem(item));
   }
 
   const handleToggle = (index) => {

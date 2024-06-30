@@ -1,13 +1,12 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import { fetchData } from "../api/get";
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { PAGE, COUNT } from '../utils/Constant';
 import Loader from '../components/home/loading';
 const RecentShops = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
