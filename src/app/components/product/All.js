@@ -194,7 +194,7 @@ const AllProducts = ({route, query}) => {
           onClick={() => router.push(`/product/${product._id}`)}
           >
             <h4 className="text-red-500">{product?.name}</h4>
-            <p>Rs. {product?.price}</p>
+            <p>{product?.price > 0 ? `RS. ${product?.price}` : "" }</p>
           </div>
         </div>
       ))}

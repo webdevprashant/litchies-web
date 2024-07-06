@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { fetchDataId } from "../../api/get";
 import { BiLike } from "react-icons/bi";
 import { CiHeart } from "react-icons/ci";
+import { LuPhone } from "react-icons/lu";
 import { FaWhatsapp } from "react-icons/fa";
 import { RiShareForward2Fill } from "react-icons/ri";
 import Image from "next/image";
@@ -59,7 +60,7 @@ const Product = ({params}) => {
         router.push("/profile/login");
       }
   } 
-  
+
   const wishListProduct = async (product) => {
       const response = JSON.parse(localStorage.getItem(userDetails));
       setUser(response);
@@ -159,8 +160,18 @@ const Product = ({params}) => {
 
 
                   <div className="flex lg:justify-start xsm:justify-evenly sm:text-sm">
-                    <button type="button" className="lg:w-3/12 sm:w-full cursor-pointer bg-red-600 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Book Now</button>
-                    <button type="button" onClick={() => handleAddToCart(product)} className="lg:w-3/12 sm:w-full cursor-pointer bg-black text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Add to Cart</button>
+                    {
+                      product.price > 0 ?
+                      <>
+                      <button type="button" className="lg:w-3/12 sm:w-full cursor-pointer bg-red-600 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Book Now</button>
+                      <button type="button" onClick={() => handleAddToCart(product)} className="lg:w-3/12 sm:w-full cursor-pointer bg-black text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Add to Cart</button>
+                      </>
+                      : 
+                      <>
+                      <button type="button" className="lg:w-3/12 sm:w-full cursor-pointer bg-sky-600 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg"><span className="flex items-center justify-around"> <LuPhone size={20} /> {product?.shopId?.mobile}</span></button>
+                      <button type="button" onClick={() => handleAddToCart(product)} className="lg:w-3/12 sm:w-full cursor-pointer bg-green-500 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg"><span className="flex items-center justify-around"> <FaWhatsapp size={20} /> Enquiry Now </span></button>
+                      </>
+                    }
                   </div>
                   
                     <hr className="border border-dotted border-red-900 my-2" />
