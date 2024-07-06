@@ -16,6 +16,9 @@ const userSlice = createSlice({
       state.cart.push(action.payload);
     },
     removeCartItem: (state, action) => {
+      state.cart.splice(state.cart.indexOf(action.payload) , 1);
+    },
+    removeCartItems: (state, action) => {
       state.cart.length = 0;
     },
     // Action to set Query Result
@@ -37,7 +40,7 @@ const userSlice = createSlice({
   }
 });
 
-export const { setQueryResult, addCartItem, removeCartItem,
+export const { setQueryResult, addCartItem, removeCartItems, removeCartItem, 
   setHomeCateogories, setHomeBanners, setHomeShops, setHomeProducts,
 } = userSlice.actions;
 export default userSlice.reducer;

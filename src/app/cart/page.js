@@ -8,7 +8,8 @@ import { fetchDataId } from '../api/get';
 import { userDetails } from '../utils/Constant';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCartItem, removeCartItem } from '../redux/slice';
+import { addCartItem, removeCartItems, removeCartItem } from '../redux/slice';
+import { Update } from '../api/put';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]); 
@@ -25,7 +26,7 @@ const Cart = () => {
       if (user) {
         const response = await fetchDataId(`/users/type?userId=` , `${user._id}&type=cart`);
         setCartItems(response.data);
-        dispatch(removeCartItem());
+        dispatch(removeCartItems());
         response.data.map(cart => dispatch(addCartItem(cart)))
       } else {
         router.push("/profile/login");
@@ -40,8 +41,24 @@ const Cart = () => {
   const [quantity, setQuantity] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleRemoveFromCart = (item) => {
-    toast.success('Remove from Cart Successfully.')
+  const handleRemoveFromCart = async (product) => {
+    if (typeof window !== undefined && window.localStorage) {
+      const userInfo = JSON.parse(window.localStorage.getItem(userDetails));
+      user = userInfo;
+    }
+    if (user) {
+      const response = await Update(`/product/${product._id}/uncart`, { userId: user._id });
+      if (response.status) {
+        dispatch(removeCartItem(product._id));
+        localStorage.setItem(userDetails, JSON.stringify(response.data));             // Save changes token in local
+        const updatedCarts = cartItems.filter(cart => cart._id !== product._id);
+        setCartItems(updatedCarts);
+        toast.success("Product removed from cart.");
+      } else {
+        toast.error("Something went wrong, Try again later.");
+      }
+    }
+
   }
 
   const handleToggle = (index) => {
