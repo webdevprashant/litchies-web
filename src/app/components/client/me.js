@@ -11,6 +11,7 @@ import Image from 'next/image';
 import { IoIosCall } from "react-icons/io";
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { fetchDataId } from '../../api/get';
 
 const User = () => {
   const router = useRouter();
@@ -23,15 +24,20 @@ const User = () => {
     }
   }
   useEffect(() => {
-    if (typeof window !== undefined && window.localStorage) {
-      const user = JSON.parse(window.localStorage.getItem(userDetails));
-      if (user) {
-        setUser(user);
-        window.localStorage.removeItem(auth);
-      } else {
-        router.push("/profile/login");
+    const fetchUser = async () => {
+      if (typeof window !== undefined && window.localStorage) {
+        const user = JSON.parse(window.localStorage.getItem(userDetails));
+        if (user) {
+          const response = await fetchDataId(`/users/`, user._id);
+          setUser(response.data);
+          window.localStorage.setItem(userDetails, JSON.stringify(response.data));
+          window.localStorage.removeItem(auth);
+        } else {
+          router.push("/profile/login");
+        }
       }
     }
+    fetchUser();
   }, []);
   return (
     <>
