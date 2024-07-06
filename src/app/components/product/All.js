@@ -93,7 +93,6 @@ const AllProducts = ({route, query}) => {
 
       if (productLike?.status || productUnLike?.status) {
         setProducts((prevProducts) => prevProducts.map((p) => p._id === product._id ? { ...p, usersLiking: updateUserLiking } : p))
-        // setProducts(productLike.data);
       } else {
         toast.error("Something went wrong, Try again later.......");
       }
@@ -103,12 +102,45 @@ const AllProducts = ({route, query}) => {
     }
   }
 
+  const wishListProduct = async (product) => {
+    const response = JSON.parse(localStorage.getItem(userDetails));
+    setUser(response);
+    if (user) {
+      let productWishList = null, productUnwishlist = null; let updatedWishListStatus;
+      if (product.wishList) {
+        // call remove wishlist api
+        productUnwishlist = await Update(`/product/${product._id}/unwishlist` , { userId: user._id });
+        if (productUnwishlist.status) {
+          updatedWishListStatus = false;
+          toast.success("Product removed from Wishlist.");
+         } else {
+            toast.error("Something went wrong, Try again later.......");
+        }
+      } else {
+        // call add to wishlist api
+        productWishList = await Update(`/product/${product._id}/wishlist` , { userId: user._id });
+        if (productWishList.status) {
+          updatedWishListStatus = true;
+          toast.success("Product added to Wishlist.");
+        } else {
+            toast.error("Something went wrong, Try again later.......");
+        }
+      }
+
+      // Update the products state
+      setProducts((prevProducts) => prevProducts.map((p) => p._id === product._id ? {...p, wishList: updatedWishListStatus } : p) )
+    } else {
+      // User not login
+      router.push("/profile/login");
+    }
+  } 
+
   return (
     <div className="grid lg:grid-cols-3 sm:grid-cols-1 justify-center lg:m-2 lg:p-2 font-serif">
       {products.map((product) => (
         <div
           className="col-span-1 min-h-fit border marginLeft-2 m-3 p-2 rounded-lg shadow-md hover:shadow-xl cursor-pointer"
-          key={product.createdAt}
+          key={product._id}
         >
           {/* Row 1 */}
           <div className="flex m-4 justify-between items-center"
@@ -140,7 +172,7 @@ const AllProducts = ({route, query}) => {
           {/* Row 2 (Product square image, iccons*/}
           <div className="flex justify-between m-4">
             <div className="">
-              <Image width={500} height={0}
+              <Image width={350} height={0}
                 onClick={() => router.push(`/product/${product._id}`)}
                 className="rounded-2xl bg-cover"
                 src={product.thumbnailURL}
@@ -149,9 +181,9 @@ const AllProducts = ({route, query}) => {
               />
             </div>
 
-            <div className="flex flex-col justify-around px-4">
+            <div className="flex flex-col justify-around pl-4">
               <span className="flex items-center"> {product?.usersLiking?.length > 0 ? product?.usersLiking?.length : "" } <BiLike onClick={() => likeProduct(product)} values="2" className={ product?.usersLiking.includes(user._id) ? "text-red-500 cursor-pointer"  :  "text-gray-500 cursor-pointer"} size={20} /></span>
-              <CiHeart className="text-gray-500 cursor-pointer" size={20} />
+              <span className="flex items-center cursor-pointer"><CiHeart onClick={() => wishListProduct(product)} className={ product.wishList ? "text-red-500" : "text-gray-500" } size={20} /></span>
               <FaWhatsapp className="text-white bg-green-500 rounded-full cursor-pointer" size={20} />
               <RiShareForward2Fill className="text-gray-500 cursor-pointer" size={20} />
             </div>

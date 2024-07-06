@@ -59,6 +59,7 @@ const Product = ({params}) => {
         router.push("/profile/login");
       }
   } 
+  
   const wishListProduct = async (product) => {
       const response = JSON.parse(localStorage.getItem(userDetails));
       setUser(response);
@@ -66,7 +67,6 @@ const Product = ({params}) => {
         let productWishList = null, productUnwishlist = null;
         if (wishList) {
           // call remove wishlist api
-          console.log("User unwishlist API : ");
           productUnwishlist = await Update(`/product/${product._id}/unwishlist` , { userId: user._id });
           if (productUnwishlist.status) {
             setWishList(false);
@@ -76,7 +76,6 @@ const Product = ({params}) => {
           }
         } else {
           // call add to wishlist api
-          console.log("User wishlist API : ");
           productWishList = await Update(`/product/${product._id}/wishlist` , { userId: user._id });
           if (productWishList.status) {
             setWishList(true);
