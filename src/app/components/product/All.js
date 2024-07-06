@@ -1,24 +1,49 @@
 "use client";
 import { useState, useEffect } from "react";
 import { fetchData, fetchDataQuery } from "../../api/get";
+import { Update } from "../../api/put";
 import { BiLike } from "react-icons/bi";
 import { CiHeart } from "react-icons/ci";
 import { FaWhatsapp } from "react-icons/fa";
 import { RiShareForward2Fill } from "react-icons/ri";
+import { FaStar } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { setQueryResult } from "../../redux/slice";
-import { COUNT, PAGE } from "../../utils/Constant";
+import { COUNT, PAGE, userDetails } from "../../utils/Constant";
 import Loader from "../home/loading";
+import toast from "react-hot-toast";
 
 const AllProducts = ({route, query}) => {
+  // const [liked, setLiked] = useState(false);
+  // const [totalLikes, setTotalLikes] = useState(0);
   const router = useRouter();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(PAGE);
   const dispatch = useDispatch();
+
+  // let userId;
+  // const likeProduct = async (productId) => {
+  //     if (typeof window !== undefined && window.localStorage) {
+  //       const response = JSON.parse(localStorage.getItem(userDetails));
+  //       console.log("Product response" , response);
+  //       userId = response?._id;
+  //     }
+  //     if (userId) {
+  //       // console.log(product?.usersLiking.includes(userId))
+  //       const productLike = await Update(`/product/${productId}/liking` , { userId: userId });
+  //       if (productLike.status) {
+  //         toast.success("Product liked successfully.");
+  //       } else {
+  //         toast.error("Something went wrong, Try again later.......");
+  //       }
+  //     } else {
+  //       router.push("/profile/login");
+  //     }
+  // } 
   const fetchProducts = async () => {
     setLoading(true);
     let allProduct;
@@ -62,10 +87,11 @@ const AllProducts = ({route, query}) => {
         <div
           className="col-span-1 min-h-fit border marginLeft-2 m-3 p-2 rounded-lg shadow-md hover:shadow-xl cursor-pointer"
           key={product.createdAt}
-          onClick={() => router.push(`/product/${product._id}`)}
         >
           {/* Row 1 */}
-          <div className="flex m-4 justify-between items-center">
+          <div className="flex m-4 justify-between items-center"
+          onClick={() => router.push(`/product/${product._id}`)}
+          >
             {/* Shop Bg Img */}
             <div className="flex justify-center bg-cover">
               <Image src={product.shopId.shopBgThumbnail} width={50} height={50} className="rounded-full bg-contain" alt="Shop Background Image" />
@@ -73,7 +99,7 @@ const AllProducts = ({route, query}) => {
 
             {/* Shop name, description */}
             <div className="w-8/12 mx-2">
-              <p>{product?.shopId?.name}</p>
+              <p className="text-red-500">{product?.shopId?.name}</p>
               <p
                 className=" h-10 overflow-hidden"
                 style={{ fontWeight: 50, fontSize: "smaller" }}
@@ -85,7 +111,7 @@ const AllProducts = ({route, query}) => {
             {/* shop ratings */}
             <div className="w-[50px]">
               <p>RATINGS</p>
-              <p>{product?.shopId?.ratings} ⭐</p>
+              <p className="flex items-center text-xl">{product?.shopId?.ratings} <span><FaStar className="text-red-500" size={20} /></span></p>
             </div>
           </div>
 
@@ -93,6 +119,7 @@ const AllProducts = ({route, query}) => {
           <div className="flex justify-between m-4">
             <div className="">
               <Image width={500} height={0}
+                onClick={() => router.push(`/product/${product._id}`)}
                 className="rounded-2xl bg-cover"
                 src={product.thumbnailURL}
                 style={{ height: '350px' }}
@@ -101,21 +128,22 @@ const AllProducts = ({route, query}) => {
             </div>
 
             <div className="flex flex-col justify-around px-4">
-              <BiLike size={30} />
-              <CiHeart size={30} />
-              <FaWhatsapp size={30} />
-              <RiShareForward2Fill size={30} />
+              {/* <span className="flex items-center"> {product?.usersLiking?.length > 0 ? product?.usersLiking?.length : "" } <BiLike onClick={() => likeProduct(product._id)} values="2" className={ product?.usersLiking.includes(userId) ? "text-red-500 cursor-pointer"  :  "text-gray-500 cursor-pointer"} size={20} /></span>
+              <CiHeart className="text-gray-500 cursor-pointer" size={20} />
+              <FaWhatsapp className="text-white bg-green-500 rounded-full cursor-pointer" size={20} />
+              <RiShareForward2Fill className="text-gray-500 cursor-pointer" size={20} /> */}
             </div>
           </div>
 
           {/* Row 3 */}
-          <div className="flex justify-between m-4">
-            <h4>{product?.name}</h4>
+          <div className="flex justify-between m-4" 
+          onClick={() => router.push(`/product/${product._id}`)}
+          >
+            <h4 className="text-red-500">{product?.name}</h4>
             <p>Rs. {product?.price}</p>
           </div>
         </div>
       ))}
-
       <div>{hasMore && loading && <Loader />}</div>
     </div>
   );

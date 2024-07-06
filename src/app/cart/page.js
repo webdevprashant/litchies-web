@@ -1,22 +1,64 @@
 "use client"
 import Image from 'next/image';
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react'
 import { RiDeleteBinLine } from "react-icons/ri";
 import { MdKeyboardArrowUp, MdKeyboardArrowDown } from "react-icons/md";
-import { removeCartItem } from '../redux/slice';
 import toast from 'react-hot-toast';
+import { fetchDataId } from '../api/get';
+import { userDetails } from '../utils/Constant';
+import { useRouter } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCartItem, removeCartItems, removeCartItem } from '../redux/slice';
+import { Update } from '../api/put';
 
 const Cart = () => {
-  const cartItems = useSelector((store) => store.user.cart);
+  const [cartItems, setCartItems] = useState([]); 
+  const carts = useSelector((store) => store.user.cart); 
   const dispatch = useDispatch();
-  const [expandedItems, setExpandedItems] = useState(cartItems.map(() => false));
+  const router = useRouter();
+  let user = null;
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      if (typeof window !== undefined && window.localStorage) {
+        const userInfo = JSON.parse(window.localStorage.getItem(userDetails));
+        user = userInfo;
+      }
+      if (user) {
+        const response = await fetchDataId(`/users/type?userId=` , `${user._id}&type=cart`);
+        setCartItems(response.data);
+        dispatch(removeCartItems());
+        response.data.map(cart => dispatch(addCartItem(cart)))
+      } else {
+        router.push("/profile/login");
+      }
+    }
+    fetchCartItems();
+  }, []);
+
+  const [expandedItems, setExpandedItems] = useState(
+    // cartItems.map(() => false)
+  );
   const [quantity, setQuantity] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleRemoveFromCart = (item) => {
-    toast.success('Remove from Cart Successfully.')
-    dispatch(removeCartItem(item));
+  const handleRemoveFromCart = async (product) => {
+    if (typeof window !== undefined && window.localStorage) {
+      const userInfo = JSON.parse(window.localStorage.getItem(userDetails));
+      user = userInfo;
+    }
+    if (user) {
+      const response = await Update(`/product/${product._id}/uncart`, { userId: user._id });
+      if (response.status) {
+        dispatch(removeCartItem(product._id));
+        localStorage.setItem(userDetails, JSON.stringify(response.data));             // Save changes token in local
+        const updatedCarts = cartItems.filter(cart => cart._id !== product._id);
+        setCartItems(updatedCarts);
+        toast.success("Product removed from cart.");
+      } else {
+        toast.error("Something went wrong, Try again later.");
+      }
+    }
+
   }
 
   const handleToggle = (index) => {
@@ -35,6 +77,8 @@ const Cart = () => {
 
   return (
     <div className='lg:w-7/12 sm:w-full lg:m-auto grid grid-cols-1 lg:gap-4 mt-10 lg:p-4'>
+      <div>
+      {/* {cartItems.length == 0 ? ( */}
       {cartItems.length == 0 ? (
         <h1 className='h-[50vh] flex justify-center items-center'>Cart is Empty, Please add some items to the cart.</h1>
       ) : (
@@ -51,10 +95,10 @@ const Cart = () => {
                 />
                 <div className='mx-4'>
                   <p className='text-red-400 font-semibold lg:text-xl sm:text-xs'>{product?.name}</p>
-                  <p>Total Order Price RS. <span className='text-red-400'>{product.price}</span></p>
+                  <p>Total Order Price RS. <span className='text-red-400'>{product?.price}</span></p>
                 </div>
               </div>
-              <button onClick={() => handleToggle(index)}>
+              <button className='text-gray-500' onClick={() => handleToggle(index)}>
                 {isOpen && expandedItems === index ? <MdKeyboardArrowUp size={30} /> : <MdKeyboardArrowDown size={30} />}
               </button>
             </div>
@@ -95,6 +139,7 @@ const Cart = () => {
           </div>
         ))
       )}
+      </div>
     </div>
   );
 };

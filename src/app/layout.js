@@ -26,6 +26,12 @@ export default function RootLayout({ children }) {
                 background: 'red',
                 color: 'white'
               }
+            },
+            custom: {
+              style: {
+                background: 'gray',
+                color: 'white'
+              }
             }
           }}
             position="top-right" />

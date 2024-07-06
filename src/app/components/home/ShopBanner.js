@@ -4,8 +4,12 @@ import { fetchData } from '../../api/get';
 import { useRouter } from 'next/navigation';
 import Shimmer from '../../utils/shimmer';
 import Image from 'next/image';
+import { useDispatch, useSelector } from 'react-redux';
+import { setHomeBanners } from '../../redux/slice';
 
 const ShopBanner = () => {
+  const dispatch = useDispatch();
+  const banner = useSelector((store) => store.user.homeBanners);
   const [banners, setBanners] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -13,8 +17,13 @@ const ShopBanner = () => {
   
   useEffect(() => {
     const fetchBanners = async () => {
-    const apiData = await fetchData("/shopBanner");
-    setBanners(apiData.data);
+    if (banner.length === 0) {
+      const apiData = await fetchData("/shopBanner");
+      setBanners(apiData.data);
+      dispatch(setHomeBanners(apiData.data));
+    } else {
+      setBanners(banner[0]);
+    }
     setLoading(false);
     }
     fetchBanners();
@@ -37,7 +46,7 @@ const ShopBanner = () => {
   >
     {loading ? 
       Array(20).fill("").map((data, index) => ( 
-        <Shimmer key={index} w={1000} h={400} /> 
+        <Shimmer key={index} w={1000} h={300} /> 
       )) : 
       banners.map((banner) => (
         <Image 
@@ -47,7 +56,7 @@ const ShopBanner = () => {
           alt="Banner"
           className='min-w-full'
           width={1400} // Add appropriate width
-          height={800} // Add appropriate height
+          height={300} // Add appropriate height
           style={{ cursor: 'pointer' }}
         />
       ))

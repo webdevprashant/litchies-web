@@ -4,15 +4,24 @@ import { useRouter } from 'next/navigation';
 import { fetchData } from '../../api/get';
 import Image from 'next/image';
 import Shimmer from '../../utils/shimmer';
+import { useDispatch, useSelector } from 'react-redux';
+import { setHomeShops } from "../../redux/slice";
 
 const Shops = ({title, route}) => {
+  const dispatch = useDispatch();
+  const shop = useSelector((store) => store.user.homeShops);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [shops, setShops] = useState([]);
   useEffect(() => {
     const fetchShops = async () => {
-      const allShops = await fetchData(route);
-      setShops(allShops.data);
+      if (shop.length === 0) {
+        const allShops = await fetchData(route);
+        setShops(allShops.data);
+        dispatch(setHomeShops(allShops.data));
+      } else {
+        setShops(shop[0]);
+      }
       setLoading(false);
     };
     fetchShops();

@@ -39,7 +39,7 @@ const RecentShop = ({params}) => {
             style={{ backgroundImage: `url(${shop.shopBgThumbnail})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundColor: 'red' }}
             >
             
-            <div className='absolute top-[4rem] border-4 rounded-full left-[34.33333%] md:left-[45.33333%] lg:left-[42.33333%]'>
+            <div className='absolute lg:top-[4rem] xsm:top-[3rem] border-4 rounded-full left-[34.33333%] md:left-[45.33333%] lg:left-[42.33333%]'>
               <Image width={120} height={100} className='rounded-full lg:w-40 sm:w-30' src={shop.shopThumbnail} alt="" />
             </div>
             </div>
