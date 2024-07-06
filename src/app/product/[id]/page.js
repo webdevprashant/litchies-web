@@ -21,6 +21,15 @@ const Product = ({params}) => {
   const router = useRouter();
   useEffect(() => {
     const fetchProduct = async () => {
+      if (typeof window !== undefined && window.localStorage) {
+        const user = JSON.parse(localStorage.getItem(userDetails));
+        if (user) {
+          const userData = await fetchDataId("/users/" , user._id);
+          setUser(userData.data);
+        } else {
+          router.push("/profile/login");
+        }
+      }
       const product = await fetchDataId(`/product/`, params.id);
       setProduct(product.data);
       setWishList(user?.wishList.includes(product?.data?._id));
@@ -28,12 +37,6 @@ const Product = ({params}) => {
     fetchProduct();
   }, []);
 
-  useEffect(() => {
-    if (typeof window !== undefined && window.localStorage) {
-      const response = JSON.parse(localStorage.getItem(userDetails));
-      setUser(response);
-    }
-  }, []);
   const likeProduct = async (product) => {
       if (user) {
         let productLike;
@@ -61,30 +64,23 @@ const Product = ({params}) => {
       setUser(response);
       if (user) {
         let productWishList = null, productUnwishlist = null;
-        // console.log("User before call API : " , user);
-        if (user.wishList.includes(product._id)) {
+        if (wishList) {
           // call remove wishlist api
           console.log("User unwishlist API : ");
           productUnwishlist = await Update(`/product/${product._id}/unwishlist` , { userId: user._id });
-          // productUnwishlist returns product model, need to change later from backend after discuss to frontend
           if (productUnwishlist.status) {
             setWishList(false);
             toast.success("Product removed from Wishlist.");
-            // Fetch User and update to localStorage
-            localStorage.setItem(userDetails, JSON.stringify(productUnwishlist.data));
-          } else {
+           } else {
               toast.error("Something went wrong, Try again later.......");
           }
         } else {
           // call add to wishlist api
           console.log("User wishlist API : ");
           productWishList = await Update(`/product/${product._id}/wishlist` , { userId: user._id });
-          if (productWishList) {
+          if (productWishList.status) {
             setWishList(true);
             toast.success("Product added to Wishlist.");
-            if (productWishList) {
-              localStorage.setItem(userDetails, JSON.stringify(productWishList.data));
-            }
           } else {
               toast.error("Something went wrong, Try again later.......");
           }
