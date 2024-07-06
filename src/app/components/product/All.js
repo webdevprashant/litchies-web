@@ -16,8 +16,7 @@ import Loader from "../home/loading";
 import toast from "react-hot-toast";
 
 const AllProducts = ({route, query}) => {
-  // const [liked, setLiked] = useState(false);
-  // const [totalLikes, setTotalLikes] = useState(0);
+  const [user, setUser] = useState(null);
   const router = useRouter();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -25,25 +24,6 @@ const AllProducts = ({route, query}) => {
   const [page, setPage] = useState(PAGE);
   const dispatch = useDispatch();
 
-  // let userId;
-  // const likeProduct = async (productId) => {
-  //     if (typeof window !== undefined && window.localStorage) {
-  //       const response = JSON.parse(localStorage.getItem(userDetails));
-  //       console.log("Product response" , response);
-  //       userId = response?._id;
-  //     }
-  //     if (userId) {
-  //       // console.log(product?.usersLiking.includes(userId))
-  //       const productLike = await Update(`/product/${productId}/liking` , { userId: userId });
-  //       if (productLike.status) {
-  //         toast.success("Product liked successfully.");
-  //       } else {
-  //         toast.error("Something went wrong, Try again later.......");
-  //       }
-  //     } else {
-  //       router.push("/profile/login");
-  //     }
-  // } 
   const fetchProducts = async () => {
     setLoading(true);
     let allProduct;
@@ -65,6 +45,10 @@ const AllProducts = ({route, query}) => {
   };
   useEffect(() => {
     console.log("Hi fetchProducts");
+    if (typeof window !== undefined && window.localStorage) {
+      const response = JSON.parse(localStorage.getItem(userDetails));
+      setUser(response);
+    }
     fetchProducts();
   }, [page]);
 
@@ -80,6 +64,44 @@ const AllProducts = ({route, query}) => {
       window.removeEventListener('scroll' , handleScroll);
     }
   }, []);
+
+  const likeProduct = async (product) => {
+    if (user) {
+      let productLike, productUnLike, updateUserLiking;
+      if (product.usersLiking.includes(user._id)) {
+        // call remove cart api
+        productUnLike = await Update(`/product/${product._id}/unliking` , { userId: user._id });
+        if (productUnLike.status) {
+          // Remove user from usersLiking array
+          updateUserLiking = product.usersLiking.filter(uid => uid !== user._id);
+          toast.success("Product unLiked.");
+        } else {
+          toast.error("Something went wrong, Try again later.......");
+        }
+      } else {
+        // call add cart api
+        productLike = await Update(`/product/${product._id}/liking` , { userId: user._id });
+        if (productLike.status) {
+          console.log("Product userLiking " , product);
+          // Add user to usersLiking array
+          updateUserLiking = [...product.usersLiking, user._id];
+          toast.success("Product Liked.");
+        } else {
+          toast.error("Something went wrong, Try again later.......");
+        }
+      }
+
+      if (productLike?.status || productUnLike?.status) {
+        setProducts((prevProducts) => prevProducts.map((p) => p._id === product._id ? { ...p, usersLiking: updateUserLiking } : p))
+        // setProducts(productLike.data);
+      } else {
+        toast.error("Something went wrong, Try again later.......");
+      }
+    } else {
+      // User not login
+      router.push("/profile/login");
+    }
+  }
 
   return (
     <div className="grid lg:grid-cols-3 sm:grid-cols-1 justify-center lg:m-2 lg:p-2 font-serif">
@@ -128,10 +150,10 @@ const AllProducts = ({route, query}) => {
             </div>
 
             <div className="flex flex-col justify-around px-4">
-              {/* <span className="flex items-center"> {product?.usersLiking?.length > 0 ? product?.usersLiking?.length : "" } <BiLike onClick={() => likeProduct(product._id)} values="2" className={ product?.usersLiking.includes(userId) ? "text-red-500 cursor-pointer"  :  "text-gray-500 cursor-pointer"} size={20} /></span>
+              <span className="flex items-center"> {product?.usersLiking?.length > 0 ? product?.usersLiking?.length : "" } <BiLike onClick={() => likeProduct(product)} values="2" className={ product?.usersLiking.includes(user._id) ? "text-red-500 cursor-pointer"  :  "text-gray-500 cursor-pointer"} size={20} /></span>
               <CiHeart className="text-gray-500 cursor-pointer" size={20} />
               <FaWhatsapp className="text-white bg-green-500 rounded-full cursor-pointer" size={20} />
-              <RiShareForward2Fill className="text-gray-500 cursor-pointer" size={20} /> */}
+              <RiShareForward2Fill className="text-gray-500 cursor-pointer" size={20} />
             </div>
           </div>
 
