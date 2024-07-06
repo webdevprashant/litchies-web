@@ -6,60 +6,117 @@ import { CiHeart } from "react-icons/ci";
 import { FaWhatsapp } from "react-icons/fa";
 import { RiShareForward2Fill } from "react-icons/ri";
 import Image from "next/image";
-import { useDispatch, useSelector } from "react-redux";
-import { addCartItem } from "../../redux/slice";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { formDataHandle } from "../../api/post"
+import { userDetails } from "../../utils/Constant";
+import { Update } from "../../api/put";
+import { useDispatch } from "react-redux";
+import { addCartItem } from "../../redux/slice";
 const Product = ({params}) => {
+  const [user, setUser] = useState(null);
+  const [wishList, setWishList] = useState(false);
+  const [addToCart, setAddToCart] = useState(false);
   const dispatch = useDispatch();
-  const userStore = useSelector((store) => store.user);
+  const [product, setProduct] = useState([]);
   const router = useRouter();
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const product = await fetchDataId(`/product/`, params.id);
+      setProduct(product.data);
+      setWishList(user?.wishList.includes(product?.data?._id));
+    };
+    fetchProduct();
+  }, []);
 
-  let userId;
+  useEffect(() => {
+    if (typeof window !== undefined && window.localStorage) {
+      const response = JSON.parse(localStorage.getItem(userDetails));
+      setUser(response);
+    }
+  }, []);
   const likeProduct = async (product) => {
-      if (typeof window !== undefined && window.localStorage) {
-        const response = JSON.parse(localStorage.getItem(userDetails));
-        userId = response?._id;
-      }
-      if (userId && product.usersLiking.includes(userId)) {
-
-      }
-      if (userId) {
-        const productLike = await Update(`/product/${product._id}/liking` , { userId: userId });
+      if (user) {
+        let productLike;
+        if (product.usersLiking.includes(user._id)) {
+          // call remove cart api
+          productLike = await Update(`/product/${product._id}/unliking` , { userId: user._id });
+          toast.success("Product unLiked.");
+        } else {
+          // call add cart api
+          productLike = await Update(`/product/${product._id}/liking` , { userId: user._id });
+          toast.success("Product Liked.");
+        }
         if (productLike.status) {
-          toast.success("Product liked successfully.");
+          setProduct(productLike.data);
         } else {
           toast.error("Something went wrong, Try again later.......");
         }
       } else {
+        // User not login
+        router.push("/profile/login");
+      }
+  } 
+  const wishListProduct = async (product) => {
+      const response = JSON.parse(localStorage.getItem(userDetails));
+      setUser(response);
+      if (user) {
+        let productWishList = null, productUnwishlist = null;
+        // console.log("User before call API : " , user);
+        if (user.wishList.includes(product._id)) {
+          // call remove wishlist api
+          console.log("User unwishlist API : ");
+          productUnwishlist = await Update(`/product/${product._id}/unwishlist` , { userId: user._id });
+          // productUnwishlist returns product model, need to change later from backend after discuss to frontend
+          if (productUnwishlist.status) {
+            setWishList(false);
+            toast.success("Product removed from Wishlist.");
+            // Fetch User and update to localStorage
+            localStorage.setItem(userDetails, JSON.stringify(productUnwishlist.data));
+          } else {
+              toast.error("Something went wrong, Try again later.......");
+          }
+        } else {
+          // call add to wishlist api
+          console.log("User wishlist API : ");
+          productWishList = await Update(`/product/${product._id}/wishlist` , { userId: user._id });
+          if (productWishList) {
+            setWishList(true);
+            toast.success("Product added to Wishlist.");
+            if (productWishList) {
+              localStorage.setItem(userDetails, JSON.stringify(productWishList.data));
+            }
+          } else {
+              toast.error("Something went wrong, Try again later.......");
+          }
+        }
+      } else {
+        // User not login
         router.push("/profile/login");
       }
   } 
 
-  const handleAddToCart = async (item) => {
-    if (userStore.cart.includes(item)) {
-      toast.custom("Item already added in Cart.");
-      return
-    }
-    if (userStore.userId) {
+  const handleAddToCart = async (product) => {
+    if (user) {
       // Add to Cart API
-      const response = await formDataHandle(`/users/type?userId=${userStore.userId}&type=cart`, {});
-      toast.success(response.message);
-      dispatch(addCartItem(item));
+      let response
+      if (!addToCart) {
+        response = await Update(`/product/${product._id}/cart`, { userId: user._id });
+        if (response.status) {
+          dispatch(addCartItem(product._id));
+          localStorage.setItem(userDetails, JSON.stringify(response.data));             // Save changes token in local
+          toast.success("Product added to cart");
+          setAddToCart(true);
+        } else {
+          toast.error("Something went wrong, Try again later.");
+        }
+      } else {
+        toast.success("Product already added to cart");
+      }
     } else {
       // Login First before add to cart
       router.push("/profile/login")
     } 
   }
-  const [product, setProduct] = useState([]);
-  useEffect(() => {
-    const fetchProduct = async () => {
-      const product = await fetchDataId(`/product/`, params.id);
-      setProduct(product.data);
-    };
-    fetchProduct();
-  }, [params.id]);
     return (
         <div className="">
             <div
@@ -77,8 +134,8 @@ const Product = ({params}) => {
                 </div>
 
                 <div className="flex justify-evenly items-center my-4">
-                <span className="flex items-center"><BiLike onClick={() => likeProduct(product)} className={ product?.usersLiking?.length > 0 ? "text-red-500" : "text-gray-500"} size={20} /> {product?.usersLiking?.length > 0 ? product?.usersLiking?.length : ""  } </span>
-                <CiHeart className="text-gray-500" size={20} />
+                <span className="flex items-center cursor-pointer"><BiLike onClick={() => likeProduct(product)} className={ product?.usersLiking?.length > 0 ? "text-red-500" : "text-gray-500"} size={20} /> {product?.usersLiking?.length > 0 ? product?.usersLiking?.length : ""  } </span>
+                <span className="flex items-center cursor-pointer"><CiHeart onClick={() => wishListProduct(product)} className={ wishList ? "text-red-500" : "text-gray-500" } size={20} /></span>
                 <FaWhatsapp className="text-white bg-green-500 rounded-full" size={20} />
                 <RiShareForward2Fill className="text-gray-500" size={20} />
                 </div>

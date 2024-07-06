@@ -1,12 +1,25 @@
 "use client";
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react'
 import { FaSearch } from "react-icons/fa";
+import { userDetails } from '../../utils/Constant';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCartItem } from '../../redux/slice';
 
 const Header = () => {
-  const cartItems = useSelector((store) => store.user.cart);
+  const carts = useSelector((store) => store.user.cart);
+  const [user, setUser] = useState();
+  const dispatch = useDispatch();
+  useEffect(() => {
+      if (typeof window !== undefined && window.localStorage) {
+      const user = JSON.parse(window.localStorage.getItem(userDetails));
+      if (user) {
+        setUser(user);
+        user.cart.map(cart => dispatch(addCartItem(cart)))
+      }
+      }
+  }, [])
   const [searchQuery, setSearchQuery] = useState(null);
   const handleInputChange = (e) => {
       setSearchQuery(e.target.value);
@@ -30,7 +43,7 @@ const Header = () => {
         </Link>
         </div>
       <Link href="/cart"><div className="flex relative cursor-pointer">
-        <Image width={40} height={30} className='rounded-2xl xsm:my-2 bg-cover' src="/images/shopping-cart.svg" alt="Shopping Cart" /> <span className='absolute left-6 bg bg-red-400 px-1 m-1 rounded-2xl text-white text-[12px]'>{cartItems.length > 0 ? cartItems.length : "" }</span>
+        <Image width={40} height={30} className='rounded-2xl xsm:my-2 bg-cover' src="/images/shopping-cart.svg" alt="Shopping Cart" /> <span className='absolute left-6 bg bg-red-400 px-1 m-1 rounded-2xl text-white text-[12px]'>{carts?.length > 0 ? carts?.length : "" }</span>
       </div>
       </Link>
       </div>

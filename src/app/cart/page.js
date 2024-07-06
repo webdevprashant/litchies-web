@@ -1,14 +1,42 @@
 "use client"
 import Image from 'next/image';
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react'
 import { RiDeleteBinLine } from "react-icons/ri";
 import { MdKeyboardArrowUp, MdKeyboardArrowDown } from "react-icons/md";
 import toast from 'react-hot-toast';
+import { fetchDataId } from '../api/get';
+import { userDetails } from '../utils/Constant';
+import { useRouter } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCartItem, removeCartItem } from '../redux/slice';
 
 const Cart = () => {
-  const cartItems = useSelector((store) => store.user.cart);
-  const [expandedItems, setExpandedItems] = useState(cartItems.map(() => false));
+  const [cartItems, setCartItems] = useState([]); 
+  const carts = useSelector((store) => store.user.cart); 
+  const dispatch = useDispatch();
+  const router = useRouter();
+  let user = null;
+  useEffect(() => {
+    const fetchCartItems = async () => {
+      if (typeof window !== undefined && window.localStorage) {
+        const userInfo = JSON.parse(window.localStorage.getItem(userDetails));
+        user = userInfo;
+      }
+      if (user) {
+        const response = await fetchDataId(`/users/type?userId=` , `${user._id}&type=cart`);
+        setCartItems(response.data);
+        dispatch(removeCartItem());
+        response.data.map(cart => dispatch(addCartItem(cart)))
+      } else {
+        router.push("/profile/login");
+      }
+    }
+    fetchCartItems();
+  }, []);
+
+  const [expandedItems, setExpandedItems] = useState(
+    // cartItems.map(() => false)
+  );
   const [quantity, setQuantity] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -32,6 +60,8 @@ const Cart = () => {
 
   return (
     <div className='lg:w-7/12 sm:w-full lg:m-auto grid grid-cols-1 lg:gap-4 mt-10 lg:p-4'>
+      <div>
+      {/* {cartItems.length == 0 ? ( */}
       {cartItems.length == 0 ? (
         <h1 className='h-[50vh] flex justify-center items-center'>Cart is Empty, Please add some items to the cart.</h1>
       ) : (
@@ -48,7 +78,7 @@ const Cart = () => {
                 />
                 <div className='mx-4'>
                   <p className='text-red-400 font-semibold lg:text-xl sm:text-xs'>{product?.name}</p>
-                  <p>Total Order Price RS. <span className='text-red-400'>{product.price}</span></p>
+                  <p>Total Order Price RS. <span className='text-red-400'>{product?.price}</span></p>
                 </div>
               </div>
               <button className='text-gray-500' onClick={() => handleToggle(index)}>
@@ -92,6 +122,7 @@ const Cart = () => {
           </div>
         ))
       )}
+      </div>
     </div>
   );
 };

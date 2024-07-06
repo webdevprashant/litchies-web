@@ -15,6 +15,9 @@ const userSlice = createSlice({
     addCartItem: (state, action) => {       // Add Items to Cart
       state.cart.push(action.payload);
     },
+    removeCartItem: (state, action) => {
+      state.cart.length = 0;
+    },
     // Action to set Query Result
     setQueryResult: (state , action ) => {
       state.products.push(action.payload);
@@ -34,7 +37,7 @@ const userSlice = createSlice({
   }
 });
 
-export const { setQueryResult, addCartItem,
+export const { setQueryResult, addCartItem, removeCartItem,
   setHomeCateogories, setHomeBanners, setHomeShops, setHomeProducts,
 } = userSlice.actions;
 export default userSlice.reducer;
