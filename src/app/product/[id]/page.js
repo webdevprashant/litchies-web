@@ -13,6 +13,8 @@ import { userDetails } from "../../utils/Constant";
 import { Update } from "../../api/put";
 import { useDispatch } from "react-redux";
 import { addCartItem } from "../../redux/slice";
+import { Enquiry } from "../../utils/utils"
+import Link from "next/link";
 const Product = ({params}) => {
   const [user, setUser] = useState(null);
   const [wishList, setWishList] = useState(false);
@@ -169,7 +171,8 @@ const Product = ({params}) => {
                       : 
                       <>
                       <button type="button" className="lg:w-3/12 sm:w-full cursor-pointer bg-sky-600 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg"><span className="flex items-center justify-around"> <LuPhone size={20} /> {product?.shopId?.mobile}</span></button>
-                      <button type="button" onClick={() => handleAddToCart(product)} className="lg:w-3/12 sm:w-full cursor-pointer bg-green-500 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg"><span className="flex items-center justify-around"> <FaWhatsapp size={20} /> Enquiry Now </span></button>
+                      <Link  href={`https://web.whatsapp.com/send?phone=${product?.shopId?.mobile}&text=${encodeURI(Enquiry(user?.firstName, product._id))}&app_absent=0`} target="_blank" className="lg:w-3/12 sm:w-full cursor-pointer bg-green-500 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg"><span className="flex items-center justify-around"> <FaWhatsapp size={20} /> Enquiry Now </span></Link>
+                      {/* <Link></Link> */}
                       </>
                     }
                   </div>
