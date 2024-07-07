@@ -13,21 +13,29 @@ import { Update } from '../api/put';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]); 
+  const [loading, setLoading] = useState(false);
   const carts = useSelector((store) => store.user.cart); 
   const dispatch = useDispatch();
   const router = useRouter();
   let user = null;
   useEffect(() => {
     const fetchCartItems = async () => {
+      setLoading(true);
       if (typeof window !== undefined && window.localStorage) {
         const userInfo = JSON.parse(window.localStorage.getItem(userDetails));
         user = userInfo;
       }
       if (user) {
-        const response = await fetchDataId(`/users/type?userId=` , `${user._id}&type=cart`);
-        setCartItems(response.data);
-        dispatch(removeCartItems());
-        response.data.map(cart => dispatch(addCartItem(cart)))
+        try {
+          const response = await fetchDataId(`/users/type?userId=` , `${user._id}&type=cart`);
+          setCartItems(response.data);
+          dispatch(removeCartItems());
+          response.data.map(cart => dispatch(addCartItem(cart)))
+        } catch(err) {
+          console.error('Error fetching Carts :', err);
+        } finally {
+          setLoading(false);
+        }
       } else {
         router.push("/profile/login");
       }
@@ -79,11 +87,11 @@ const Cart = () => {
     <div className='lg:w-7/12 sm:w-full lg:m-auto grid grid-cols-1 lg:gap-4 mt-10 lg:p-4'>
       <div>
       {/* {cartItems.length == 0 ? ( */}
-      {cartItems.length == 0 ? (
-        <h1 className='h-[50vh] flex justify-center items-center'>Cart is Empty, Please add some items to the cart.</h1>
+      { !loading && cartItems.length == 0 ? (
+        <h1 className='h-[50vh] flex justify-center items-center text-pretty font-semibold'>Cart is Empty, Please add some items to the cart.</h1>
       ) : (
         cartItems.map((product, index) => (
-          <div key={product._id} className='shadow-xl m-2 p-2'>
+          <div key={product._id} className='shadow-xl m-2 p-2 w-full'>
             <div className='flex justify-between'>
               <div className="flex items-center">
                 <Image
@@ -103,7 +111,7 @@ const Cart = () => {
               </button>
             </div>
             {expandedItems === index && (
-              <ul className='w-full mt-4'>
+              <ul className='w-full mt-8 ml-2'>
                 <li>
                   <div className='flex justify-between'>
                     <div className="flex items-center">

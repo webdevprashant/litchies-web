@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { fetchDataId } from "../../api/get";
 import { BiLike } from "react-icons/bi";
 import { CiHeart } from "react-icons/ci";
+import { LuPhone } from "react-icons/lu";
 import { FaWhatsapp } from "react-icons/fa";
 import { RiShareForward2Fill } from "react-icons/ri";
 import Image from "next/image";
@@ -12,6 +13,8 @@ import { userDetails } from "../../utils/Constant";
 import { Update } from "../../api/put";
 import { useDispatch } from "react-redux";
 import { addCartItem } from "../../redux/slice";
+import { Enquiry, ProductShare } from "../../utils/utils"
+import Link from "next/link";
 const Product = ({params}) => {
   const [user, setUser] = useState(null);
   const [wishList, setWishList] = useState(false);
@@ -21,6 +24,15 @@ const Product = ({params}) => {
   const router = useRouter();
   useEffect(() => {
     const fetchProduct = async () => {
+      if (typeof window !== undefined && window.localStorage) {
+        const user = JSON.parse(localStorage.getItem(userDetails));
+        if (user) {
+          const userData = await fetchDataId("/users/" , user._id);
+          setUser(userData.data);
+        } else {
+          router.push("/profile/login");
+        }
+      }
       const product = await fetchDataId(`/product/`, params.id);
       setProduct(product.data);
       setWishList(user?.wishList.includes(product?.data?._id));
@@ -28,12 +40,6 @@ const Product = ({params}) => {
     fetchProduct();
   }, []);
 
-  useEffect(() => {
-    if (typeof window !== undefined && window.localStorage) {
-      const response = JSON.parse(localStorage.getItem(userDetails));
-      setUser(response);
-    }
-  }, []);
   const likeProduct = async (product) => {
       if (user) {
         let productLike;
@@ -56,35 +62,27 @@ const Product = ({params}) => {
         router.push("/profile/login");
       }
   } 
+
   const wishListProduct = async (product) => {
       const response = JSON.parse(localStorage.getItem(userDetails));
       setUser(response);
       if (user) {
         let productWishList = null, productUnwishlist = null;
-        // console.log("User before call API : " , user);
-        if (user.wishList.includes(product._id)) {
+        if (wishList) {
           // call remove wishlist api
-          console.log("User unwishlist API : ");
           productUnwishlist = await Update(`/product/${product._id}/unwishlist` , { userId: user._id });
-          // productUnwishlist returns product model, need to change later from backend after discuss to frontend
           if (productUnwishlist.status) {
             setWishList(false);
             toast.success("Product removed from Wishlist.");
-            // Fetch User and update to localStorage
-            localStorage.setItem(userDetails, JSON.stringify(productUnwishlist.data));
-          } else {
+           } else {
               toast.error("Something went wrong, Try again later.......");
           }
         } else {
           // call add to wishlist api
-          console.log("User wishlist API : ");
           productWishList = await Update(`/product/${product._id}/wishlist` , { userId: user._id });
-          if (productWishList) {
+          if (productWishList.status) {
             setWishList(true);
             toast.success("Product added to Wishlist.");
-            if (productWishList) {
-              localStorage.setItem(userDetails, JSON.stringify(productWishList.data));
-            }
           } else {
               toast.error("Something went wrong, Try again later.......");
           }
@@ -136,8 +134,8 @@ const Product = ({params}) => {
                 <div className="flex justify-evenly items-center my-4">
                 <span className="flex items-center cursor-pointer"><BiLike onClick={() => likeProduct(product)} className={ product?.usersLiking?.length > 0 ? "text-red-500" : "text-gray-500"} size={20} /> {product?.usersLiking?.length > 0 ? product?.usersLiking?.length : ""  } </span>
                 <span className="flex items-center cursor-pointer"><CiHeart onClick={() => wishListProduct(product)} className={ wishList ? "text-red-500" : "text-gray-500" } size={20} /></span>
-                <FaWhatsapp className="text-white bg-green-500 rounded-full" size={20} />
-                <RiShareForward2Fill className="text-gray-500" size={20} />
+                <Link href={`https://web.whatsapp.com/send?phone=${product?.shopId?.mobile}&text=${encodeURI(Enquiry(user?.firstName, product._id))}&app_absent=0`} target="_blank"><FaWhatsapp className="text-white bg-green-500 rounded-full" size={20} /></Link>
+                <Link href={`https://web.whatsapp.com/send?text=${encodeURI(ProductShare(product.name, product._id))}&app_absent=0`} target="_blank"><RiShareForward2Fill className="text-gray-500" size={20} /></Link>
                 </div>
               </div>
 
@@ -164,8 +162,19 @@ const Product = ({params}) => {
 
 
                   <div className="flex lg:justify-start xsm:justify-evenly sm:text-sm">
-                    <button type="button" className="lg:w-3/12 sm:w-full cursor-pointer bg-red-600 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Book Now</button>
-                    <button type="button" onClick={() => handleAddToCart(product)} className="lg:w-3/12 sm:w-full cursor-pointer bg-black text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Add to Cart</button>
+                    {
+                      product.price > 0 ?
+                      <>
+                      <button type="button" className="lg:w-3/12 sm:w-full cursor-pointer bg-red-600 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Book Now</button>
+                      <button type="button" onClick={() => handleAddToCart(product)} className="lg:w-3/12 sm:w-full cursor-pointer bg-black text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Add to Cart</button>
+                      </>
+                      : 
+                      <>
+                      <button type="button" className="lg:w-3/12 sm:w-full cursor-pointer bg-sky-600 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg"><span className="flex items-center justify-around"> <LuPhone size={20} /> {product?.shopId?.mobile}</span></button>
+                      <Link  href={`https://web.whatsapp.com/send?phone=${product?.shopId?.mobile}&text=${encodeURI(Enquiry(user?.firstName, product._id))}&app_absent=0`} target="_blank" className="lg:w-3/12 sm:w-full cursor-pointer bg-green-500 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg"><span className="flex items-center justify-around"> <FaWhatsapp size={20} /> Enquiry Now </span></Link>
+                      {/* <Link></Link> */}
+                      </>
+                    }
                   </div>
                   
                     <hr className="border border-dotted border-red-900 my-2" />

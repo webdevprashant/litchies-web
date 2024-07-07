@@ -14,10 +14,11 @@ import { setQueryResult } from "../../redux/slice";
 import { COUNT, PAGE, userDetails } from "../../utils/Constant";
 import Loader from "../home/loading";
 import toast from "react-hot-toast";
+import { Enquiry, ProductShare } from "../../utils/utils";
+import Link from "next/link";
 
 const AllProducts = ({route, query}) => {
-  // const [liked, setLiked] = useState(false);
-  // const [totalLikes, setTotalLikes] = useState(0);
+  const [user, setUser] = useState(null);
   const router = useRouter();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -25,25 +26,6 @@ const AllProducts = ({route, query}) => {
   const [page, setPage] = useState(PAGE);
   const dispatch = useDispatch();
 
-  // let userId;
-  // const likeProduct = async (productId) => {
-  //     if (typeof window !== undefined && window.localStorage) {
-  //       const response = JSON.parse(localStorage.getItem(userDetails));
-  //       console.log("Product response" , response);
-  //       userId = response?._id;
-  //     }
-  //     if (userId) {
-  //       // console.log(product?.usersLiking.includes(userId))
-  //       const productLike = await Update(`/product/${productId}/liking` , { userId: userId });
-  //       if (productLike.status) {
-  //         toast.success("Product liked successfully.");
-  //       } else {
-  //         toast.error("Something went wrong, Try again later.......");
-  //       }
-  //     } else {
-  //       router.push("/profile/login");
-  //     }
-  // } 
   const fetchProducts = async () => {
     setLoading(true);
     let allProduct;
@@ -65,6 +47,10 @@ const AllProducts = ({route, query}) => {
   };
   useEffect(() => {
     console.log("Hi fetchProducts");
+    if (typeof window !== undefined && window.localStorage) {
+      const response = JSON.parse(localStorage.getItem(userDetails));
+      setUser(response);
+    }
     fetchProducts();
   }, [page]);
 
@@ -81,12 +67,84 @@ const AllProducts = ({route, query}) => {
     }
   }, []);
 
+  const likeProduct = async (product) => {
+    if (user) {
+      let productLike, productUnLike, updateUserLiking;
+      if (product.usersLiking.includes(user._id)) {
+        // call remove cart api
+        productUnLike = await Update(`/product/${product._id}/unliking` , { userId: user._id });
+        if (productUnLike.status) {
+          // Remove user from usersLiking array
+          updateUserLiking = product.usersLiking.filter(uid => uid !== user._id);
+          toast.success("Product unLiked.");
+        } else {
+          toast.error("Something went wrong, Try again later.......");
+        }
+      } else {
+        // call add cart api
+        productLike = await Update(`/product/${product._id}/liking` , { userId: user._id });
+        if (productLike.status) {
+          console.log("Product userLiking " , product);
+          // Add user to usersLiking array
+          updateUserLiking = [...product.usersLiking, user._id];
+          toast.success("Product Liked.");
+        } else {
+          toast.error("Something went wrong, Try again later.......");
+        }
+      }
+
+      if (productLike?.status || productUnLike?.status) {
+        setProducts((prevProducts) => prevProducts.map((p) => p._id === product._id ? { ...p, usersLiking: updateUserLiking } : p))
+      } else {
+        toast.error("Something went wrong, Try again later.......");
+      }
+    } else {
+      // User not login
+      router.push("/profile/login");
+    }
+  }
+
+  const wishListProduct = async (product) => {
+    const response = JSON.parse(localStorage.getItem(userDetails));
+    setUser(response);
+    if (user) {
+      let productWishList = null, productUnwishlist = null; let updatedWishListStatus;
+      if (product.wishList) {
+        // call remove wishlist api
+        productUnwishlist = await Update(`/product/${product._id}/unwishlist` , { userId: user._id });
+        if (productUnwishlist.status) {
+          updatedWishListStatus = false;
+          toast.success("Product removed from Wishlist.");
+         } else {
+            toast.error("Something went wrong, Try again later.......");
+        }
+      } else {
+        // call add to wishlist api
+        productWishList = await Update(`/product/${product._id}/wishlist` , { userId: user._id });
+        if (productWishList.status) {
+          updatedWishListStatus = true;
+          toast.success("Product added to Wishlist.");
+        } else {
+            toast.error("Something went wrong, Try again later.......");
+        }
+      }
+
+      // Update the products state
+      setProducts((prevProducts) => prevProducts.map((p) => p._id === product._id ? {...p, wishList: updatedWishListStatus } : p) )
+    } else {
+      // User not login
+      router.push("/profile/login");
+    }
+  } 
+
   return (
     <div className="grid lg:grid-cols-3 sm:grid-cols-1 justify-center lg:m-2 lg:p-2 font-serif">
-      {products.map((product) => (
+      {!loading && products.length === 0 ? 
+        <h1 className='h-[50vh] flex justify-center items-center text-pretty font-semibold'>No Products Found.</h1>
+      : products.map((product) => (
         <div
           className="col-span-1 min-h-fit border marginLeft-2 m-3 p-2 rounded-lg shadow-md hover:shadow-xl cursor-pointer"
-          key={product.createdAt}
+          key={product._id}
         >
           {/* Row 1 */}
           <div className="flex m-4 justify-between items-center"
@@ -118,7 +176,7 @@ const AllProducts = ({route, query}) => {
           {/* Row 2 (Product square image, iccons*/}
           <div className="flex justify-between m-4">
             <div className="">
-              <Image width={500} height={0}
+              <Image width={350} height={0}
                 onClick={() => router.push(`/product/${product._id}`)}
                 className="rounded-2xl bg-cover"
                 src={product.thumbnailURL}
@@ -127,11 +185,11 @@ const AllProducts = ({route, query}) => {
               />
             </div>
 
-            <div className="flex flex-col justify-around px-4">
-              {/* <span className="flex items-center"> {product?.usersLiking?.length > 0 ? product?.usersLiking?.length : "" } <BiLike onClick={() => likeProduct(product._id)} values="2" className={ product?.usersLiking.includes(userId) ? "text-red-500 cursor-pointer"  :  "text-gray-500 cursor-pointer"} size={20} /></span>
-              <CiHeart className="text-gray-500 cursor-pointer" size={20} />
-              <FaWhatsapp className="text-white bg-green-500 rounded-full cursor-pointer" size={20} />
-              <RiShareForward2Fill className="text-gray-500 cursor-pointer" size={20} /> */}
+            <div className="flex flex-col justify-around pl-4">
+              <span className="flex items-center"> {product?.usersLiking?.length > 0 ? product?.usersLiking?.length : "" } <BiLike onClick={() => likeProduct(product)} values="2" className={ product?.usersLiking.includes(user._id) ? "text-red-500 cursor-pointer"  :  "text-gray-500 cursor-pointer"} size={20} /></span>
+              <span className="flex items-center cursor-pointer"><CiHeart onClick={() => wishListProduct(product)} className={ product.wishList ? "text-red-500" : "text-gray-500" } size={20} /></span>
+              <Link href={`https://web.whatsapp.com/send?phone=${product?.shopId?.mobile}&text=${encodeURI(Enquiry(user?.firstName, product._id))}&app_absent=0`} target="_blank"><FaWhatsapp className="text-white bg-green-500 rounded-full" size={20} /></Link>
+              <Link href={`https://web.whatsapp.com/send?text=${encodeURI(ProductShare(product.name, product._id))}&app_absent=0`} target="_blank"><RiShareForward2Fill className="text-gray-500" size={20} /></Link>
             </div>
           </div>
 
@@ -140,7 +198,7 @@ const AllProducts = ({route, query}) => {
           onClick={() => router.push(`/product/${product._id}`)}
           >
             <h4 className="text-red-500">{product?.name}</h4>
-            <p>Rs. {product?.price}</p>
+            <p>{product?.price > 0 ? `RS. ${product?.price}` : "" }</p>
           </div>
         </div>
       ))}

@@ -1,26 +1,22 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { fetchData } from "../api/get";
+import { fetchData } from "../../api/get";
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { PAGE, COUNT } from '../utils/Constant';
-import Loader from '../components/home/loading';
-const RecentShops = () => {
+import { PAGE, COUNT } from '../../utils/Constant';
+import Loader from '../../components/home/loading';
+const Shops = ({route}) => {
   const router = useRouter();
   const [shops, setShops] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(PAGE);
   const fetchShops = async () => {
     setLoading(true);
     try {
-      const allShops = await fetchData(`/shops/recent` + `?page=${page}&count=${COUNT}`);
-      // Ensure no repeated data by filtering out duplicates (if necessary)
-      const newShops = allShops.data.filter(
-        newShop => !shops.find(existingShop => existingShop._id === newShop._id)
-      );
-      newShops.length > 0 ? setHasMore(true) : setHasMore(false);
-      setShops(prevShops => [...prevShops, ...newShops]);
+      const allShops = await fetchData(route + `?page=${page}&count=${COUNT}`);
+      allShops.length > 0 ? setHasMore(true) : setHasMore(false);
+      setShops(allShops.data);
     } catch (err) {
       console.error('Error fetching Shops :', err);
     } finally{
@@ -48,9 +44,7 @@ const RecentShops = () => {
 
   return (
     <div className="grid lg:grid-cols-3 sm:grid-cols-1 justify-center">
-      { !loading && shops.length === 0 ? 
-        <h1 className='h-[50vh] flex justify-center items-center text-pretty font-semibold'>No Shops Found.</h1>
-      : shops.map((shop) => (
+      {shops.map((shop) => (
         <div
           className=" p-8 m-4 rounded-lg relative col-span-auto cursor-pointer"
           key={shop._id}
@@ -99,4 +93,4 @@ const RecentShops = () => {
   );
 }
 
-export default RecentShops;
+export default Shops;
