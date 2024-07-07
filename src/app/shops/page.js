@@ -8,7 +8,7 @@ import Loader from '../components/home/loading';
 const RecentShops = () => {
   const router = useRouter();
   const [shops, setShops] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(PAGE);
   const fetchShops = async () => {
@@ -48,7 +48,9 @@ const RecentShops = () => {
 
   return (
     <div className="grid lg:grid-cols-3 sm:grid-cols-1 justify-center">
-      {shops.map((shop) => (
+      { !loading && shops.length === 0 ? 
+        <h1 className='h-[50vh] flex justify-center items-center text-pretty font-semibold'>No Shops Found.</h1>
+      : shops.map((shop) => (
         <div
           className=" p-8 m-4 rounded-lg relative col-span-auto cursor-pointer"
           key={shop._id}

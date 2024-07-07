@@ -13,18 +13,26 @@ import { addCartItem } from '../redux/slice';
 
 const WishList = () => {
   const [wishListItems, setWishListItems] = useState([]);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const dispatch = useDispatch();
   let user = null;
   useEffect(() => {
+    setLoading(true);
     const fetchWishListItems = async () => {
       if (typeof window !== undefined && window.localStorage) {
         const userInfo = JSON.parse(window.localStorage.getItem(userDetails));
         user = userInfo;
       }
       if (user) {
-        const response = await fetchDataId(`/users/type?userId=` , `${user._id}&type=wishList`);
-        setWishListItems(response.data);
+        try {
+          const response = await fetchDataId(`/users/type?userId=` , `${user._id}&type=wishList`);
+          setWishListItems(response.data);
+        } catch (err) {
+          console.error('Error fetching WishLists :', err);
+        } finally {
+          setLoading(false);
+        }
       } else {
         router.push("/profile/login");
       }
@@ -83,7 +91,7 @@ const WishList = () => {
   return (
     <div className='lg:w-7/12 sm:w-full lg:m-auto grid grid-cols-1 lg:gap-4 mt-10 lg:p-4'>
       <div>
-      {wishListItems.length == 0 ? (
+      { !loading && wishListItems.length == 0 ? (
         <h1 className='h-[50vh] flex justify-center items-center text-pretty font-semibold'>No WishList Found.</h1>
       ) : (
         wishListItems.map((product, index) => (

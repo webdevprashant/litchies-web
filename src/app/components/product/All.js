@@ -139,7 +139,9 @@ const AllProducts = ({route, query}) => {
 
   return (
     <div className="grid lg:grid-cols-3 sm:grid-cols-1 justify-center lg:m-2 lg:p-2 font-serif">
-      {products.map((product) => (
+      {!loading && products.length === 0 ? 
+        <h1 className='h-[50vh] flex justify-center items-center text-pretty font-semibold'>No Products Found.</h1>
+      : products.map((product) => (
         <div
           className="col-span-1 min-h-fit border marginLeft-2 m-3 p-2 rounded-lg shadow-md hover:shadow-xl cursor-pointer"
           key={product._id}
