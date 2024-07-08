@@ -10,9 +10,9 @@ const Verify = () => {
   let otp, mobile, userRegister;
     if (typeof window !== undefined && window.localStorage)  {
       const userData = JSON.parse(window.localStorage.getItem(auth)); 
-      otp = userData.otp;
-      userRegister = userData.isRegistered;
-      mobile = userData.mobile;
+      otp = userData?.otp;
+      userRegister = userData?.isRegistered;
+      mobile = userData?.mobile;
     }
   
   const handleInputChange = (e) => {

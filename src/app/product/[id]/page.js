@@ -29,9 +29,10 @@ const Product = ({params}) => {
         if (user) {
           const userData = await fetchDataId("/users/" , user._id);
           setUser(userData.data);
-        } else {
-          router.push("/profile/login");
-        }
+        } 
+        // else {
+        //   router.push("/profile/login");
+        // }
       }
       const product = await fetchDataId(`/product/`, params.id);
       setProduct(product.data);
@@ -134,8 +135,8 @@ const Product = ({params}) => {
                 <div className="flex justify-evenly items-center my-4">
                 <span className="flex items-center cursor-pointer"><BiLike onClick={() => likeProduct(product)} className={ product?.usersLiking?.length > 0 ? "text-red-500" : "text-gray-500"} size={20} /> {product?.usersLiking?.length > 0 ? product?.usersLiking?.length : ""  } </span>
                 <span className="flex items-center cursor-pointer"><CiHeart onClick={() => wishListProduct(product)} className={ wishList ? "text-red-500" : "text-gray-500" } size={20} /></span>
-                <Link href={`https://web.whatsapp.com/send?phone=${product?.shopId?.mobile}&text=${encodeURI(Enquiry(user?.firstName, product._id))}&app_absent=0`} target="_blank"><FaWhatsapp className="text-white bg-green-500 rounded-full" size={20} /></Link>
-                <Link href={`https://web.whatsapp.com/send?text=${encodeURI(ProductShare(product.name, product._id))}&app_absent=0`} target="_blank"><RiShareForward2Fill className="text-gray-500" size={20} /></Link>
+                <Link href={`https://api.whatsapp.com/send?phone=91${product?.shopId?.mobile}&text=${encodeURI(Enquiry(user?.firstName, product._id))}&type=phone_number&app_absent=0`} target="_blank"><FaWhatsapp className="text-white bg-green-500 rounded-full" size={20} /></Link>
+                <Link href={`https://api.whatsapp.com/send?text=${encodeURI(ProductShare(product.name, product._id))}&type=phone_number&app_absent=0`} target="_blank"><RiShareForward2Fill className="text-gray-500" size={20} /></Link>
                 </div>
               </div>
 
@@ -144,7 +145,7 @@ const Product = ({params}) => {
                 <div>
                     <div className="flex lg:flex-row justify-between sm: flex-col">
                         <p className="font-bold text-2xl text-red-700">{product?.name}</p>
-                        <p>Rs. {product?.price}</p>
+                        <p>{ product?.price > 0 ? `Rs. ${product?.price}` : "" }</p>
                     </div>
 
                     <div>
@@ -171,7 +172,7 @@ const Product = ({params}) => {
                       : 
                       <>
                       <button type="button" className="lg:w-3/12 sm:w-full cursor-pointer bg-sky-600 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg"><span className="flex items-center justify-around"> <LuPhone size={20} /> {product?.shopId?.mobile}</span></button>
-                      <Link  href={`https://web.whatsapp.com/send?phone=${product?.shopId?.mobile}&text=${encodeURI(Enquiry(user?.firstName, product._id))}&app_absent=0`} target="_blank" className="lg:w-3/12 sm:w-full cursor-pointer bg-green-500 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg"><span className="flex items-center justify-around"> <FaWhatsapp size={20} /> Enquiry Now </span></Link>
+                      <Link  href={`https://web.whatsapp.com/send?phone=${product?.shopId?.mobile}&text=${encodeURI(Enquiry(user?.firstName, product._id))}&app_absent=0`} target="_blank" className="lg:w-3/12 sm:w-full cursor-pointer bg-green-500 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg"><span className="flex items-center justify-around"> <FaWhatsapp size={20} /> Enquiry </span></Link>
                       {/* <Link></Link> */}
                       </>
                     }
@@ -185,7 +186,7 @@ const Product = ({params}) => {
                               <p className="text-[12px]">RATINGS</p>
                               <p >{product?.shopId?.ratings} ⭐</p>
                             </div>
-                          <div className="flex justify-center bg-cover">
+                          <Link href={`/shops/${product?.shopId?._id}`}><div className="flex justify-center bg-cover">
                             <Image 
                               src={product?.shopId?.shopBgThumbnail}
                               width={80} height={80}
@@ -193,14 +194,16 @@ const Product = ({params}) => {
                               alt="Shop Background Image"
                             />
                           </div>
+                          </Link>
 
                           {/* <div className="w-8/12 mx-4"> */}
+                          <Link href={`/shops/${product?.shopId?._id}`}>
                           <div className="mx-4">
                             <p className="font-bold text-sm text-red-600">{product?.shopId?.name}</p>
                             <p className="italic">
                               {product?.shopId?.address}
                             </p>
-                          </div>
+                          </div></Link>
                         </div>
                   </div>
               </div>

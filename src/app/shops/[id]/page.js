@@ -9,11 +9,16 @@ import { LuGrid } from "react-icons/lu";
 import { RxVideo } from "react-icons/rx";
 import { BiSolidOffer } from "react-icons/bi";
 import Image from 'next/image';
+import { userDetails } from '../../utils/Constant';
+import { Update } from '../../api/put';
+import { Delete } from '../../api/delete';
+import Link from 'next/link';
 
 const RecentShop = ({params}) => {
   const [shop, setShop] = useState([]);
   const [selectedTabBar, setSelectedTabBar] = useState(1);
-
+  const [user, setUser] = useState(null);
+  const [follow, setFollow] = useState(null);
   const renderTabBar = () => {
     switch (selectedTabBar) {
       case 1:
@@ -25,10 +30,32 @@ const RecentShop = ({params}) => {
       
     }
   }
+
+  const handleFollow = async (shop) => {
+    let response
+    if (follow) {
+      // Unfollow api
+      response = await Delete(`/shops/${shop._id}/following` , { userId: user?._id });
+      setFollow(false);
+    } else {
+      // follow api
+      response = await Update(`/shops/${shop._id}/following` , { userId: user?._id });
+      setFollow(true);
+    }
+
+  }
   useEffect(() => {
     const fetchShop = async () => {
       const shop = await fetchDataId("/shops/", params.id);
       setShop(shop.data);
+      if (typeof window !== undefined && window.localStorage) {
+        const userInfo = JSON.parse(localStorage.getItem(userDetails));
+        if (userInfo) {
+          setUser(userInfo);
+          console.log("User followedShops : " , userInfo , userInfo.followedShops , userInfo.followedShops.includes(userInfo._id));
+          setFollow(userInfo.followedShops.includes(shop._id))
+        }
+      }
     };
     fetchShop();
   }, [params.id]);
@@ -68,13 +95,13 @@ const RecentShop = ({params}) => {
 
                     <div className='lg:w-1/2 lg:m-auto sm:w-full flex justify-between py-4'>
                         <div>
-                          <button type="button" className=" cursor-pointer bg-red-500 text-white p-2 rounded-lg">Follow</button>
+                          <button type="button" onClick={() => handleFollow(shop)} className=" cursor-pointer bg-red-500 text-white p-2 rounded-lg">{ follow ? "UnFollow" : "Follow"}</button>
                         </div>
                         <div>
-                          <button type="button" className="bg-gray-300 cursor-pointer p-2  rounded-lg">About Me</button>
+                          <Link href={`/shops/${shop._id}/about`}><button type="button" className="bg-gray-300 cursor-pointer p-2  rounded-lg">About Me</button></Link>
                         </div>
                         <div>
-                          <GrLocation size={30} className='mr-8' />
+                          <Link href={`https://www.google.com/maps/search/?api=1&query=${(shop.location && shop.location[0])},${(shop.location && shop.location[1])}`} target='_blank'>{(shop.location && shop.location[0] && shop.location[1]) ? <GrLocation size={30} className='mr-8' /> : "" }</Link>
                         </div>
                     </div>
 
