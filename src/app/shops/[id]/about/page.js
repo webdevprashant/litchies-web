@@ -62,7 +62,7 @@ const About = () => {
                 <hr className="m-auto border border-black my-4" />
                 <div className='p-2'>
                     <h2 className='text-2xl text-red-500 text-center'>What We Do</h2>
-                    <p>{shop.desc}</p>
+                    <p>{shop?.desc}</p>
                 </div>
                 </div>
                 <hr className="m-auto border border-black my-4" />
