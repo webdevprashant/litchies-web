@@ -29,9 +29,10 @@ const Product = ({params}) => {
         if (user) {
           const userData = await fetchDataId("/users/" , user._id);
           setUser(userData.data);
-        } else {
-          router.push("/profile/login");
-        }
+        } 
+        // else {
+        //   router.push("/profile/login");
+        // }
       }
       const product = await fetchDataId(`/product/`, params.id);
       setProduct(product.data);
@@ -144,7 +145,7 @@ const Product = ({params}) => {
                 <div>
                     <div className="flex lg:flex-row justify-between sm: flex-col">
                         <p className="font-bold text-2xl text-red-700">{product?.name}</p>
-                        <p>Rs. {product?.price}</p>
+                        <p>{ product?.price > 0 ? `Rs. ${product?.price}` : "" }</p>
                     </div>
 
                     <div>
@@ -171,7 +172,7 @@ const Product = ({params}) => {
                       : 
                       <>
                       <button type="button" className="lg:w-3/12 sm:w-full cursor-pointer bg-sky-600 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg"><span className="flex items-center justify-around"> <LuPhone size={20} /> {product?.shopId?.mobile}</span></button>
-                      <Link  href={`https://web.whatsapp.com/send?phone=${product?.shopId?.mobile}&text=${encodeURI(Enquiry(user?.firstName, product._id))}&app_absent=0`} target="_blank" className="lg:w-3/12 sm:w-full cursor-pointer bg-green-500 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg"><span className="flex items-center justify-around"> <FaWhatsapp size={20} /> Enquiry Now </span></Link>
+                      <Link  href={`https://web.whatsapp.com/send?phone=${product?.shopId?.mobile}&text=${encodeURI(Enquiry(user?.firstName, product._id))}&app_absent=0`} target="_blank" className="lg:w-3/12 sm:w-full cursor-pointer bg-green-500 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg"><span className="flex items-center justify-around"> <FaWhatsapp size={20} /> Enquiry </span></Link>
                       {/* <Link></Link> */}
                       </>
                     }
