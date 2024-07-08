@@ -186,7 +186,7 @@ const Product = ({params}) => {
                               <p className="text-[12px]">RATINGS</p>
                               <p >{product?.shopId?.ratings} ⭐</p>
                             </div>
-                          <div className="flex justify-center bg-cover">
+                          <Link href={`/shops/${product?.shopId?._id}`}><div className="flex justify-center bg-cover">
                             <Image 
                               src={product?.shopId?.shopBgThumbnail}
                               width={80} height={80}
@@ -194,14 +194,16 @@ const Product = ({params}) => {
                               alt="Shop Background Image"
                             />
                           </div>
+                          </Link>
 
                           {/* <div className="w-8/12 mx-4"> */}
+                          <Link href={`/shops/${product?.shopId?._id}`}>
                           <div className="mx-4">
                             <p className="font-bold text-sm text-red-600">{product?.shopId?.name}</p>
                             <p className="italic">
                               {product?.shopId?.address}
                             </p>
-                          </div>
+                          </div></Link>
                         </div>
                   </div>
               </div>
