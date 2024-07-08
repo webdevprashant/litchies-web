@@ -135,8 +135,8 @@ const Product = ({params}) => {
                 <div className="flex justify-evenly items-center my-4">
                 <span className="flex items-center cursor-pointer"><BiLike onClick={() => likeProduct(product)} className={ product?.usersLiking?.length > 0 ? "text-red-500" : "text-gray-500"} size={20} /> {product?.usersLiking?.length > 0 ? product?.usersLiking?.length : ""  } </span>
                 <span className="flex items-center cursor-pointer"><CiHeart onClick={() => wishListProduct(product)} className={ wishList ? "text-red-500" : "text-gray-500" } size={20} /></span>
-                <Link href={`https://web.whatsapp.com/send?phone=${product?.shopId?.mobile}&text=${encodeURI(Enquiry(user?.firstName, product._id))}&app_absent=0`} target="_blank"><FaWhatsapp className="text-white bg-green-500 rounded-full" size={20} /></Link>
-                <Link href={`https://web.whatsapp.com/send?text=${encodeURI(ProductShare(product.name, product._id))}&app_absent=0`} target="_blank"><RiShareForward2Fill className="text-gray-500" size={20} /></Link>
+                <Link href={`https://api.whatsapp.com/send?phone=91${product?.shopId?.mobile}&text=${encodeURI(Enquiry(user?.firstName, product._id))}&type=phone_number&app_absent=0`} target="_blank"><FaWhatsapp className="text-white bg-green-500 rounded-full" size={20} /></Link>
+                <Link href={`https://api.whatsapp.com/send?text=${encodeURI(ProductShare(product.name, product._id))}&type=phone_number&app_absent=0`} target="_blank"><RiShareForward2Fill className="text-gray-500" size={20} /></Link>
                 </div>
               </div>
 
