@@ -52,7 +52,7 @@ const RecentShops = () => {
         <h1 className='h-[50vh] flex justify-center items-center text-pretty font-semibold'>No Shops Found.</h1>
       : shops.map((shop) => (
         <div
-          className=" p-8 m-4 rounded-lg relative col-span-auto cursor-pointer"
+          className="lg:p-8 xsm:p-2 m-4 rounded-lg relative col-span-auto cursor-pointer"
           key={shop._id}
           onClick={() => router.push(`/shops/${shop?._id}`)}
           style={{
