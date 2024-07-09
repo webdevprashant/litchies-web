@@ -9,7 +9,7 @@ import Footer from "./components/home/Footer";
 export default function ClientProvider({children})  {
   return (
     <Provider store={appStore}>
-        <div>
+        <div className="lg:p-4">
           {/* <Loader /> */}
           <Header />
           {children}

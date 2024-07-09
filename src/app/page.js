@@ -7,7 +7,8 @@ import Link from "next/link";
 export default function Home() {
   return (
     <>
-    <div className="lg:p-4">
+    {/* <div className="lg:p-4"> */}
+    <div className="">
       <Category />
       <ShopBanners />
       <Shops title="Recently Added Shops" route="/shops/recent" />
