@@ -91,7 +91,7 @@ const Cart = () => {
         <h1 className='h-[50vh] flex justify-center items-center text-pretty font-semibold'>Cart is Empty, Please add some items to the cart.</h1>
       ) : (
         cartItems.map((product, index) => (
-          <div key={product._id} className='shadow-xl m-2 p-2 w-full'>
+          <div key={product._id} className='shadow-xl p-2 w-full'>
             <div className='flex justify-between'>
               <div className="flex items-center">
                 <Image

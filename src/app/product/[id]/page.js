@@ -117,9 +117,9 @@ const Product = ({params}) => {
     } 
   }
     return (
-        <div className="">
+        <div className="xsm:text-center lg:text-left">
             <div
-              className="flex w-11/12 lg:flex-row sm: flex-col min-h-fit m-auto py-8 rounded-lg font-serif"
+              className="flex lg:w-11/12 lg:m-auto sm:w-full lg:flex-row sm: flex-col min-h-fit py-8 rounded-lg font-serif"
               key={product._id}
             >
               {/* Row 1 (Product square image, iccons*/}
