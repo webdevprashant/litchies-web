@@ -52,8 +52,8 @@ const Order = () => {
                   <div className='p-2'>Delivery Mode : <span className='font-bold'>{ order?.deliveryMode }</span> </div>
                   <hr className="border border-black" />
                   <div className='flex items-center justify-evenly p-2'>
-                    <Image width={80} height={80} src={order?.shopId?.shopImg} />
-                    <div>
+                    <Image width={80} height={80} src={order?.product && order?.product[0].productId?.imageURLs[0]} />
+                    <div className='px-2'>
                       <p className='font-semibold'>{order?.product && order?.product[0].productId?.name}</p>
                       <div className='text-xs'>
                         <p>Total Price : Rs. {order?.product && order?.product[0]?.productId.mrp} </p>
