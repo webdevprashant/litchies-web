@@ -75,9 +75,11 @@ const User = () => {
             </div>
             </Link>
 
-            <div className='flex items-center lg:mx-10 gap-4 cursor-pointer'>
-              <FaShoppingCart className='text-red-500' size={30} /> <p className='mx-8'>My Orders</p>
-            </div>
+            <Link href={`/users/${user?._id}/orders`}>
+              <div className='flex items-center lg:mx-10 gap-4 cursor-pointer'>
+                <FaShoppingCart className='text-red-500' size={30} /> <p className='mx-8'>My Orders</p>
+              </div>
+            </Link>
 
             <div className='flex items-center lg:mx-10 gap-4 cursor-pointer'>
               <FaShareAltSquare className='text-red-500' size={30} /> <p className='mx-8'>Share</p>
