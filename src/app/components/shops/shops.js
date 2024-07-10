@@ -44,7 +44,9 @@ const Shops = ({route}) => {
 
   return (
     <div className="grid lg:grid-cols-3 sm:grid-cols-1 justify-center">
-      {shops.map((shop) => (
+      {!loading && shops.length === 0 ?
+        <h1 className='h-[50vh] col-span-3 text-pretty font-semibold'>No Shops found.</h1>
+      : shops.map((shop) => (
         <div
           className=" p-8 m-4 rounded-lg relative col-span-auto cursor-pointer"
           key={shop._id}
