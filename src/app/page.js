@@ -7,7 +7,6 @@ import Link from "next/link";
 export default function Home() {
   return (
     <>
-    {/* <div className="lg:p-4"> */}
     <div className="">
       <Category />
       <ShopBanners />
@@ -16,8 +15,8 @@ export default function Home() {
       <Shops title="Popular Shops" route="/shops/recent" />
       <Products title="Trending Products" route="/product/trending" />
     </div>
-      <div className="m-2 text-center pb-16">
-        <Link href="/product"><button className="rounded-md w-[100%] h-10 px-14 bg-red-600 font-semibold text-white font-serif cursor-pointer">Explore More Products</button></Link>
+      <div className="m-2 text-center">
+        <Link href="/product"><button className="rounded-md w-[100%] px-14 py-2 bg-red-600 font-semibold text-white font-serif cursor-pointer">Explore More Products</button></Link>
       </div>
     </>
   );

@@ -93,7 +93,7 @@ const RecentShop = ({params}) => {
                         </div>
                     </div>
 
-                    <div className='lg:w-1/2 lg:m-auto sm:w-full flex justify-between py-4'>
+                    <div className='lg:w-1/2 lg:m-auto sm:w-full flex justify-between items-center py-4'>
                         <div>
                           <button type="button" onClick={() => handleFollow(shop)} className=" cursor-pointer bg-red-500 text-white p-2 rounded-lg">{ follow ? "UnFollow" : "Follow"}</button>
                         </div>
@@ -108,7 +108,7 @@ const RecentShop = ({params}) => {
 
                     <div>                    
                         <div className="lg:w-1/2 lg:m-auto sm:w-full py-4">
-                            <ul className="flex justify-between items-center text-gray-500">
+                            <ul className="flex justify-evenly items-center text-gray-500">
                               
                                 <li className="" onClick={() => setSelectedTabBar(1)}>
                                     <a href="#" className={`p-4 border-transparent rounded-t-lg cursor-pointer ${selectedTabBar == 1 && `text-red-500` }`}>
