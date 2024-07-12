@@ -178,7 +178,7 @@ const AllProducts = ({route, query}) => {
             <div className="">
               <Image width={350} height={0}
                 onClick={() => router.push(`/product/${product._id}`)}
-                className="rounded-2xl bg-cover"
+                className="rounded-2xl max-h-[250px] bg-cover"
                 src={product.thumbnailURL}
                 alt="Product Square Image"
               />
