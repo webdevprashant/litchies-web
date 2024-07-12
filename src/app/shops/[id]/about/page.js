@@ -68,8 +68,8 @@ const About = () => {
                 <hr className="m-auto border border-black my-4" />
                 <div className='flex justify-center p-2'>
                     <div className='text-center'>
-                        <Link href={"#"} className='text-blue-500 text-center p-2'>Visit Our Website</Link>
-                        <p className='p-2'>OR</p>
+                        <Link href={"#"} className='text-blue-500 text-center p-2'>{ shop?.socialMediaLinks.length > 0 ? "Visit Our Website" : ""}</Link>
+                        <p className='p-2'>{ shop?.socialMediaLinks.length > 0 ? "OR" : ""}</p>
                         <Link href={`https://api.whatsapp.com/send?phone=91${shop?.mobile}&type=phone_number&app_absent=0`} target="_blank"><FaWhatsapp className="text-white bg-green-500 m-auto rounded-full" size={40} /></Link>
                     </div>
                 </div>

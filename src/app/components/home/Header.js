@@ -26,7 +26,7 @@ const Header = () => {
   }
 
   return (
-    <div className="lg:mx-4 flex lg:flex-row xsm:flex-col justify-between items-center shadow-xl lg:pb-0 xsm:pb-2">
+    <div className="m-2 flex lg:flex-row xsm:flex-col justify-between items-center shadow-xl xsm:pb-2">
       <div className="xsm:my-2">
         <Link href="/"><Image width={150} height={150} className='rounded-2xl bg-cover' src="/images/litchieslogo.png" alt="Logo" /></Link>
       </div>

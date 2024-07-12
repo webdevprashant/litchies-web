@@ -14,56 +14,59 @@ const ShopBanner = () => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
   useEffect(() => {
     const fetchBanners = async () => {
-    if (banner.length === 0) {
-      const apiData = await fetchData("/shopBanner");
-      setBanners(apiData.data);
-      dispatch(setHomeBanners(apiData.data));
-    } else {
-      setBanners(banner[0]);
-    }
-    setLoading(false);
+      if (banner.length === 0) {
+        const apiData = await fetchData("/shopBanner");
+        setBanners(apiData.data);
+        dispatch(setHomeBanners(apiData.data));
+      } else {
+        setBanners(banner[0]);
+      }
+      setLoading(false);
     }
     fetchBanners();
     const interval = setInterval(() => {
       setCurrentSlide((prevSlide) =>
         prevSlide === banners.length - 1 ? 0 : prevSlide + 1
-    );
+      );
     }, 3000); // Change slide every 3 seconds
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
-  }, [banners.length]);
+  }, [banners]);
 
   return (
-<div className="slider-container flex gap-4 py-4 px-2 h-fit overflow-hidden relative min-w-full">
-  <div
-    className="slider-track flex gap-4 transition-transform duration-500"
-    style={{ transform: `translateX(-${currentSlide * 100}%)`, 
-    // width: `${banners.length * 100}%` 
-  }}
-  >
-    {loading ? 
-      Array(20).fill("").map((data, index) => ( 
-        <Shimmer key={index} w={1000} h={300} /> 
-      )) : 
-      banners.map((banner) => (
-        <Image 
-          key={banner._id} 
-          onClick={() => router.push(`/shops/${banner.shopId}`)}
-          src={banner.thumbnail}
-          alt="Banner"
-          className='min-w-full'
-          width={1400} // Add appropriate width
-          height={300} // Add appropriate height
-          style={{ cursor: 'pointer' }}
-        />
-      ))
-    }
-  </div>
-</div>
-
+    <div className="overflow-hidden relative">
+      <div
+        className="flex transition-transform duration-500"
+        style={{
+          transform: `translateX(-${currentSlide * 100}%)`,
+        }}
+      >
+        {loading ?
+          Array(20).fill("").map((data, index) => (
+            <Shimmer key={index} w={1000} h={300} />
+          )) :
+          banners.map((banner) => (
+            <div
+                key={banner._id}
+                className="flex-shrink-0 p-2"
+                style={{ width: "100%" }}
+              >
+                <Image
+                  onClick={() => router.push(`/shops/${banner.shopId}`)}
+                  src={banner.thumbnail}
+                  alt="Banner"
+                  width={0} // Add appropriate width
+                  height={0} // Add appropriate height
+                  style={{ cursor: "pointer", width: '100%', height: 'auto' }}
+                />
+              </div>
+          ))
+        }
+      </div>
+    </div>
   );
 };
 
