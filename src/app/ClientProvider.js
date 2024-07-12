@@ -7,7 +7,7 @@ import Footer from "./components/home/Footer";
 export default function ClientProvider({children})  {
   return (
     <Provider store={appStore}>
-        <div>
+        <div className="min-h-screen">
           <Header />
           {children}
           <Footer />

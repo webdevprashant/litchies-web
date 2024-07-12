@@ -14,10 +14,9 @@ export default function Home() {
       <Products title="Most Liked Products" route="/product/liked" />
       <Shops title="Popular Shops" route="/shops/recent" />
       <Products title="Trending Products" route="/product/trending" />
+      <Link href="/product"><button className="rounded-md w-[100%] px-14 py-2 bg-red-600 font-semibold text-white font-serif cursor-pointer">Explore More Products</button></Link>
     </div>
-      <div className="m-2 text-center">
-        <Link href="/product"><button className="rounded-md w-[100%] px-14 py-2 bg-red-600 font-semibold text-white font-serif cursor-pointer">Explore More Products</button></Link>
-      </div>
+
     </>
   );
 }

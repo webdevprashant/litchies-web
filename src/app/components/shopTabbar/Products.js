@@ -15,13 +15,13 @@ const Products = (props) => {
     fetchShopProducts();
   }, [props.shopId]);
   return (
-    <div className='grid grid-cols-3 gap-8 justify-between items-center'>
+    <div className='grid grid-cols-3 gap-2 justify-between items-center'>
         {
           products.map((product) => (
-            <div key={product?._id} onClick={() => router.push(`/product/${product._id}`)} className="col-span-3 sm:col-span-1 flex items-center justify-center rounded-lg hover:cursor-pointer">
+            <div key={product?._id} onClick={() => router.push(`/product/${product._id}`)} className="flex items-center justify-center border border-red-400 rounded-lg hover:cursor-pointer">
                   <div className="shadow-lg rounded-md cursor-pointer">
-                    <Image width={250} height={250}
-                      className="h-[250px] rounded-2xl bg-cover"
+                    <Image width={0} height={0}
+                      className="rounded-md bg-cover xsm:min-w-[100px] xsm:max-h-[100px] lg:min-w-[250px] lg:max-h-[250px] sm:min-w-[150px] sm:max-h-[150px]"
                       src={product?.thumbnailURL}
                       alt='Product'
                     />
