@@ -180,16 +180,15 @@ const AllProducts = ({route, query}) => {
                 onClick={() => router.push(`/product/${product._id}`)}
                 className="rounded-2xl bg-cover"
                 src={product.thumbnailURL}
-                style={{ height: '350px' }}
                 alt="Product Square Image"
               />
             </div>
 
             <div className="flex flex-col justify-around pl-4">
-              <span className="flex items-center"> {product?.usersLiking?.length > 0 ? product?.usersLiking?.length : "" } <BiLike onClick={() => likeProduct(product)} values="2" className={ product?.usersLiking.includes(user._id) ? "text-red-500 cursor-pointer"  :  "text-gray-500 cursor-pointer"} size={20} /></span>
-              <span className="flex items-center cursor-pointer"><CiHeart onClick={() => wishListProduct(product)} className={ product.wishList ? "text-red-500" : "text-gray-500" } size={20} /></span>
-              <Link href={`https://api.whatsapp.com/send?phone=${product?.shopId?.mobile}&type=phone_number&text=${encodeURI(Enquiry(user?.firstName, product._id))}&app_absent=0`} target="_blank"><FaWhatsapp className="text-white bg-green-500 rounded-full" size={20} /></Link>
-              <Link href={`https://api.whatsapp.com/send?text=${encodeURI(ProductShare(product.name, product._id))}&type=phone_number&app_absent=0`} target="_blank"><RiShareForward2Fill className="text-gray-500" size={20} /></Link>
+              <span className="flex items-center"> {product?.usersLiking?.length > 0 ? product?.usersLiking?.length : "" } <BiLike onClick={() => likeProduct(product)} values="2" className={ product?.usersLiking.includes(user._id) ? "text-red-500 cursor-pointer"  :  "text-gray-500 cursor-pointer"} size={30} /></span>
+              <span className="flex items-center cursor-pointer"><CiHeart onClick={() => wishListProduct(product)} className={ product.wishList ? "text-red-500" : "text-gray-500" } size={30} /></span>
+              <Link href={`https://api.whatsapp.com/send?phone=${product?.shopId?.mobile}&type=phone_number&text=${encodeURI(Enquiry(user?.firstName, product._id))}&app_absent=0`} target="_blank"><FaWhatsapp className="text-white bg-green-500 rounded-full" size={30} /></Link>
+              <Link href={`https://api.whatsapp.com/send?text=${encodeURI(ProductShare(product.name, product._id))}&type=phone_number&app_absent=0`} target="_blank"><RiShareForward2Fill className="text-gray-500" size={30} /></Link>
             </div>
           </div>
 
