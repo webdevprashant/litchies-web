@@ -88,7 +88,7 @@ const Cart = () => {
       <div>
       {/* {cartItems.length == 0 ? ( */}
       { !loading && cartItems.length == 0 ? (
-        <h1 className='h-[50vh] flex justify-center items-center text-pretty font-semibold'>Cart is Empty, Please add some items to the cart.</h1>
+        <h1 className='h-[50vh] flex justify-center items-center text-pretty font-semibold'>Cart is Empty, Please add some items.</h1>
       ) : (
         cartItems.map((product, index) => (
           <div key={product._id} className='shadow-xl p-2 w-full'>
