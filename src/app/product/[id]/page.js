@@ -9,7 +9,7 @@ import { RiShareForward2Fill } from "react-icons/ri";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { userDetails } from "../../utils/Constant";
+import { userDetails, order } from "../../utils/Constant";
 import { Update } from "../../api/put";
 import { useDispatch } from "react-redux";
 import { addCartItem } from "../../redux/slice";
@@ -116,6 +116,20 @@ const Product = ({params}) => {
       router.push("/profile/login")
     } 
   }
+
+  const handleBookNow = async (product) => {
+    if (user) {
+      // Clear Previous Order if exist in local
+      localStorage.removeItem(order);
+      // Save Order detail in local for 
+      localStorage.setItem(order, JSON.stringify({ productId: product?._id, shopId: product?.shopId?._id, customerId: user?._id, quantity: 1 }));
+      router.push("/order");
+    } else {
+      // Login First before Book Now
+      router.push("/profile/login")
+    } 
+  }
+  
     return (
         <div className="xsm:text-center lg:text-left">
             <div
@@ -166,7 +180,7 @@ const Product = ({params}) => {
                     {
                       product.price > 0 ?
                       <>
-                      <button type="button" className="lg:w-3/12 sm:w-full cursor-pointer bg-red-600 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Book Now</button>
+                      <button type="button" onClick={() => handleBookNow(product)} className="lg:w-3/12 sm:w-full cursor-pointer bg-red-600 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Book Now</button>
                       <button type="button" onClick={() => handleAddToCart(product)} className="lg:w-3/12 sm:w-full cursor-pointer bg-black text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg">Add to Cart</button>
                       </>
                       : 
