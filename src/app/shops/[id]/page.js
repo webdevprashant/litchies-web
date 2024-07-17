@@ -13,6 +13,7 @@ import { userDetails } from '../../utils/Constant';
 import { Update } from '../../api/put';
 import { Delete } from '../../api/delete';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 
 const RecentShop = ({ params }) => {
   const [shop, setShop] = useState([]);
@@ -94,13 +95,27 @@ const RecentShop = ({ params }) => {
 
             <div className='flex justify-between items-center py-4'>
               <div>
-                <button type="button" onClick={() => handleFollow(shop)} className=" cursor-pointer bg-red-500 text-white p-2 rounded-lg">{follow ? "UnFollow" : "Follow"}</button>
+                <button type="button" onClick={() => handleFollow(shop)} className="min-w-[5.5rem] cursor-pointer bg-red-500 text-white p-2 rounded-lg">{follow ? "UnFollow" : "Follow"}</button>
               </div>
               <div>
                 <Link href={`/shops/${shop._id}/about`}><button type="button" className="bg-gray-300 cursor-pointer p-2  rounded-lg">About Me</button></Link>
               </div>
               <div>
-                <Link href={`https://www.google.com/maps/search/?api=1&query=${(shop.location && shop.location[0])},${(shop.location && shop.location[1])}`} target='_blank'>{(shop.location && shop.location[0] && shop.location[1]) ? <GrLocation size={30} className='mr-8' /> : ""}</Link>
+                {/* <Link href={`https://www.google.com/maps/search/?api=1&query=${(shop.location && shop.location[0])},${(shop.location && shop.location[1])}`} target='_blank'>{(shop.location && shop.location[0] && shop.location[1]) ? <GrLocation size={30} className='mr-8' /> : <GrLocation size={30} className='mr-8' onClick={() => toast.custom("Location not found.")} /> }</Link> */}
+                {(shop.location && shop.location[0] && shop.location[1]) ? (
+                      <Link 
+                          href={`https://www.google.com/maps/search/?api=1&query=${shop.location[0]},${shop.location[1]}`} 
+                          target='_blank'
+                      >
+                          <GrLocation size={30} className='mr-8 cursor-pointer' />
+                      </Link>
+                  ) : (
+                      <GrLocation 
+                          size={30} 
+                          className='mr-8 cursor-pointer' 
+                          onClick={() => toast.error("Location not found.")} 
+                      />
+                  )}
               </div>
             </div>
 

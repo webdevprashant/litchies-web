@@ -49,11 +49,7 @@ const ShopBanner = () => {
             <Shimmer key={index} w={1000} h={300} />
           )) :
           banners.map((banner) => (
-            <div
-                key={banner._id}
-                className="flex-shrink-0 p-2"
-                style={{ width: "100%" }}
-              >
+            <div key={banner._id} className="flex-shrink-0 p-2" style={{ width: "100%" }}>
                 <Image
                   onClick={() => router.push(`/shops/${banner.shopId}`)}
                   src={banner.thumbnail}
@@ -65,6 +61,11 @@ const ShopBanner = () => {
               </div>
           ))
         }
+      </div>
+      <div className='flex justify-center gap-4'>
+      { banners.map((banner) => (
+            <div key={banner._id} className='w-3 h-3 rounded-xl bg-black cursor-pointer' ></div>
+          )) }
       </div>
     </div>
   );

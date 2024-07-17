@@ -5,7 +5,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { MdKeyboardArrowUp, MdKeyboardArrowDown } from "react-icons/md";
 import toast from 'react-hot-toast';
 import { fetchDataId } from '../api/get';
-import { userDetails } from '../utils/Constant';
+import { order, userDetails } from '../utils/Constant';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCartItem, removeCartItems, removeCartItem } from '../redux/slice';
@@ -83,12 +83,25 @@ const Cart = () => {
     }
   }
 
+  const handleBookNow = async (product) => {
+    const userInfo = JSON.parse(window.localStorage.getItem(userDetails));
+    user = userInfo;
+    if (user) {
+      // Save Order detail in local for 
+      localStorage.setItem(order, JSON.stringify({ productId: product?._id, shopId: product?.shopId?._id, customerId: user?._id, quantity: quantity }));
+      router.push("/order");
+    } else {
+      // Login First before Book Now
+      router.push("/profile/login")
+    } 
+  }
+
   return (
     <div className='lg:w-7/12 sm:w-full lg:m-auto grid grid-cols-1 lg:gap-4 mt-10 lg:p-4'>
       <div>
       {/* {cartItems.length == 0 ? ( */}
       { !loading && cartItems.length == 0 ? (
-        <h1 className='h-[50vh] flex justify-center items-center text-pretty font-semibold'>Cart is Empty, Please add some items to the cart.</h1>
+        <h1 className='h-[50vh] flex justify-center items-center text-pretty font-semibold'>Cart is Empty, Please add some items.</h1>
       ) : (
         cartItems.map((product, index) => (
           <div key={product._id} className='shadow-xl p-2 w-full'>
@@ -141,7 +154,7 @@ const Cart = () => {
                     </div>
                   </div>
                 </li>
-                <button className="w-full cursor-pointer bg-red-600 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg" type='button'>Checkout</button>
+                <button className="w-full cursor-pointer bg-red-600 text-white m-2 py-2 lg:px-12 xsm:px-8 rounded-lg" type='button' onClick={() => handleBookNow(product)}>Checkout</button>
               </ul>
             )}
           </div>
