@@ -138,7 +138,7 @@ const Product = ({params}) => {
             >
               {/* Row 1 (Product square image, iccons*/}
               <div className="flex flex-col lg:w-2/5 sm: w-full">
-                <div className="">
+                <div className="p-2">
                   <Image width={400} height={300}
                     className="rounded-2xl sm:w-full aspect-square bg-cover"
                     src={product.thumbnailURL}
@@ -162,7 +162,7 @@ const Product = ({params}) => {
                         <p>{ product?.price > 0 ? `Rs. ${product?.price}` : "" }</p>
                     </div>
 
-                    <div>
+                    <div className="p-2">
                       <p dangerouslySetInnerHTML={{__html: product?.desc }}></p>
                     </div>
                 </div>
