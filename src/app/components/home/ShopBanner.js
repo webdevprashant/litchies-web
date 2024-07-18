@@ -64,7 +64,7 @@ const ShopBanner = () => {
       </div>
       <div className='flex justify-center gap-4'>
       { banners.map((banner) => (
-            <div key={banner._id} className='w-3 h-3 rounded-xl bg-black cursor-pointer' ></div>
+            <div key={banner._id} className='w-3 h-3 rounded-xl bg-black cursor-pointer hover:bg-gray-300' ></div>
           )) }
       </div>
     </div>

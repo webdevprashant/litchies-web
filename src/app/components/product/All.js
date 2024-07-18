@@ -157,9 +157,9 @@ const AllProducts = ({route, query}) => {
 
             {/* Shop name, description */}
             <div className="w-8/12 mx-2">
-              <p className="text-red-500">{product?.shopId?.name}</p>
+              <p className="text-red-500 text-wrap">{product?.shopId?.name}</p>
               <p
-                className=" h-10 overflow-hidden"
+                className=" h-10 overflow-hidden text-wrap"
                 style={{ fontWeight: 50, fontSize: "smaller" }}
               >
                 {product?.shopId?.address}
@@ -168,7 +168,7 @@ const AllProducts = ({route, query}) => {
 
             {/* shop ratings */}
             <div className="w-[50px]">
-              <p>RATINGS</p>
+              <p className="text-sm">RATINGS</p>
               <p className="flex items-center text-xl">{product?.shopId?.ratings} <span><FaStar className="text-red-500" size={20} /></span></p>
             </div>
           </div>
@@ -178,7 +178,7 @@ const AllProducts = ({route, query}) => {
             <div className="">
               <Image width={350} height={0}
                 onClick={() => router.push(`/product/${product._id}`)}
-                className="rounded-2xl max-h-[250px] bg-cover"
+                className="rounded-2xl h-[250px] bg-cover"
                 src={product.thumbnailURL}
                 alt="Product Square Image"
               />
