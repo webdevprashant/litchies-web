@@ -15,7 +15,7 @@ const Footer = () => {
   }
   const [selectedIcon, setSelectedIcon] = useState(3);
   const icons = [
-    { id: 1, component: <Link href="/reels"><MdOutlineVideoLibrary size={30} /></Link> },
+    { id: 1, component: <MdOutlineVideoLibrary size={30} /> },
     { id: 2, component: <Link href="/notification"><IoIosNotifications size={30} /></Link> },
     { id: 3, component: <Link href="/"><IoMdHome size={30} /></Link> },
     { id: 4, component: <Link href="/wishlist"><FaHeart size={30} /></Link> },

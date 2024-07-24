@@ -16,11 +16,11 @@ const RecentShops = () => {
     try {
       const allShops = await fetchData(`/shops/recent` + `?page=${page}&count=${COUNT}`);
       // Ensure no repeated data by filtering out duplicates (if necessary)
-      const newShops = allShops.data.filter(
-        newShop => !shops.find(existingShop => existingShop._id === newShop._id)
-      );
-      newShops.length > 0 ? setHasMore(true) : setHasMore(false);
-      setShops(prevShops => [...prevShops, ...newShops]);
+      // const newShops = allShops.data.filter(
+      //   newShop => !shops.find(existingShop => existingShop._id === newShop._id)
+      // );
+      allShops.data.length > 0 ? setHasMore(true) : setHasMore(false);
+      setShops(prevShops => [...prevShops, ...allShops.data]);
     } catch (err) {
       console.error('Error fetching Shops :', err);
     } finally{
@@ -35,7 +35,8 @@ const RecentShops = () => {
 
   const handleScroll = () => {
     if (hasMore && Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.offsetHeight) {
-        setPage(prevPage => prevPage + 1);
+      setPage(prevPage => prevPage + 1);
+      alert(`Page : ${page}`)
     }
   }
 

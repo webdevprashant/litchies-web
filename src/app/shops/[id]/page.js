@@ -62,7 +62,7 @@ const RecentShop = ({ params }) => {
   return (
     <div className='flex justify-center font-serif'>
       <div className="lg:w-3/4 lg:p-8 lg:m-4 sm:w-full rounded-lg relative" key={shop._id} >
-        <div className="min-h-[200px] rounded-lg"
+        <div className="min-h-[200px] rounded-lg m-2"
           style={{ backgroundImage: `url(${shop.shopBgThumbnail})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundColor: 'red' }}
         >
 
